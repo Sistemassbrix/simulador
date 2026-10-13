@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-07T17:49:41+00:00",
+  "sameAsImportedSource": true,
+  "backup": "original-20261007-194939",
+  "projectZipSha256": "a8c58b2204eeeab85c65b7bb1895860de1487bf83eb50fc207f1c2e8e6fd9ac5",
+  "tables": {
+    "granos": 8,
+    "historial_simulaciones": 2,
+    "maquinaria": 22,
+    "usuarios": 11
+  }
+}

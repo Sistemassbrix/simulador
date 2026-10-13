@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-07T18:36:28.174Z",
+  "preview": "http://127.0.0.1:8282/",
+  "trafficSwitched": false,
+  "equivalenceTests": 264,
+  "browserChecks": 43,
+  "visualViews": 14,
+  "measuredVisualDifferences": 0,
+  "migratedRows": 43,
+  "backup": "20261007-203450-validated-final",
+  "restoreVerified": true,
+  "originalFilesUnchanged": true,
+  "proxyUnchanged": true,
+  "http": {
+    "web": 200,
+    "csrf": 200,
+    "unauthenticatedUsers": 401
+  }
+}

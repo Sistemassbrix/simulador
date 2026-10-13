@@ -1,0 +1,557 @@
+
+
+<style>
+    :root {
+        --primary: #1e3a8a;
+        --primary-light: #3b82f6;
+        --secondary: #059669;
+        --accent: #d97706;
+        --bg: #f8fafc;
+        --card-bg: #ffffff;
+        --text: #1e293b;
+        --border: #e2e8f0;
+    }
+
+    .sim-container { max-width: 1300px; margin: 0 auto; color: var(--text); line-height: 1.5; font-family: 'Segoe UI', system-ui, sans-serif; }
+    
+    .sim-header {
+        background: linear-gradient(135deg, #1e3a8a, #0f172a);
+        color: white; padding: 25px 30px; border-radius: 12px; margin-bottom: 25px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .sim-header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 5px; color: white;}
+    .sim-header p { color: #93c5fd; font-size: 0.95rem; margin-bottom: 0; }
+
+    .grid-layout { display: grid; grid-template-columns: 360px 1fr; gap: 25px; }
+    @media (max-width: 992px) { .grid-layout { grid-template-columns: 1fr; } }
+
+    .sim-card {
+        background: var(--card-bg); border-radius: 12px; padding: 20px;
+        border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 20px;
+    }
+    .sim-card-title {
+        font-size: 1.1rem; font-weight: 600; color: var(--primary);
+        margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #eff6ff;
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .sim-label { display: block; font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 4px; }
+    .sim-input {
+        width: 100%; padding: 9px 12px; border: 1px solid var(--border);
+        border-radius: 6px; font-size: 0.9rem; color: var(--text); background-color: #f8fafc;
+    }
+    .sim-input:focus { outline: none; border-color: var(--primary-light); background-color: #fff; }
+    .unit { font-size: 0.75rem; color: #64748b; font-weight: normal; }
+
+    .btn-simulate {
+        width: 100%; background-color: var(--primary); color: white; border: none;
+        padding: 12px; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer;
+    }
+    .btn-simulate:hover { background-color: #1d4ed8; color: white;}
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .metric-card { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid var(--primary-light); padding: 12px 16px; border-radius: 8px; }
+    .metric-card.accent { border-left-color: var(--accent); }
+    .metric-card.success { border-left-color: var(--secondary); }
+    .metric-label { font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 600; }
+    .metric-val { font-size: 1.4rem; font-weight: 700; color: #0f172a; margin: 4px 0 2px 0; }
+    .metric-sub { font-size: 0.75rem; color: #64748b; }
+
+    .sim-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 10px; }
+    .sim-table th, .sim-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .sim-table th { background-color: #f1f5f9; color: #334155; font-weight: 600; }
+    .sim-badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+    .badge-heat { background: #fee2e2; color: #991b1b; }
+    .badge-temper { background: #fef3c7; color: #92400e; }
+    .badge-cool { background: #e0f2fe; color: #075985; }
+
+    /* Estilos de Impresión */
+    @media print {
+        @page {
+            size: letter landscape;
+            margin: 5mm;
+        }
+        
+        body {
+            font-size: 0.8rem;
+        }
+        
+        /* Ocultar elementos de UI no necesarios en el reporte */
+        #sidebar-wrapper, .btn-simulate, .d-print-none, #sidebarToggle, .navbar {
+            display: none !important;
+        }
+        
+        /* Forzar el layout de dos columnas, ignorando el breakpoint responsive en impresión */
+        .grid-layout {
+            display: grid !important;
+            grid-template-columns: 210px 1fr !important;
+            gap: 12px !important;
+            align-items: start !important;
+            width: 100% !important;
+        }
+        
+        /* Comprimir verticalmente el sidebar */
+        .sidebar .sim-card {
+            padding: 6px 8px !important;
+            margin-bottom: 6px !important;
+        }
+        .sidebar .sim-card-title {
+            margin-bottom: 4px !important;
+            padding-bottom: 2px !important;
+            font-size: 0.85rem !important;
+        }
+        .sidebar .form-group {
+            margin-bottom: 4px !important;
+        }
+        .sidebar .sim-label {
+            margin-bottom: 1px !important;
+            font-size: 0.7rem !important;
+        }
+        .sidebar .sim-input {
+            padding: 3px 6px !important;
+            font-size: 0.75rem !important;
+            height: auto !important;
+        }
+
+        /* Ajustar la tabla para que no se desborde horizontalmente y simule una escala del 90% */
+        .sim-table {
+            font-size: 0.65rem !important;
+            width: 100% !important;
+            table-layout: auto !important;
+        }
+        .sim-table th, .sim-table td {
+            padding: 4px 5px !important;
+            word-wrap: break-word !important;
+        }
+        
+        /* Evitar que las tarjetas y tablas se corten entre páginas */
+        .sim-card {
+            page-break-inside: avoid;
+            margin-bottom: 20px;
+            border: 1px solid #ccc !important;
+            box-shadow: none !important;
+        }
+        .sim-table {
+            page-break-inside: auto;
+        }
+        .sim-table tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        .metrics-grid {
+            page-break-inside: avoid;
+        }
+
+        /* Asegurar que los fondos y colores se impriman bien */
+        body {
+            background-color: white !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+    }
+
+    /* Opciones de Clima / Perfiles Climáticos */
+    .profile-weather-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    .profile-weather-card {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+    }
+    .profile-weather-card:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .profile-weather-card.active {
+        background: #ecfdf5;
+        border-color: var(--secondary);
+        color: #047857;
+    }
+    .profile-weather-card-title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #64748b;
+        margin-bottom: 2px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .profile-weather-card.active .profile-weather-card-title {
+        color: var(--secondary);
+    }
+    .profile-weather-card-value {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+    .profile-weather-card.active .profile-weather-card-value {
+        color: #064e3b;
+    }
+    .profile-weather-card-sub {
+        font-size: 0.65rem;
+        color: #64748b;
+    }
+    .profile-weather-card.active .profile-weather-card-sub {
+        color: #047857;
+    }
+</style>
+
+<!-- Banner si los datos provienen del análisis de cosecha -->
+<div id="alerta-clima-importado" class="alert alert-success alert-dismissible fade show d-none mb-3 shadow-sm" role="alert">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-cloud-sun fa-2x me-3 text-success"></i>
+        <div>
+            <h6 class="alert-heading fw-bold mb-0" id="alerta-clima-titulo">¡Condiciones Ambientales de Cosecha Importadas!</h6>
+            <small class="mb-0 text-muted" id="alerta-clima-detalle">Se han cargado la temperatura y humedad relativa directamente desde el análisis de Open-Meteo.</small>
+        </div>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="sim-container">
+    <div class="sim-header">
+        <h1>Simulador de Secado por Recirculación</h1>
+        <p>Motor psicrométrico, cinética de Page y curvas higroscópicas de Chung-Pfost</p>
+    </div>
+
+    <div class="grid-layout">
+        <div class="sidebar">
+            <div class="sim-card">
+                <div class="sim-card-title">1. Configuración de Grano</div>
+                <div class="form-group">
+                    <label class="sim-label" for="tipoGrano">Tipo de Grano</label>
+                    <select class="sim-input" id="tipoGrano" onchange="actualizarValoresGrano()">
+                        <option value="arroz">Arroz Paddy (Largo)</option>
+                        <option value="maiz">Maíz Amarillo</option>
+                        <option value="trigo">Trigo</option>
+                        <option value="sorgo">Sorgo</option>
+                        <option value="cebada">Cebada</option>
+                        <option value="soya">Soya</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="tempLimiteGrano">Límite Temp. Grano <span class="unit">(°C)</span></label>
+                    <input class="sim-input" type="number" id="tempLimiteGrano" value="43" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="densidadAparente">Densidad Aparente <span class="unit">(kg/m³)</span></label>
+                    <input class="sim-input" type="number" id="densidadAparente" value="580">
+                </div>
+            </div>
+
+            <div class="sim-card">
+                <div class="sim-card-title">2. Parámetros Operativos</div>
+                <div class="form-group">
+                    <label class="sim-label" for="humedadInicial">Humedad Inicial (M₀) <span class="unit">(% b.h.)</span></label>
+                    <input class="sim-input" type="number" id="humedadInicial" value="22.0" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="humedadObjetivo">Humedad Objetivo (M_f) <span class="unit">(% b.h.)</span></label>
+                    <input class="sim-input" type="number" id="humedadObjetivo" value="13.0" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="metaSecado">Meta de Procesamiento <span class="unit">(Ton/día)</span></label>
+                    <input class="sim-input" type="number" id="metaSecado" value="250">
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="velocidadAire">Velocidad del Aire <span class="unit">(m/s)</span></label>
+                    <input class="sim-input" type="number" id="velocidadAire" value="15" step="0.1">
+                </div>
+            </div>
+
+            <div class="sim-card">
+                <div class="sim-card-title">3. Condiciones del Sitio</div>
+                
+                <!-- Buscador de ubicación -->
+                <div class="form-group" style="position: relative; margin-bottom: 20px;">
+                    <label class="sim-label" for="simBuscarCiudad" style="color: var(--primary);"><i class="fas fa-map-marker-alt me-1"></i> Buscar Clima por Ubicación</label>
+                    <div style="display: flex;">
+                        <input class="sim-input" type="text" id="simBuscarCiudad" placeholder="Ej: Medellín, Sinaloa..." autocomplete="off" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                        <button class="btn-simulate" type="button" id="simBtnBuscarCiudad" style="width: auto; border-top-left-radius: 0; border-bottom-left-radius: 0; padding: 9px 15px;">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div id="simSugerenciasCiudades" style="display: none; position: absolute; z-index: 1000; background: white; width: 100%; border: 1px solid var(--border); border-top: none; max-height: 200px; overflow-y: auto; border-radius: 0 0 6px 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
+                </div>
+
+                <!-- Perfiles de clima extraídos -->
+                <div id="opciones-clima-sitio" class="mt-3 mb-3 d-none">
+                    <label class="sim-label text-muted mb-2" style="font-size: 0.8rem;">
+                        <i class="fas fa-clock me-1 text-primary"></i> Perfiles de la Zona (Haz clic para usar):
+                    </label>
+                    <div class="profile-weather-grid" id="grid-perfiles-clima">
+                        <!-- Dynamic profile cards will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="sim-label" for="tempAmbiente">Temperatura Ambiente <span class="unit">(°C)</span></label>
+                    <input class="sim-input" type="number" id="tempAmbiente" value="25.0" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="hrAmbiente">Humedad Relativa <span class="unit">(%)</span></label>
+                    <input class="sim-input" type="number" id="hrAmbiente" value="85">
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="altitud">Altitud <span class="unit">(msnm)</span></label>
+                    <input class="sim-input" type="number" id="altitud" value="15">
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="eficienciaTermica">Eficiencia Térmica <span class="unit">(Fija)</span></label>
+                    <input class="sim-input bg-light" type="number" id="eficienciaTermica" value="0.50" readonly>
+                </div>
+                <button class="btn-simulate" onclick="ejecutarSimulacion()">Simular Secado</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div id="alertaIncoherencia"></div>
+
+            <div class="sim-card">
+                <div class="sim-card">
+                <div class="sim-card-title">Acondicionamiento Psicrométrico del Aire de Sitio</div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Presión Atmosférica (P_atm)</div>
+                        <div class="metric-val" id="metricPatm">101.3 kPa</div>
+                        <div class="metric-sub">Corregido por altitud</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Densidad de Aire</div>
+                        <div class="metric-val" id="metricRho">0.0 kg/m³</div>
+                        <div class="metric-sub">Condición real operativa</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Caída de Presión (Shedd)</div>
+                        <div class="metric-val" id="metricShedd">0.0 Pa</div>
+                        <div class="metric-sub">Pérdida en cama de grano</div>
+                    </div>
+                </div>
+            </div>
+                <div class="sim-card-title">Números Adimensionales de Transferencia</div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Número de Biot (Bi)</div>
+                        <div class="metric-val" id="metricBiot">0.00</div>
+                        <div class="metric-sub">Transferencia de calor en grano</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Número de Schmidt (Sc)</div>
+                        <div class="metric-val" id="metricSchmidt">0.00</div>
+                        <div class="metric-sub">Difusión másica / momento</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Número de Sherwood (Sh)</div>
+                        <div class="metric-val" id="metricSherwood">0.00</div>
+                        <div class="metric-sub">Transferencia de masa convectiva</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Número NT</div>
+                        <div class="metric-val" id="metricNT">0.00</div>
+                        <div class="metric-sub">Unidades de transferencia</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sim-card">
+                <div class="sim-card-title">Calculos Estimados</div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Agua a Evaporar</div>
+                        <div class="metric-val" id="metricAgua">0.0 kg/t</div>
+                        <div class="metric-sub" id="metricAguaTotal">Total: 0.0 Ton/día</div>
+                    </div>
+
+                    <div class="metric-card success">
+                        <div class="metric-label">Producción Final Seca</div>
+                        <div class="metric-val" id="metricProdSeca">0.0 Ton</div>
+                        <div class="metric-sub">Base comercializable</div>
+                    </div>
+                    <div class="metric-card accent">
+                        <div class="metric-label">Consumo Energético</div>
+                        <div class="metric-val" id="metricEnergia">0 kWh</div>
+                        <div class="metric-sub" id="metricCombustible">Diesel: 0 L/día</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Humedad Equilibrio (M_e)</div>
+                        <div class="metric-val" id="metricMe">0.0%</div>
+                        <div class="metric-sub">Modelo Chung-Pfost</div>
+                    </div>
+                    <div class="metric-card" style="background-color: #f8f9fa; border-left: 4px solid #0d6efd;">
+                        <div class="metric-label text-primary fw-bold"><i class="fas fa-wind me-2"></i>Caudal Total de Aire</div>
+                        <div class="metric-val text-dark" id="metricCaudalTotal">0 m³/h</div>
+                        <div class="metric-sub">Suma de pasos térmicos</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Curva de Transición Vítrea -->
+            <div class="sim-card">
+                <div class="sim-card-title">Gráfica de Curva de Transición Vítrea</div>
+                <div style="width: 100%; height: 350px;">
+                    <canvas id="chartTransicionVitrea"></canvas>
+                </div>
+            </div>
+
+            <div class="sim-card">
+                <div class="sim-card-title">Propiedades de la máquina</div>
+                <div style="overflow-x: auto;">
+                    <table class="sim-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Modelo Recomendado</th>
+                                <th>Caudal Específico (m³/h)</th>
+                                <th>Holding (Ton)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="rowMaqAx" onclick="seleccionarMaquinaReal('ax')" style="cursor:pointer;" class="table-active">
+                                <td><span class="sim-badge" style="background-color: #0d6efd; color: white;">AX</span></td>
+                                <td id="maqAxModelo" class="fw-bold">--</td>
+                                <td id="maqAxCaudal">--</td>
+                                <td id="maqAxHolding">--</td>
+                            </tr>
+                            <tr id="rowMaqAxl" onclick="seleccionarMaquinaReal('axl')" style="cursor:pointer;">
+                                <td><span class="sim-badge" style="background-color: #198754; color: white;">AXL</span></td>
+                                <td id="maqAxlModelo" class="fw-bold">--</td>
+                                <td id="maqAxlCaudal">--</td>
+                                <td id="maqAxlHolding">--</td>
+                            </tr>
+                            <tr id="rowMaqMenor" onclick="seleccionarMaquinaReal('menor')" style="cursor:pointer;">
+                                <td><span class="sim-badge" style="background-color: #dc3545; color: white;">Económica</span></td>
+                                <td id="maqMenorModelo" class="fw-bold">--</td>
+                                <td id="maqMenorCaudal">--</td>
+                                <td id="maqMenorHolding">--</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="sim-card">
+                <div class="sim-card-title d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <span id="tituloSimulacionReal">Simulación Real de Producción</span>
+                </div>
+                <div class="metrics-grid mt-3">
+                    <div class="metric-card" style="border-left-color: #3b82f6;">
+                        <div class="metric-label">Toneladas Húmedas Reales</div>
+                        <div class="metric-val" id="realSelTonHumedas">0.0 Ton/día</div>
+                        <div class="metric-sub" id="realSelHumedasHora">0.0 Ton/h</div>
+                    </div>
+                    <div class="metric-card success">
+                        <div class="metric-label">Producción Final Seca Real</div>
+                        <div class="metric-val" id="realSelProdSeca">0.0 Ton/día</div>
+                        <div class="metric-sub" id="realSelSecaHora">0.0 Ton/h (Base comercializable)</div>
+                    </div>
+                    <div class="metric-card accent">
+                        <div class="metric-label">Consumo Térmico Real</div>
+                        <div class="metric-val" id="realSelEnergia">0 kWh</div>
+                        <div class="metric-sub" id="realSelDiesel">Diesel: 0 L/día</div>
+                    </div>
+                    <div class="metric-card" style="background-color: #e6f9ec; border-left: 4px solid #198754;">
+                        <div class="metric-label text-success fw-bold"><i class="fas fa-layer-group me-2"></i>Lotes / Baches</div>
+                        <div class="metric-val text-dark" id="realSelBaches">0</div>
+                        <div class="metric-sub">Baches por día</div>
+                    </div>
+                    <div class="metric-card" style="background-color: #fff9e6; border-left: 4px solid #ffc107;">
+                        <div class="metric-label text-warning-emphasis fw-bold"><i class="fas fa-clock me-2"></i>Tiempo Total por Lote</div>
+                        <div class="metric-val text-dark" id="realSelTiempo">0h 0m</div>
+                        <div class="metric-sub">Tiempo de retención</div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            
+            <div class="sim-card">
+                <div class="sim-card-title">Estrategia Multipaso por Fraccionamiento Térmico (LSU)</div>
+                <div style="overflow-x: auto;">
+                    <table class="sim-table" id="tablaPasos">
+                        <thead>
+                            <tr>
+                                <th>Etapa</th>
+                                <th>Tipo</th>
+                                <th>Temp. Aire (°C)</th>
+                                <th>Temp. Grano (°C)</th>
+                                <th>Temp. Aire Salida (°C)</th>
+                                <th>HR Aire (%)</th>
+                                <th>Humedad Ent. (%)</th>
+                                <th>Humedad Sal. (%)</th>
+                                <th>ΔM (%)</th>
+                                <th>Tiempo (min)</th>
+                                <th style="display:none;">Caudal (m³/h)</th>
+                                <th style="display:none;">Calor Latente Effective (kJ/kg)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mb-4 d-print-none">
+                <button class="btn btn-success px-4 py-2 shadow-sm" onclick="guardarEscenario('Recirculación')">
+                    <i class="fas fa-save me-2"></i>Guardar en Historial
+                </button>
+                <button class="btn btn-primary px-4 py-2 shadow-sm" onclick="window.print()">
+                    <i class="fas fa-print me-2"></i>Imprimir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historial de Escenarios -->
+    <div class="sim-card mt-5 d-print-none">
+        <div class="sim-card-title d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span><i class="fas fa-history me-2 text-primary"></i>Historial de Escenarios Guardados</span>
+            <div>
+                <button class="btn btn-sm btn-outline-warning me-2" onclick="limpiarHistorial()">
+                    <i class="fas fa-trash-alt me-2"></i>Limpiar Historial
+                </button>
+                <button class="btn btn-sm btn-outline-danger me-2" onclick="exportarPDF()">
+                    <i class="fas fa-file-pdf me-2"></i>Exportar PDF
+                </button>
+                <button class="btn btn-sm btn-outline-success" onclick="exportarCSV()">
+                    <i class="fas fa-file-csv me-2"></i>Exportar CSV
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table table-hover align-middle mb-0" id="tablaHistorial">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-3 border-0">ID</th>
+                        <th class="border-0">NOMBRE ESCENARIO</th>
+                        <th class="border-0">TIPO</th>
+                        <th class="border-0">FECHA</th>
+                        <th class="border-0 text-center">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">Cargando historial...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

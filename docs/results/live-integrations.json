@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-07T17:49:03.315Z",
+  "checks": {
+    "ciudades": {
+      "http": 200,
+      "status": "success",
+      "suggestions": 5
+    },
+    "actual": {
+      "http": 201,
+      "status": "success",
+      "currentPresent": true
+    },
+    "perfiles": {
+      "http": 201,
+      "status": "success",
+      "profiles": 6
+    },
+    "cosecha": {
+      "http": 201,
+      "status": "success",
+      "synthetic": false,
+      "hours": 24,
+      "days": 366
+    }
+  }
+}

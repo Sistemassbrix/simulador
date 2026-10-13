@@ -1,0 +1,3 @@
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+import {ReactNode} from 'react';
+export function Dialog({open,onOpenChange,children,title='Detalles'}:{open:boolean;onOpenChange:(v:boolean)=>void;children:ReactNode;title?:string}){return <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}><DialogPrimitive.Portal><DialogPrimitive.Overlay className="fixed inset-0 bg-black/50 z-[1040]"/><DialogPrimitive.Content className="original-dialog"><DialogPrimitive.Title className="sr-only">{title}</DialogPrimitive.Title><DialogPrimitive.Description className="sr-only">Formulario o detalles del simulador</DialogPrimitive.Description>{children}</DialogPrimitive.Content></DialogPrimitive.Portal></DialogPrimitive.Root>;}

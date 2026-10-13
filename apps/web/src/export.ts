@@ -1,0 +1,7 @@
+import {jsPDF} from 'jspdf';
+import autoTable from 'jspdf-autotable';
+export function download(content:string,filename:string,type='text/csv'){const url=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+export function historyCsv(rows:any[]){let csv='ID,Nombre,Tipo,Fecha\n';rows.forEach(row=>{csv+=`${row.id},"${row.nombre_escenario}",${row.tipo},"${row.creado_en}"\n`;});return csv;}
+export function historyPdf(rows:any[]){const doc=new jsPDF();doc.setFontSize(18);doc.text('Historial de Escenarios',14,22);autoTable(doc,{head:[['ID','Nombre','Tipo','Fecha']],body:rows.map(r=>[r.id,r.nombre_escenario,r.tipo,r.creado_en]),startY:30,theme:'striped'});doc.save('historial_escenarios.pdf');}
+export function harvestCsv(days:any[]){let csv='Dia,Temperatura_Promedio_C,Humedad_Promedio_Pct,Temp_Max_C,Temp_Min_C,HR_Max_Pct,HR_Min_Pct,Condicion\n';days.forEach(d=>csv+=`"${d.etiquetaDia}",${d.t_mean},${d.hr_mean},${d.t_max},${d.t_min},${d.hr_max},${d.hr_min},"${d.condicion}"\n`);return csv;}
+export function hourlyCsv(hours:any[],start:number,end:number){let csv='Hora,Franja_Activa,Temp_Media_C,Temp_Min_C,Temp_Max_C,Humedad_Media_Pct,HR_Min_Pct,HR_Max_Pct,Deficit_Psicrometrico_g_kg\n';hours.forEach(h=>{const active=start<=end?h.hora>=start&&h.hora<=end:h.hora>=start||h.hora<=end;csv+=`"${h.etiquetaHora}","${active?'SI':'NO'}",${h.t_mean},${h.t_min},${h.t_max},${h.hr_mean},${h.hr_min},${h.hr_max},${h.deficit}\n`;});return csv;}

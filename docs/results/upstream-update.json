@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-08T20:54:02.714Z",
+  "repository": "https://github.com/Luisfer112/simulad0",
+  "commit": "20318d6b2c03c579af0a242662afc6884b2f722e",
+  "formulaChangesAuthorized": true,
+  "url": "http://app.simulador.local/",
+  "published": true,
+  "equivalenceTests": 780,
+  "referenceCases": 384,
+  "browserChecks": 47,
+  "visualViews": 6,
+  "measuredVisualDifferences": 0,
+  "migratedRows": 43,
+  "dataDiscrepancies": 0,
+  "schemaChanged": false,
+  "dataReimported": false,
+  "backup": "20261008-224939-upstream-20318d6-predeploy",
+  "restoreVerified": true,
+  "proxyChangedForUpdate": false,
+  "otherServicesMatchBefore": true,
+  "images": {
+    "api": {
+      "image": "sha256:77a17dcca20bdbd74f61be0923b9c719036fb7bde3f7f73b2e52949f4b224061",
+      "matchesValidatedPreview": true
+    },
+    "web": {
+      "image": "sha256:00640d662e60cd6e374e7504347b7ebe0777dc731bce0fdfa14858b4238b7e75",
+      "matchesValidatedPreview": true
+    }
+  },
+  "http": {
+    "web": 200,
+    "csrf": 200,
+    "unauthenticatedUsers": 401
+  }
+}

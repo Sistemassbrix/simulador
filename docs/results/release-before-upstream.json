@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-07T19:22:24.752Z",
+  "preview": "http://127.0.0.1:8282/",
+  "trafficSwitched": true,
+  "equivalenceTests": 264,
+  "browserChecks": 43,
+  "visualViews": 14,
+  "measuredVisualDifferences": 0,
+  "migratedRows": 43,
+  "backup": "20261007-211827-pre-switch",
+  "restoreVerified": true,
+  "originalFilesUnchanged": true,
+  "http": {
+    "web": 200,
+    "csrf": 200,
+    "unauthenticatedUsers": 401
+  },
+  "url": "http://app.simulador.local/",
+  "onlyAuthorizedUpstreamChanged": true,
+  "browserChecksUrl": "http://app.simulador.local",
+  "rollbackConfig": "private/proxy-backup-20261007-211828.conf",
+  "originalStillAvailable": true,
+  "otherServicesMatchBefore": true
+}

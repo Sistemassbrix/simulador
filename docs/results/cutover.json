@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-08T20:50:24.942Z",
+  "url": "http://app.simulador.local/",
+  "trafficSwitched": true,
+  "onlyAuthorizedUpstreamChanged": true,
+  "sourceChangedFiles": [],
+  "services": {
+    "app.simulador.local": {
+      "http": "200",
+      "exit": 0,
+      "matchesBefore": true
+    },
+    "app.ibesweb.local": {
+      "http": "200",
+      "exit": 0,
+      "matchesBefore": true
+    },
+    "app.nexust.com": {
+      "http": "200",
+      "exit": 0,
+      "matchesBefore": true
+    },
+    "db.nexust.com": {
+      "http": "307",
+      "exit": 0,
+      "matchesBefore": true
+    },
+    "api.nexust.com": {
+      "http": "404",
+      "exit": 0,
+      "matchesBefore": true
+    },
+    "ollama.nexust.com": {
+      "http": "200",
+      "exit": 0,
+      "matchesBefore": true
+    },
+    "hikvision.nexust.com": {
+      "http": "404",
+      "exit": 0,
+      "matchesBefore": true
+    }
+  },
+  "originalStillAvailable": true,
+  "newFrontend": true,
+  "api": {
+    "csrf": 200,
+    "unauthenticatedUsers": 401
+  },
+  "success": true
+}

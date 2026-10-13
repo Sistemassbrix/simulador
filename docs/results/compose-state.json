@@ -1,0 +1,82 @@
+[
+  {
+    "Command": "\"docker-entrypoint.s…\"",
+    "CreatedAt": "2026-10-08 22:49:41 +0200 CEST",
+    "ExitCode": 0,
+    "Health": "healthy",
+    "ID": "995c9c681a88",
+    "Image": "simulador-modern-api:1.0.0",
+    "Labels": "com.docker.compose.depends_on=migrate:service_completed_successfully:false,com.docker.compose.project.config_files=C:\\Produccion\\simulador\\modern\\compose.yaml,com.docker.compose.replace=simulador-modern-api,com.docker.compose.service=api,com.docker.compose.container-number=1,com.docker.compose.image=sha256:77a17dcca20bdbd74f61be0923b9c719036fb7bde3f7f73b2e52949f4b224061,com.docker.compose.oneoff=False,com.docker.compose.project=simulador-modern,com.docker.compose.project.working_dir=C:\\Produccion\\simulador\\modern,com.docker.compose.version=5.1.4,desktop.docker.io/ports.scheme=v2,com.docker.compose.config-hash=237d161562a5c199a755a7539318f69622c7b68944684eee8184db49cfe279e0",
+    "LocalVolumes": "0",
+    "Mounts": "",
+    "Name": "simulador-modern-api",
+    "Names": "simulador-modern-api",
+    "Networks": "simulador-modern_app,simulador-modern_data",
+    "Ports": "",
+    "Project": "simulador-modern",
+    "Publishers": [],
+    "RunningFor": "4 minutes ago",
+    "Service": "api",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 4 minutes (healthy)"
+  },
+  {
+    "Command": "\"docker-entrypoint.s…\"",
+    "CreatedAt": "2026-10-07 19:03:46 +0200 CEST",
+    "ExitCode": 0,
+    "Health": "healthy",
+    "ID": "daa5cf8f4516",
+    "Image": "postgres:16.13-bookworm",
+    "Labels": "com.docker.compose.image=sha256:472efd9a66f2b2f1a5aeb18b28de74332e6ef88c2b93a1a5d812fb6db67a5f60,com.docker.compose.oneoff=False,com.docker.compose.project=simulador-modern,com.docker.compose.project.config_files=C:\\Produccion\\simulador\\compose.yaml,com.docker.compose.project.working_dir=C:\\Produccion\\simulador,com.docker.compose.service=db,com.docker.compose.config-hash=cba858b268f1db702ad20c4719866f97528009ae52d448c953f42390d7b2e584,com.docker.compose.version=5.1.4,desktop.docker.io/ports.scheme=v2,com.docker.compose.container-number=1,com.docker.compose.depends_on=",
+    "LocalVolumes": "1",
+    "Mounts": "simulador-mode…",
+    "Name": "simulador-modern-db",
+    "Names": "simulador-modern-db",
+    "Networks": "simulador-modern_data",
+    "Ports": "5432/tcp",
+    "Project": "simulador-modern",
+    "Publishers": [
+      {
+        "URL": "",
+        "TargetPort": 5432,
+        "PublishedPort": 0,
+        "Protocol": "tcp"
+      }
+    ],
+    "RunningFor": "28 hours ago",
+    "Service": "db",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 28 hours (healthy)"
+  },
+  {
+    "Command": "\"/docker-entrypoint.…\"",
+    "CreatedAt": "2026-10-08 22:49:44 +0200 CEST",
+    "ExitCode": 0,
+    "Health": "",
+    "ID": "526c37dfd979",
+    "Image": "simulador-modern-web:1.0.0",
+    "Labels": "com.docker.compose.config-hash=1e3e2daf4d71614da1ba9f4c9b23fac1b596ce4ef4ce5369a48cc98a8e813be7,com.docker.compose.container-number=1,com.docker.compose.depends_on=api:service_healthy:false,com.docker.compose.image=sha256:00640d662e60cd6e374e7504347b7ebe0777dc731bce0fdfa14858b4238b7e75,com.docker.compose.oneoff=False,com.docker.compose.project.working_dir=C:\\Produccion\\simulador\\modern,com.docker.compose.replace=simulador-modern-web,desktop.docker.io/ports.scheme=v2,com.docker.compose.project=simulador-modern,com.docker.compose.project.config_files=C:\\Produccion\\simulador\\modern\\compose.yaml,com.docker.compose.service=web,com.docker.compose.version=5.1.4,desktop.docker.io/ports/80/tcp=127.0.0.1:8282,maintainer=NGINX Docker Maintainers <docker-maint@nginx.com>",
+    "LocalVolumes": "0",
+    "Mounts": "",
+    "Name": "simulador-modern-web",
+    "Names": "simulador-modern-web",
+    "Networks": "simulador-modern_app",
+    "Ports": "127.0.0.1:8282->80/tcp",
+    "Project": "simulador-modern",
+    "Publishers": [
+      {
+        "URL": "127.0.0.1",
+        "TargetPort": 80,
+        "PublishedPort": 8282,
+        "Protocol": "tcp"
+      }
+    ],
+    "RunningFor": "4 minutes ago",
+    "Service": "web",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 4 minutes"
+  }
+]

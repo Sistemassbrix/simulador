@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+model Usuario {
+  id Int @id @default(autoincrement())
+  nombre String @db.VarChar(100)
+  usuario String @unique @db.VarChar(50)
+  correo String @unique @db.VarChar(100)
+  contrasena String @db.VarChar(255)
+  cedula String @unique @db.VarChar(20)
+  cargo String? @db.VarChar(255)
+  creado_en DateTime @default(now()) @db.Timestamptz(0)
+  sesiones Sesion[]
+  @@map("usuarios")
+}
+model Grano {
+  id Int @id @default(autoincrement())
+  nombre String @unique @db.VarChar(100)
+  @@map("granos")
+}
+model Maquinaria {
+  id Int @id @default(autoincrement())
+  nombre String @unique @db.VarChar(100)
+  cuerpo String? @db.VarChar(10)
+  caudal_aire Decimal? @db.Decimal(10,2)
+  holding Decimal? @db.Decimal(10,2)
+  @@map("maquinaria")
+}
+model Historial {
+  id Int @id @default(autoincrement())
+  usuario_id Int
+  nombre_escenario String? @db.VarChar(150)
+  tipo String? @db.VarChar(50)
+  datos_json String? @db.Text
+  creado_en DateTime @default(now()) @db.Timestamptz(0)
+  // El original permite usuarios eliminados con historial huérfano. Conservar.
+  @@index([usuario_id, creado_en])
+  @@map("historial_simulaciones")
+}
+model Sesion {
+  token_hash String @id @db.Char(64)
+  usuario_id Int
+  csrf String @db.Char(64)
+  vence_en DateTime @db.Timestamptz(0)
+  usuario Usuario @relation(fields:[usuario_id], references:[id], onDelete:Cascade, onUpdate:NoAction)
+  @@index([vence_en])
+  @@map("sesiones")
+}

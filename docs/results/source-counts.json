@@ -1,0 +1,21 @@
+{
+  "captured_at": "2026-10-07T16:42:49+00:00",
+  "tables": {
+    "granos": {
+      "count": 8,
+      "last_date": ""
+    },
+    "historial_simulaciones": {
+      "count": 2,
+      "last_date": "2026-09-24 20:06:56"
+    },
+    "maquinaria": {
+      "count": 22,
+      "last_date": ""
+    },
+    "usuarios": {
+      "count": 11,
+      "last_date": "2026-09-28 18:51:00"
+    }
+  }
+}

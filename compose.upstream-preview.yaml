@@ -1,0 +1,32 @@
+name: simulador-upstream-preview
+services:
+  api:
+    build: {context: ., target: api}
+    image: simulador-modern-api:20318d6
+    container_name: simulador-upstream-preview-api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-simulador}:${POSTGRES_PASSWORD}@simulador-modern-db:5432/${POSTGRES_DB:-simulador}?schema=public
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      SESSION_HOURS: ${SESSION_HOURS:-0.4}
+      TZ: UTC
+    networks: [data, app]
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3082/api/auth/csrf').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 4s
+      retries: 15
+  web:
+    build: {context: ., target: web}
+    image: simulador-modern-web:20318d6
+    container_name: simulador-upstream-preview-web
+    restart: unless-stopped
+    ports: ['127.0.0.1:8283:80']
+    networks: [app]
+    depends_on:
+      api: {condition: service_healthy}
+networks:
+  data:
+    external: true
+    name: simulador-modern_data
+  app:

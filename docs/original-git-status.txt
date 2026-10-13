@@ -1,0 +1,25 @@
+ M assets/js/granos.js
+ M assets/js/maquinaria.js
+ M assets/js/simulador.js
+ M assets/js/usuarios.js
+ M config/database.php
+ M controllers/GranoController.php
+ M controllers/MaquinariaController.php
+ M controllers/UsuarioController.php
+ D database.sql
+ M index.php
+ M views/dashboard/index.php
+ M views/granos/index.php
+ M views/layouts/footer.php
+ M views/layouts/header.php
+ M views/layouts/sidebar.php
+ M views/maquinaria/index.php
+ M views/recirculacion/index.php
+ M views/usuarios/index.php
+?? .gitignore
+?? .htaccess
+?? assets/js/historial.js
+?? controllers/HistorialController.php
+?? deployment/
+?? simulador_db.sql
+?? views/historial/

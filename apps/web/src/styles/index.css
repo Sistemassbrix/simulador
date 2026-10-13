@@ -1,0 +1,12 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@source "../components/ui";
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "./original.css";
+#root {width:100%;min-height:100vh;}
+.auth-page #root {display:flex;align-items:center;justify-content:center;}
+.original-dialog .modal-dialog {margin:0;max-width:none;}
+.original-dialog {position:fixed;z-index:1050;left:50%;top:28px;transform:translateX(-50%);width:500px;max-width:calc(100% - 1rem);max-height:calc(100vh - 56px);overflow:auto;outline:none;}
+@media(max-width:575.98px){.original-dialog{top:8px;width:calc(100% - 1rem);max-height:calc(100vh - 16px);}}
+.navbar-collapse {visibility:visible;}

@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import {spawnSync} from 'node:child_process';
+import {randomBytes,createHash} from 'node:crypto';
+const token=randomBytes(32).toString('hex'),csrf=randomBytes(32).toString('hex'),hash=createHash('sha256').update(token).digest('hex');
+function db(code){const r=spawnSync('docker',['exec','-i','simulador-modern-api','node'],{input:`const {PrismaClient}=require('@prisma/client');const db=new PrismaClient();(async()=>{try{${code}}finally{await db.$disconnect()}})().catch(e=>{console.error(e);process.exit(1)});`,encoding:'utf8'});if(r.status!==0)throw Error(r.stderr);}
+db(`await db.sesion.create({data:{token_hash:'${hash}',csrf:'${csrf}',usuario_id:1,vence_en:new Date(Date.now()+600000)}})`);
+const result={at:new Date().toISOString(),checks:{}};
+try{for(const [route,body]of [['ciudades?q=Acarigua&contexto=cosecha',undefined],['actual',{latitud:9.5545,longitud:-69.1956}],['perfiles',{latitud:9.5545,longitud:-69.1956}],['cosecha',{latitud:9.5545,longitud:-69.1956,altitud_clima:195,anios_historicos:5,buscar_ciudad:'Acarigua, Venezuela',months:Array.from({length:12},(_,i)=>i+1),franja:{tipo:'diurna',nombre:'Franja Diurna / Secado Solar',horaInicio:8,horaFin:18}}]]){
+ const response=await fetch('http://127.0.0.1:8282/api/clima/'+route,{method:body?'POST':'GET',headers:{Cookie:'simulador_session='+token,'Content-Type':'application/json','X-CSRF-Token':csrf},body:body?JSON.stringify(body):undefined});const data=await response.json();result.checks[route.split('?')[0]]={http:response.status,status:data.status,...(route.startsWith('ciudades')?{suggestions:data.data?.results?.length}:{}),...(route==='actual'?{currentPresent:!!data.data?.current}:{}),...(route==='perfiles'?{profiles:data.data?.length}:{}),...(route==='cosecha'?{synthetic:data.synthetic,hours:data.data?.details?.hours?.length,days:data.data?.details?.days?.length}:{}),...(data.message?{message:data.message}:{})};
+ }}finally{db(`await db.sesion.deleteMany({where:{token_hash:'${hash}'}})`);fs.writeFileSync('docs/results/live-integrations.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));}

@@ -1,0 +1,67 @@
+name: simulador-modern
+services:
+  db:
+    image: postgres:16.13-bookworm
+    container_name: simulador-modern-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-simulador}
+      POSTGRES_USER: ${POSTGRES_USER:-simulador}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      TZ: UTC
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [data]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  migrate:
+    build:
+      context: .
+      target: api
+    image: simulador-modern-api:1.0.0
+    command: [./node_modules/.bin/prisma, migrate, deploy]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-simulador}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-simulador}?schema=public
+    networks: [data]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: 'no'
+  api:
+    build:
+      context: .
+      target: api
+    image: simulador-modern-api:1.0.0
+    container_name: simulador-modern-api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-simulador}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-simulador}?schema=public
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      SESSION_HOURS: ${SESSION_HOURS:-0.4}
+      TZ: UTC
+    networks: [data, app]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3082/api/auth/csrf').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 4s
+      retries: 10
+  web:
+    build:
+      context: .
+      target: web
+    image: simulador-modern-web:1.0.0
+    container_name: simulador-modern-web
+    restart: unless-stopped
+    ports: ['127.0.0.1:${PREVIEW_PORT:-8282}:80']
+    networks: [app]
+    depends_on:
+      api: {condition: service_healthy}
+volumes:
+  postgres_data:
+networks:
+  data:
+  app:

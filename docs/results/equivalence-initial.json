@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-07T18:34:43.716Z",
+  "tests": 264,
+  "passed": 264,
+  "failed": 0,
+  "cases": {
+    "dryingVisible": 126,
+    "dryingIntermediate": 126,
+    "legacyPhp": 51,
+    "harvestOriginal": 18
+  },
+  "tolerance": {
+    "visibleStrings": "exact",
+    "chartDatasets": "exact",
+    "intermediateAbsolute": 1e-12,
+    "intermediateRelative": 1e-10
+  },
+  "status": "passed"
+}

@@ -1,0 +1,10 @@
+node_modules
+.git
+.env
+private
+reference
+docs
+tests
+test-results
+apps/*/dist
+*.log

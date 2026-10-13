@@ -1,0 +1,733 @@
+
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Header & Title -->
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <div>
+        <div class="harvest-header-tag"><i class="fas fa-leaf me-1"></i>SIMULADOR DE SECADO MULTIGRANO</div>
+        <h2 class="harvest-title mb-1">Condiciones ambientales de cosecha</h2>
+        <p class="harvest-subtitle mb-0">Análisis horario, distribución probabilística Weibull y disponibilidad de energía para secado</p>
+    </div>
+    <div class="mt-2 mt-md-0">
+        <a href="index.php?controller=dashboard&action=index" class="btn btn-outline-primary shadow-sm">
+            <i class="fas fa-calculator me-1"></i>Ir al Simulador de Secado
+        </a>
+    </div>
+</div>
+
+<!-- 1. Ubicación y Cosecha -->
+<div class="dashboard-card mb-4">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 28px; height: 28px; font-size: 0.85rem;">1</div>
+            <div>
+                <h5 class="fw-bold mb-0 text-dark">Ubicación y Periodo de Cosecha</h5>
+                <small class="text-muted">Configura las coordenadas y meses para extraer el archivo meteorológico multi-anual.</small>
+            </div>
+        </div>
+
+        <form id="form-cosecha-clima">
+            <!-- Row 1: Buscador y Coordenadas -->
+            <div class="row g-3 align-items-end">
+                <div class="col-lg-4 col-md-6 position-relative">
+                    <label class="form-label fw-semibold small text-muted mb-1">Buscar Ciudad / Ubicación</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white text-muted"><i class="fas fa-map-marker-alt"></i></span>
+                        <input type="text" class="form-control" id="buscar_ciudad" placeholder="Ej: Acarigua, Guanare, Barinas..." autocomplete="off" value="Acarigua, Venezuela">
+                        <button class="btn btn-outline-secondary" type="button" id="btn-buscar-ciudad">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="location-suggestions" id="sugerencias-ciudades"></div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6">
+                    <label class="form-label fw-semibold small text-muted mb-1">Latitud</label>
+                    <input type="number" step="0.0001" class="form-control" id="latitud" name="latitud" value="9.5545" required>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6">
+                    <label class="form-label fw-semibold small text-muted mb-1">Longitud</label>
+                    <input type="number" step="0.0001" class="form-control" id="longitud" name="longitud" value="-69.1956" required>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-6">
+                    <label class="form-label fw-semibold small text-muted mb-1">Altitud (m.s.n.m)</label>
+                    <input type="number" class="form-control" id="altitud_clima" name="altitud" value="195" required>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-6">
+                    <label class="form-label fw-semibold small text-muted mb-1">Años históricos</label>
+                    <select class="form-select" id="anios_historicos" name="anios_historicos">
+                        <option value="5" selected>Últimos 5 años (2021-2025)</option>
+                        <option value="3">Últimos 3 años (2023-2025)</option>
+                        <option value="1">Año más reciente (2025)</option>
+                        <option value="10">Últimos 10 años (2016-2025)</option>
+                    </select>
+                </div>
+            </div>
+
+            <hr class="my-3 text-muted opacity-25">
+
+            <!-- Row 2: Selector de los 12 Meses de Cosecha -->
+            <div class="mb-3">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+                    <label class="form-label fw-semibold small text-muted mb-0">
+                        <i class="fas fa-calendar-alt text-success me-1"></i>Meses de cosecha (Selecciona los meses a analizar):
+                    </label>
+                    <div class="btn-group btn-group-sm mt-1 mt-md-0" role="group">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-todos"><i class="fas fa-check-double me-1"></i>Todos (12)</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-seca"><i class="fas fa-sun me-1"></i>Época Seca</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-lluvia"><i class="fas fa-cloud-rain me-1"></i>Época Lluvias</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-limpiar"><i class="fas fa-times me-1"></i>Limpiar</button>
+                    </div>
+                </div>
+
+                <div class="months-grid" id="contenedor-meses">
+                    <!-- 12 Meses interactivos sin truncamiento -->
+                    <div class="month-chip active" data-mes="1"><i class="fas fa-check-circle"></i> Enero</div>
+                    <div class="month-chip active" data-mes="2"><i class="fas fa-check-circle"></i> Febrero</div>
+                    <div class="month-chip active" data-mes="3"><i class="fas fa-check-circle"></i> Marzo</div>
+                    <div class="month-chip active" data-mes="4"><i class="fas fa-check-circle"></i> Abril</div>
+                    <div class="month-chip active" data-mes="5"><i class="fas fa-check-circle"></i> Mayo</div>
+                    <div class="month-chip active" data-mes="6"><i class="fas fa-check-circle"></i> Junio</div>
+                    <div class="month-chip active" data-mes="7"><i class="fas fa-check-circle"></i> Julio</div>
+                    <div class="month-chip active" data-mes="8"><i class="fas fa-check-circle"></i> Agosto</div>
+                    <div class="month-chip active" data-mes="9"><i class="fas fa-check-circle"></i> Septiembre</div>
+                    <div class="month-chip active" data-mes="10"><i class="fas fa-check-circle"></i> Octubre</div>
+                    <div class="month-chip active" data-mes="11"><i class="fas fa-check-circle"></i> Noviembre</div>
+                    <div class="month-chip active" data-mes="12"><i class="fas fa-check-circle"></i> Diciembre</div>
+                </div>
+            </div>
+
+            <!-- Row 3: Acciones de Consulta -->
+            <div class="d-flex flex-wrap gap-2 align-items-center mt-3 pt-2">
+                <button type="button" class="btn-harvest-action" id="btn-obtener-clima">
+                    <i class="fas fa-cloud-sun me-2"></i>Consultar Clima y Modelar Weibull
+                </button>
+                <button type="button" class="btn btn-outline-success" id="btn-clima-tiempo-real">
+                    <i class="fas fa-satellite-dish me-2"></i>Clima en Tiempo Real
+                </button>
+                <span class="text-muted small ms-auto d-none d-md-inline" id="txt-api-source">
+                    <i class="fas fa-globe-americas me-1 text-primary"></i>Conectado con <strong>Open-Meteo Weather API</strong> (Horario + Diario)
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 2. Selector de Franja Horaria de Secado -->
+<div class="dashboard-card mb-4">
+    <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 28px; height: 28px; font-size: 0.85rem;">2</div>
+                <div>
+                    <h5 class="fw-bold mb-0 text-dark">Franja Horaria de Operación del Secador</h5>
+                    <small class="text-muted">Filtra las horas de secado reales para evitar la distorsión del promedio plano de 24h.</small>
+                </div>
+            </div>
+            <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small fw-semibold">
+                <i class="fas fa-info-circle me-1"></i>Ajusta estadísticas y Weibull dinámicamente
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 align-items-center mb-3" id="contenedor-franjas">
+            <div class="time-slot-pill active" data-slot="diurna" data-start="8" data-end="18">
+                <i class="fas fa-sun text-warning"></i>
+                <span>Franja Diurna / Secado Solar</span>
+                <span class="badge-time">08:00 - 18:00</span>
+                <span class="badge bg-success ms-1" style="font-size: 0.65rem;">Recomendada</span>
+            </div>
+            <div class="time-slot-pill" data-slot="pico" data-start="10" data-end="16">
+                <i class="fas fa-bolt text-danger"></i>
+                <span>Franja Solar Pico</span>
+                <span class="badge-time">10:00 - 16:00</span>
+            </div>
+            <div class="time-slot-pill" data-slot="extendida" data-start="6" data-end="20">
+                <i class="fas fa-clock text-info"></i>
+                <span>Jornada Extendida</span>
+                <span class="badge-time">06:00 - 20:00</span>
+            </div>
+            <div class="time-slot-pill" data-slot="nocturna" data-start="19" data-end="7">
+                <i class="fas fa-moon text-indigo"></i>
+                <span>Franja Nocturna</span>
+                <span class="badge-time">19:00 - 07:00</span>
+                <span class="badge bg-danger ms-1" style="font-size: 0.65rem;">Riesgo HR</span>
+            </div>
+            <div class="time-slot-pill" data-slot="completa" data-start="0" data-end="23">
+                <i class="fas fa-globe text-secondary"></i>
+                <span>Ciclo 24 Horas Continuo</span>
+                <span class="badge-time">00:00 - 23:00</span>
+            </div>
+        </div>
+
+        <div class="p-3 bg-light rounded-3 d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2">
+                <span class="small fw-bold text-dark"><i class="fas fa-filter me-1 text-primary"></i>Franja Activa:</span>
+                <span class="badge bg-primary" id="txt-franja-activa">08:00 a 18:00 (11 horas operativas)</span>
+            </div>
+            <div class="small text-muted">
+                <i class="fas fa-shield-alt text-success me-1"></i>En esta franja: Humedad promedio <strong id="lbl-franja-hr">--%</strong> (vs 24h: <span id="lbl-24h-hr">--%</span>) | Temp: <strong id="lbl-franja-temp">--°C</strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Banner Informativo Psicrométrico -->
+<div class="alert alert-primary bg-primary-subtle border-primary-subtle shadow-sm py-2 px-3 mb-4 rounded-3 d-flex align-items-center gap-2">
+    <i class="fas fa-lightbulb text-primary fa-lg me-1"></i>
+    <div class="small">
+        <strong>¿Por qué no usar promedios planos de 24h?</strong> De noche la humedad sube a &gt;85% rehumidificando el grano. Operar en la <strong>Franja Diurna</strong> o diseñar con la <strong>Distribución Weibull (Moda / P50)</strong> asegura condiciones termodinámicamente válidas y máxima eficiencia en el simulador.
+    </div>
+</div>
+
+<!-- 3 KPI / Summary Cards -->
+<div class="row g-3 mb-4">
+    <!-- Card 1: Ubicación -->
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card h-100 p-3">
+            <div class="text-muted small fw-semibold mb-1 text-uppercase">Ubicación y Altitud</div>
+            <h5 class="fw-bold text-dark mb-1" id="resumen-ciudad">Acarigua, Venezuela</h5>
+            <div class="text-muted small" id="resumen-coords">Lat: 9.55°N, Lon: -69.20°W | 185 m</div>
+        </div>
+    </div>
+
+    <!-- Card 2: Periodo y Meses -->
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card h-100 p-3">
+            <div class="text-muted small fw-semibold mb-1 text-uppercase">Periodo Analizado</div>
+            <h5 class="fw-bold text-dark mb-1" id="resumen-periodo">2021 - 2025</h5>
+            <div class="text-muted small" id="resumen-meses">12 Meses de Cosecha</div>
+        </div>
+    </div>
+
+    <!-- Card 3: Clima en Franja Activa (Verde Esmeralda) -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card-climate-summary h-100 p-3">
+            <div class="stat-sub text-uppercase fw-semibold mb-1"><i class="fas fa-sun me-1"></i>Clima Franja Activa</div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-val-large" id="resumen-temp">32.8 °C</div>
+                    <div class="stat-sub" id="resumen-humedad">HR Franja: 52.4%</div>
+                </div>
+                <div class="text-end">
+                    <div class="badge bg-white text-dark fw-bold mb-1" id="resumen-condicion-badge">Óptimo Secado</div>
+                    <div class="stat-sub small" id="resumen-radiacion">Rad: ~650 W/m²</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4: Ajuste Weibull Resumen -->
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-card h-100 p-3" style="border-left: 4px solid #6366f1;">
+            <div class="text-muted small fw-semibold mb-1 text-uppercase">Estadística Weibull</div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="fs-5 fw-bold" style="color: #6366f1;" id="weibull-resumen-moda">Moda: 33.2 °C</div>
+                    <div class="small text-muted" id="weibull-resumen-hr">HR Moda: 49.5%</div>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-light text-dark border fw-semibold" id="weibull-k-badge">k = 3.42</span>
+                    <div class="small text-muted mt-1" id="weibull-c-badge">c = 34.1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NUEVO: PREDICCIÓN DE APTITUD DE COSECHA -->
+<div class="dashboard-card mb-4 border" style="border-color: #10b981 !important; border-width: 2px !important; background: linear-gradient(to right, #ffffff, #f0fdf4);">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0 text-dark"><i class="fas fa-seedling text-success me-2"></i>Predicción de Rendimiento de Cosecha y Secabilidad Futura</h5>
+            <span class="badge bg-success text-white px-2 py-1 shadow-sm"><i class="fas fa-brain me-1"></i>Analítica Predictiva</span>
+        </div>
+        
+        <div class="row align-items-center">
+            <div class="col-md-3 text-center border-end">
+                <div class="display-4 mb-2" id="aptitud-icono" style="color: #10b981;"><i class="fas fa-check-circle"></i></div>
+                <h4 class="fw-bold mb-0" id="aptitud-titulo" style="color: #10b981;">ÓPTIMA</h4>
+                <div class="text-muted small mt-1">Clasificación para los meses seleccionados</div>
+            </div>
+            <div class="col-md-9">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-between border-bottom pb-1 mb-2">
+                            <span class="text-muted small fw-semibold">Humedad de Grano Estimada ($H_i$):</span>
+                            <strong id="aptitud-hi" class="text-success">16% - 18%</strong>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom pb-1 mb-2">
+                            <span class="text-muted small fw-semibold">Déficit Psicrométrico Promedio:</span>
+                            <strong id="aptitud-deficit" class="text-primary">8.5 g/kg</strong>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom pb-1 mb-2">
+                            <span class="text-muted small fw-semibold">Riesgo de Rehumidificación:</span>
+                            <strong id="aptitud-riesgo" class="text-success">Bajo</strong>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 d-flex align-items-center">
+                        <div class="p-3 bg-white rounded-3 shadow-sm border w-100 h-100">
+                            <h6 class="fw-bold text-dark mb-1"><i class="fas fa-info-circle text-primary me-1"></i>Impacto en Secado</h6>
+                            <p class="small text-muted mb-0" id="aptitud-descripcion">
+                                <strong>Condiciones excelentes:</strong> Precipitaciones bajas y alta capacidad de evaporación solar diurna. El secado será muy rápido y requerirá mínimo gasto de combustible térmico en la caldera.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4. RECOMENDACIONES DE TEMPERATURA Y HUMEDAD PARA EL SIMULADOR -->
+<div class="dashboard-card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-clipboard-check me-2 text-success"></i>Recomendaciones Técnicas de Temperatura y Humedad para el Simulador</span>
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small">
+            Selecciona un escenario y cárgalo directamente
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <!-- Escenario 1: Franja Diurna de Secado (Recomendado) -->
+            <div class="col-lg-3 col-md-6">
+                <div class="rec-card rec-card-diurno">
+                    <div class="rec-card-body">
+                        <span class="rec-tag bg-success text-white">Recomendado Operativo</span>
+                        <h6 class="fw-bold text-dark mb-1">Franja Diurna (08-18h)</h6>
+                        <p class="text-muted small mb-2">Condiciones reales durante las horas con sol y bajo riesgo de rehumidificación.</p>
+                        
+                        <div class="d-flex justify-content-between align-items-baseline mb-1">
+                            <span class="text-muted small">Temperatura:</span>
+                            <span class="rec-val-highlight text-success" id="rec-diurna-temp">32.8 °C</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <span class="text-muted small">Humedad Relativa:</span>
+                            <span class="fw-bold text-primary" id="rec-diurna-hr">52.4 %</span>
+                        </div>
+                        <small class="text-success fw-semibold"><i class="fas fa-check-circle me-1"></i>Máxima evaporación y bajo consumo térmico</small>
+                    </div>
+                    <div class="rec-card-footer">
+                        <button type="button" class="btn btn-success btn-sm w-100 fw-semibold btn-cargar-escenario" 
+                            data-tipo="diurna" 
+                            id="btn-rec-diurna">
+                            <i class="fas fa-calculator me-1"></i>Simular Franja Diurna
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escenario 2: Diseño Estadístico Weibull (Moda / P50) -->
+            <div class="col-lg-3 col-md-6">
+                <div class="rec-card rec-card-weibull">
+                    <div class="rec-card-body">
+                        <span class="rec-tag bg-indigo text-white" style="background-color: #6366f1;">Diseño Probabilístico</span>
+                        <h6 class="fw-bold text-dark mb-1">Distribución Weibull</h6>
+                        <p class="text-muted small mb-2">Valor de mayor frecuencia estadística (Moda) y mediana robusta (P50).</p>
+                        
+                        <div class="d-flex justify-content-between align-items-baseline mb-1">
+                            <span class="text-muted small">Temperatura (Moda):</span>
+                            <span class="rec-val-highlight" style="color: #6366f1;" id="rec-weibull-temp">33.2 °C</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <span class="text-muted small">Humedad (Moda):</span>
+                            <span class="fw-bold text-primary" id="rec-weibull-hr">49.5 %</span>
+                        </div>
+                        <small class="text-muted"><i class="fas fa-chart-line me-1"></i>Ajuste empírico $k=3.42, c=34.1$</small>
+                    </div>
+                    <div class="rec-card-footer">
+                        <button type="button" class="btn btn-outline-primary btn-sm w-100 fw-semibold btn-cargar-escenario" 
+                            data-tipo="weibull" 
+                            id="btn-rec-weibull">
+                            <i class="fas fa-calculator me-1"></i>Simular Diseño Weibull
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escenario 3: Escenario Crítico / Peor Caso (P90) -->
+            <div class="col-lg-3 col-md-6">
+                <div class="rec-card rec-card-critico">
+                    <div class="rec-card-body">
+                        <span class="rec-tag bg-warning text-dark">Dimensionamiento Seguro</span>
+                        <h6 class="fw-bold text-dark mb-1">Peor Escenario (P90)</h6>
+                        <p class="text-muted small mb-2">Máxima humedad y menor temperatura. Para dimensionar potencia de caldera.</p>
+                        
+                        <div class="d-flex justify-content-between align-items-baseline mb-1">
+                            <span class="text-muted small">Temperatura (P10):</span>
+                            <span class="rec-val-highlight text-warning" id="rec-critico-temp">24.5 °C</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <span class="text-muted small">Humedad (P90):</span>
+                            <span class="fw-bold text-danger" id="rec-critico-hr">78.0 %</span>
+                        </div>
+                        <small class="text-warning-emphasis fw-semibold"><i class="fas fa-exclamation-triangle me-1"></i>Cálculo de máxima potencia térmica</small>
+                    </div>
+                    <div class="rec-card-footer">
+                        <button type="button" class="btn btn-outline-warning btn-sm w-100 fw-semibold btn-cargar-escenario" 
+                            data-tipo="critico" 
+                            id="btn-rec-critico">
+                            <i class="fas fa-calculator me-1"></i>Simular Peor Caso
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escenario 4: Promedio Plano 24h -->
+            <div class="col-lg-3 col-md-6">
+                <div class="rec-card rec-card-promedio">
+                    <div class="rec-card-body">
+                        <span class="rec-tag bg-secondary text-white">Promedio Global</span>
+                        <h6 class="fw-bold text-dark mb-1">Promedio 24 Horas</h6>
+                        <p class="text-muted small mb-2">Media aritmética continua. Incluye noche con alta humedad relativa.</p>
+                        
+                        <div class="d-flex justify-content-between align-items-baseline mb-1">
+                            <span class="text-muted small">Temperatura:</span>
+                            <span class="rec-val-highlight text-secondary" id="rec-promedio-temp">28.5 °C</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <span class="text-muted small">Humedad:</span>
+                            <span class="fw-bold text-muted" id="rec-promedio-hr">65.4 %</span>
+                        </div>
+                        <small class="text-danger"><i class="fas fa-times-circle me-1"></i>No recomendado para secado solar pasivo</small>
+                    </div>
+                    <div class="rec-card-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100 fw-semibold btn-cargar-escenario" 
+                            data-tipo="promedio" 
+                            id="btn-rec-promedio">
+                            <i class="fas fa-calculator me-1"></i>Simular Promedio 24h
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 5. PANEL DE GRÁFICAS DEDICADAS -->
+<div class="dashboard-card mb-4">
+    <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div class="d-flex flex-wrap align-items-center gap-3">
+            <ul class="nav nav-pills nav-pills-charts" id="pills-tab-charts" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-btn-ciclo-horario" data-bs-toggle="pill" data-bs-target="#tab-ciclo-horario" type="button" role="tab">
+                        <i class="fas fa-clock me-1"></i>1. Ciclo Horario 24h
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-btn-weibull-temp" data-bs-toggle="pill" data-bs-target="#tab-weibull-temp" type="button" role="tab">
+                        <i class="fas fa-thermometer-half me-1"></i>2. Weibull Temperatura
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-btn-weibull-hr" data-bs-toggle="pill" data-bs-target="#tab-weibull-hr" type="button" role="tab">
+                        <i class="fas fa-tint me-1"></i>3. Weibull Humedad
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-btn-serie-temporal" data-bs-toggle="pill" data-bs-target="#tab-serie-temporal" type="button" role="tab">
+                        <i class="fas fa-chart-line me-1"></i>4. Serie Temporal Cosecha
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Modo de Visualización">
+                <button type="button" class="btn btn-outline-primary btn-sm active" id="btn-modo-pestanas" title="Ver una gráfica en grande">
+                    <i class="fas fa-square me-1"></i>Pestañas
+                </button>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="btn-modo-cuadricula" title="Ver las 4 gráficas al mismo tiempo">
+                    <i class="fas fa-th-large me-1"></i>Ver 4 Gráficas
+                </button>
+            </div>
+            <span class="text-muted small d-none d-lg-inline" id="chart-info-tag">
+                <i class="fas fa-satellite text-success me-1"></i>Modelado Psicrométrico + Open-Meteo
+            </span>
+        </div>
+    </div>
+    <div class="card-body">
+        
+        <!-- VISTA POR PESTAÑAS (Por Defecto) -->
+        <div id="contenedor-vista-pestanas">
+            <div class="tab-content" id="pills-tabContent-charts">
+                
+                <!-- Tab 1: Ciclo Horario 24h -->
+                <div class="tab-pane fade show active" id="tab-ciclo-horario" role="tabpanel">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">
+                                <i class="fas fa-sun text-warning me-1"></i>Ciclo Diurno Horario de Temperatura y Humedad (00:00 a 23:00)
+                            </h6>
+                            <small class="text-muted">Muestra la curva horaria promedio destacando la franja operativa de secado vs el riesgo nocturno.</small>
+                        </div>
+                        <div class="d-flex gap-2 align-items-center mt-1">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="fas fa-square text-success me-1"></i>Temp Media (°C)</span>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle"><i class="fas fa-square text-primary me-1"></i>Humedad Relativa (%)</span>
+                        </div>
+                    </div>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="grafico-ciclo-horario"></canvas>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Distribución Weibull Temperatura -->
+                <div class="tab-pane fade" id="tab-weibull-temp" role="tabpanel">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">
+                                <i class="fas fa-thermometer-three-quarters text-danger me-1"></i>Distribución de Probabilidad Weibull - Temperatura (°C)
+                            </h6>
+                            <small class="text-muted">Histograma de frecuencias de campo y función continua de densidad de probabilidad $f(T)$ ajustada.</small>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <span class="badge bg-light text-dark border" id="tag-weibull-temp-k">k = --</span>
+                            <span class="badge bg-light text-dark border" id="tag-weibull-temp-c">c = -- °C</span>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold" id="tag-weibull-temp-moda">Moda = -- °C</span>
+                        </div>
+                    </div>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="grafico-weibull-temp"></canvas>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Distribución Weibull Humedad Relativa -->
+                <div class="tab-pane fade" id="tab-weibull-hr" role="tabpanel">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">
+                                <i class="fas fa-tint text-primary me-1"></i>Distribución de Probabilidad Weibull - Humedad Relativa (%)
+                            </h6>
+                            <small class="text-muted">Histograma empírico y curva de densidad Weibull $f(HR)$ para diseño higrotérmico.</small>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <span class="badge bg-light text-dark border" id="tag-weibull-hr-k">k = --</span>
+                            <span class="badge bg-light text-dark border" id="tag-weibull-hr-c">c = -- %</span>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle fw-bold" id="tag-weibull-hr-moda">Moda = -- %</span>
+                        </div>
+                    </div>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="grafico-weibull-hr"></canvas>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Serie Temporal de la Cosecha (Día a Día) -->
+                <div class="tab-pane fade" id="tab-serie-temporal" role="tabpanel">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">
+                                <i class="fas fa-chart-area text-info me-1"></i>Variación Temporal de Temperatura y Humedad Durante la Cosecha
+                            </h6>
+                            <small class="text-muted">Evolución día por día de la temperatura y humedad promedio a lo largo de los meses de cosecha.</small>
+                        </div>
+                        <div class="d-flex gap-2 align-items-center mt-1">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="fas fa-square text-success me-1"></i>Temp Promedio (°C)</span>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle"><i class="fas fa-square text-primary me-1"></i>HR Promedio (%)</span>
+                        </div>
+                    </div>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="grafico-serie-temporal"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- VISTA EN CUADRÍCULA (4 Gráficas Simultáneas) -->
+        <div id="contenedor-vista-cuadricula" style="display: none;">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="p-3 border rounded-3 bg-light h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-bold text-dark mb-0 small"><i class="fas fa-clock text-primary me-1"></i>1. Ciclo Horario 24h</h6>
+                            <span class="badge bg-primary-subtle text-primary" style="font-size: 0.7rem;">Franja vs 24h</span>
+                        </div>
+                        <div style="height: 270px; position: relative;">
+                            <canvas id="grafico-grid-ciclo-horario"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="p-3 border rounded-3 bg-light h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-bold text-dark mb-0 small"><i class="fas fa-thermometer-half text-danger me-1"></i>2. Weibull Temperatura (°C)</h6>
+                            <span class="badge bg-success-subtle text-success" id="grid-tag-weibull-temp" style="font-size: 0.7rem;">Moda: --</span>
+                        </div>
+                        <div style="height: 270px; position: relative;">
+                            <canvas id="grafico-grid-weibull-temp"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="p-3 border rounded-3 bg-light h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-bold text-dark mb-0 small"><i class="fas fa-tint text-primary me-1"></i>3. Weibull Humedad (%)</h6>
+                            <span class="badge bg-primary-subtle text-primary" id="grid-tag-weibull-hr" style="font-size: 0.7rem;">Moda: --</span>
+                        </div>
+                        <div style="height: 270px; position: relative;">
+                            <canvas id="grafico-grid-weibull-hr"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="p-3 border rounded-3 bg-light h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-bold text-dark mb-0 small"><i class="fas fa-chart-line text-info me-1"></i>4. Serie Temporal Cosecha</h6>
+                            <span class="badge bg-info-subtle text-info" style="font-size: 0.7rem;">Día a Día</span>
+                        </div>
+                        <div style="height: 270px; position: relative;">
+                            <canvas id="grafico-grid-serie-temporal"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 6. TABULACIÓN HORARIA DE TEMPERATURA Y HUMEDAD (00:00 A 23:00) -->
+<div class="dashboard-card mb-4">
+    <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+            <div class="small text-muted text-uppercase fw-semibold">PERFIL PSICROMÉTRICO DIARIO</div>
+            <h5 class="fw-bold mb-0 text-dark">Tabulación Horaria de Temperatura y Humedad</h5>
+            <small class="text-muted">Valores horarios representativos para la selección de meses y franja de secado</small>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <button class="btn btn-sm btn-outline-success" id="btn-exportar-horario-csv" title="Descargar CSV Horario">
+                <i class="fas fa-file-csv me-1"></i>CSV Horario
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+            <table class="table table-hover table-striped table-custom mb-0 align-middle text-center" id="tabla-clima-horas">
+                <thead class="sticky-top bg-white border-bottom shadow-sm">
+                    <tr>
+                        <th class="text-start ps-3">Hora</th>
+                        <th>Franja Operativa</th>
+                        <th>Temp. Media (°C)</th>
+                        <th>Rango Temp.</th>
+                        <th>Humedad Media (%)</th>
+                        <th>Rango Humedad</th>
+                        <th>Déficit Psicrométrico</th>
+                        <th>Calidad para Secado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-clima-horas">
+                    <tr>
+                        <td colspan="9" class="text-muted py-4">
+                            <i class="fas fa-spinner fa-spin fa-2x mb-2 text-primary"></i>
+                            <div>Calculando tabulación horaria...</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 7. TABLA DETALLADA POR DÍA -->
+<div class="dashboard-card mb-4">
+    <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+            <div class="small text-muted text-uppercase fw-semibold">DATOS DETALLADOS POR DÍA</div>
+            <h5 class="fw-bold mb-0 text-dark">Condiciones climáticas diarias de cosecha</h5>
+            <small class="text-muted">Promedios multi-anuales calculados a partir de los datos históricos de Open-Meteo</small>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <div class="input-group input-group-sm" style="max-width: 180px;">
+                <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" id="filtro-tabla-dia" placeholder="Filtrar día...">
+            </div>
+            <select class="form-select form-select-sm" id="filtro-tabla-mes" style="max-width: 160px;">
+                <option value="todos">Todos los meses</option>
+            </select>
+            <button class="btn btn-sm btn-outline-success" id="btn-exportar-csv" title="Descargar CSV">
+                <i class="fas fa-file-csv me-1"></i>CSV Diario
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+            <table class="table table-hover table-striped table-custom mb-0 align-middle text-center" id="tabla-clima-dias">
+                <thead class="sticky-top bg-white border-bottom shadow-sm">
+                    <tr>
+                        <th class="text-start ps-3">Día</th>
+                        <th>Temp. Promedio</th>
+                        <th>Humedad Promedio</th>
+                        <th>Temp. Máx / Mín</th>
+                        <th>Humedad Máx / Mín</th>
+                        <th>Condición</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-clima-dias">
+                    <tr>
+                        <td colspan="7" class="text-muted py-5">
+                            <i class="fas fa-spinner fa-spin fa-2x mb-2 text-primary"></i>
+                            <div>Cargando registros climáticos...</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Simulación Rápida -->
+<div class="modal fade" id="modalSimularDia" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold"><i class="fas fa-seedling text-success me-2"></i>Transferir Parámetros al Simulador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted">Se transferirán las siguientes condiciones ambientales al simulador de secado:</p>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span id="modal-origen-label">Condición / Origen:</span>
+                        <strong id="modal-dia-txt">-</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Temperatura Ambiente:</span>
+                        <strong class="text-danger" id="modal-temp-txt">- °C</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Humedad Relativa:</span>
+                        <strong class="text-primary" id="modal-hr-txt">- %</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Altitud:</span>
+                        <strong id="modal-alt-txt">- m.s.n.m.</strong>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btn-confirmar-simular-dia">
+                    <i class="fas fa-play me-1"></i>Ir a Simular Ahora
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Loader Overlay -->
+<div class="spinner-overlay" id="clima-loader">
+    <div class="text-center p-4 bg-white rounded-3 shadow-lg" style="max-width: 340px;">
+        <div class="spinner-border text-success mb-3" style="width: 3.5rem; height: 3.5rem;" role="status"></div>
+        <h6 class="fw-bold text-dark mb-1" id="loader-title">Consultando Open-Meteo</h6>
+        <p class="text-muted small mb-0" id="loader-desc">Extrayendo datos horarios y calculando distribución Weibull...</p>
+    </div>
+</div>
+
+

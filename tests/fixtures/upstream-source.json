@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/Luisfer112/simulad0",
+  "commit": "20318d6b2c03c579af0a242662afc6884b2f722e",
+  "referenceMethod": "Unmodified source function declarations executed in JavaScript VM with formatting-only DOM adapter",
+  "cases": 384,
+  "models": 22,
+  "includesBothModes": true,
+  "includesModelBoundaries": true
+}

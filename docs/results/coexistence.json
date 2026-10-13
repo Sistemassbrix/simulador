@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-07T18:34:24.646Z",
+  "sourceChangedFiles": [],
+  "proxyUnchanged": true,
+  "services": {
+    "app.simulador.local": {
+      "http": "200",
+      "exit": 0
+    },
+    "app.ibesweb.local": {
+      "http": "200",
+      "exit": 0
+    },
+    "app.nexust.com": {
+      "http": "200",
+      "exit": 0
+    },
+    "db.nexust.com": {
+      "http": "307",
+      "exit": 0
+    },
+    "api.nexust.com": {
+      "http": "404",
+      "exit": 0
+    },
+    "ollama.nexust.com": {
+      "http": "200",
+      "exit": 0
+    },
+    "hikvision.nexust.com": {
+      "http": "404",
+      "exit": 0
+    }
+  },
+  "proxyCanReachPreview": {
+    "http": "200",
+    "exit": 0
+  }
+}

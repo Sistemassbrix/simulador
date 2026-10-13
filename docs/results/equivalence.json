@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-08T20:51:43.016Z",
+  "tests": 780,
+  "passed": 780,
+  "failed": 0,
+  "cases": {
+    "dryingVisible": 384,
+    "dryingIntermediate": 384,
+    "legacyPhp": 51,
+    "harvestOriginal": 18
+  },
+  "tolerance": {
+    "visibleStrings": "exact",
+    "chartDatasets": "exact",
+    "intermediateAbsolute": 1e-12,
+    "intermediateRelative": 1e-10
+  },
+  "status": "passed",
+  "source": "https://github.com/Luisfer112/simulad0",
+  "commit": "20318d6b2c03c579af0a242662afc6884b2f722e"
+}

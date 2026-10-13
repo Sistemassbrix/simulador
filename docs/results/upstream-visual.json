@@ -1,0 +1,2832 @@
+{
+  "at": "2026-10-08T20:47:54.819Z",
+  "commit": "20318d6",
+  "reference": "Static PHP views with original JavaScript; no PHP server or database",
+  "views": [
+    {
+      "screen": "dashboard",
+      "mode": "desktop",
+      "reference": {
+        ".sim-header": [
+          {
+            "x": 264,
+            "y": 88,
+            "width": 1152,
+            "height": 112.34375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "25px 30px",
+            "margin": "0px 0px 25px"
+          }
+        ],
+        ".grid-layout": [
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 1152,
+            "height": 4319.40625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sidebar": [
+          {
+            "x": 0,
+            "y": 0,
+            "width": 240,
+            "height": 4852.84375,
+            "font": "Inter, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          },
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 360,
+            "height": 4319.40625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".main-content": [
+          {
+            "x": 649,
+            "y": 225.34375,
+            "width": 804.1875,
+            "height": 4319.40625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sim-card": [
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 360,
+            "height": 333.71875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 579.0625,
+            "width": 360,
+            "height": 413.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 1012.328125,
+            "width": 360,
+            "height": 547.65625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 225.34375,
+            "width": 804.1875,
+            "height": 886.359375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 670,
+            "y": 246.34375,
+            "width": 762.1875,
+            "height": 215,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1131.703125,
+            "width": 804.1875,
+            "height": 331.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1483.3125,
+            "width": 804.1875,
+            "height": 349.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1852.921875,
+            "width": 804.1875,
+            "height": 443.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 2316.3125,
+            "width": 804.1875,
+            "height": 280.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 2616.8125,
+            "width": 804.1875,
+            "height": 651.359375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 3288.171875,
+            "width": 804.1875,
+            "height": 332.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 3640.78125,
+            "width": 804.1875,
+            "height": 817.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 4592.75,
+            "width": 1152,
+            "height": 212.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "48px 0px 20px"
+          }
+        ],
+        ".sim-card-title": [
+          {
+            "x": 285,
+            "y": 246.34375,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 600.0625,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 1033.328125,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 691,
+            "y": 267.34375,
+            "width": 720.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 481.34375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1152.703125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1504.3125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1873.921875,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 2337.3125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 2637.8125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 3309.171875,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 3661.78125,
+            "width": 762.1875,
+            "height": 41.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 4613.75,
+            "width": 1110,
+            "height": 41.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          }
+        ],
+        "#tablaPasos": [
+          {
+            "x": 670,
+            "y": 542.734375,
+            "width": 762.1875,
+            "height": 547.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#tablaPasosReal": [
+          {
+            "x": 670,
+            "y": 2699.203125,
+            "width": 762.1875,
+            "height": 547.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#metricPatm": [
+          {
+            "x": 711,
+            "y": 353.734375,
+            "width": 193.0625,
+            "height": 33.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "22.4px",
+            "padding": "0px",
+            "margin": "4px 0px 2px"
+          }
+        ],
+        "#simCanvas": [
+          {
+            "x": 671,
+            "y": 3828.484375,
+            "width": 567.28125,
+            "height": 553.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".auth-container": [],
+        ".card": []
+      },
+      "modern": {
+        ".sim-header": [
+          {
+            "x": 264,
+            "y": 88,
+            "width": 1152,
+            "height": 112.34375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "25px 30px",
+            "margin": "0px 0px 25px"
+          }
+        ],
+        ".grid-layout": [
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 1152,
+            "height": 4319.40625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sidebar": [
+          {
+            "x": 0,
+            "y": 0,
+            "width": 240,
+            "height": 4852.84375,
+            "font": "Inter, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          },
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 360,
+            "height": 4319.40625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".main-content": [
+          {
+            "x": 649,
+            "y": 225.34375,
+            "width": 804.1875,
+            "height": 4319.40625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sim-card": [
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 360,
+            "height": 333.71875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 579.0625,
+            "width": 360,
+            "height": 413.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 1012.328125,
+            "width": 360,
+            "height": 547.65625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 225.34375,
+            "width": 804.1875,
+            "height": 886.359375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 670,
+            "y": 246.34375,
+            "width": 762.1875,
+            "height": 215,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1131.703125,
+            "width": 804.1875,
+            "height": 331.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1483.3125,
+            "width": 804.1875,
+            "height": 349.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1852.921875,
+            "width": 804.1875,
+            "height": 443.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 2316.3125,
+            "width": 804.1875,
+            "height": 280.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 2616.8125,
+            "width": 804.1875,
+            "height": 651.359375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 3288.171875,
+            "width": 804.1875,
+            "height": 332.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 3640.78125,
+            "width": 804.1875,
+            "height": 817.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 4592.75,
+            "width": 1152,
+            "height": 212.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "48px 0px 20px"
+          }
+        ],
+        ".sim-card-title": [
+          {
+            "x": 285,
+            "y": 246.34375,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 600.0625,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 1033.328125,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 691,
+            "y": 267.34375,
+            "width": 720.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 481.34375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1152.703125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1504.3125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1873.921875,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 2337.3125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 2637.8125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 3309.171875,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 3661.78125,
+            "width": 762.1875,
+            "height": 41.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 4613.75,
+            "width": 1110,
+            "height": 41.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          }
+        ],
+        "#tablaPasos": [
+          {
+            "x": 670,
+            "y": 542.734375,
+            "width": 762.1875,
+            "height": 547.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#tablaPasosReal": [
+          {
+            "x": 670,
+            "y": 2699.203125,
+            "width": 762.1875,
+            "height": 547.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#metricPatm": [
+          {
+            "x": 711,
+            "y": 353.734375,
+            "width": 193.0625,
+            "height": 33.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "22.4px",
+            "padding": "0px",
+            "margin": "4px 0px 2px"
+          }
+        ],
+        "#simCanvas": [
+          {
+            "x": 671,
+            "y": 3828.484375,
+            "width": 567.28125,
+            "height": 553.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".auth-container": [],
+        ".card": []
+      }
+    },
+    {
+      "screen": "dashboard",
+      "mode": "mobile",
+      "reference": {
+        ".sim-header": [
+          {
+            "x": 24,
+            "y": 88,
+            "width": 342,
+            "height": 204.234375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "25px 30px",
+            "margin": "0px 0px 25px"
+          }
+        ],
+        ".grid-layout": [
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 342,
+            "height": 6042.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sidebar": [
+          {
+            "x": -240,
+            "y": 0,
+            "width": 240,
+            "height": 6757.3125,
+            "font": "Inter, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px 0px 0px -240px"
+          },
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 804.1875,
+            "height": 1354.640625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".main-content": [
+          {
+            "x": 24,
+            "y": 1696.875,
+            "width": 804.1875,
+            "height": 4662.859375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sim-card": [
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 804.1875,
+            "height": 333.71875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 670.953125,
+            "width": 804.1875,
+            "height": 413.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 1104.21875,
+            "width": 804.1875,
+            "height": 547.65625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 1696.875,
+            "width": 804.1875,
+            "height": 886.359375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 45,
+            "y": 1717.875,
+            "width": 762.1875,
+            "height": 215,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 2603.234375,
+            "width": 804.1875,
+            "height": 331.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 2954.84375,
+            "width": 804.1875,
+            "height": 349.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3324.453125,
+            "width": 804.1875,
+            "height": 443.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3787.84375,
+            "width": 804.1875,
+            "height": 280.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 4088.34375,
+            "width": 804.1875,
+            "height": 651.359375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 4759.703125,
+            "width": 804.1875,
+            "height": 332.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 5112.3125,
+            "width": 804.1875,
+            "height": 1161.421875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 6407.734375,
+            "width": 342,
+            "height": 301.578125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "48px 0px 20px"
+          }
+        ],
+        ".sim-card-title": [
+          {
+            "x": 45,
+            "y": 338.234375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 691.953125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 1125.21875,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 66,
+            "y": 1738.875,
+            "width": 720.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 1952.875,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 2624.234375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 2975.84375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3345.453125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3808.84375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 4109.34375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 4780.703125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 5133.3125,
+            "width": 762.1875,
+            "height": 41.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 6428.734375,
+            "width": 300,
+            "height": 106.578125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          }
+        ],
+        "#tablaPasos": [
+          {
+            "x": 45,
+            "y": 2014.265625,
+            "width": 762.1875,
+            "height": 547.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#tablaPasosReal": [
+          {
+            "x": 45,
+            "y": 4170.734375,
+            "width": 762.1875,
+            "height": 547.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#metricPatm": [
+          {
+            "x": 86,
+            "y": 1825.265625,
+            "width": 193.0625,
+            "height": 33.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "22.4px",
+            "padding": "0px",
+            "margin": "4px 0px 2px"
+          }
+        ],
+        "#simCanvas": [
+          {
+            "x": 46,
+            "y": 5300.015625,
+            "width": 760.1875,
+            "height": 398.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".auth-container": [],
+        ".card": []
+      },
+      "modern": {
+        ".sim-header": [
+          {
+            "x": 24,
+            "y": 88,
+            "width": 342,
+            "height": 204.234375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "25px 30px",
+            "margin": "0px 0px 25px"
+          }
+        ],
+        ".grid-layout": [
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 342,
+            "height": 6042.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sidebar": [
+          {
+            "x": -240,
+            "y": 0,
+            "width": 240,
+            "height": 6757.3125,
+            "font": "Inter, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px 0px 0px -240px"
+          },
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 804.1875,
+            "height": 1354.640625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".main-content": [
+          {
+            "x": 24,
+            "y": 1696.875,
+            "width": 804.1875,
+            "height": 4662.859375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sim-card": [
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 804.1875,
+            "height": 333.71875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 670.953125,
+            "width": 804.1875,
+            "height": 413.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 1104.21875,
+            "width": 804.1875,
+            "height": 547.65625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 1696.875,
+            "width": 804.1875,
+            "height": 886.359375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 45,
+            "y": 1717.875,
+            "width": 762.1875,
+            "height": 215,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 2603.234375,
+            "width": 804.1875,
+            "height": 331.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 2954.84375,
+            "width": 804.1875,
+            "height": 349.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3324.453125,
+            "width": 804.1875,
+            "height": 443.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3787.84375,
+            "width": 804.1875,
+            "height": 280.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 4088.34375,
+            "width": 804.1875,
+            "height": 651.359375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 4759.703125,
+            "width": 804.1875,
+            "height": 332.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 5112.3125,
+            "width": 804.1875,
+            "height": 1161.421875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 6407.734375,
+            "width": 342,
+            "height": 301.578125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "48px 0px 20px"
+          }
+        ],
+        ".sim-card-title": [
+          {
+            "x": 45,
+            "y": 338.234375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 691.953125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 1125.21875,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 66,
+            "y": 1738.875,
+            "width": 720.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 1952.875,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 2624.234375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 2975.84375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3345.453125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3808.84375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 4109.34375,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 4780.703125,
+            "width": 762.1875,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 5133.3125,
+            "width": 762.1875,
+            "height": 41.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 6428.734375,
+            "width": 300,
+            "height": 106.578125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          }
+        ],
+        "#tablaPasos": [
+          {
+            "x": 45,
+            "y": 2014.265625,
+            "width": 762.1875,
+            "height": 547.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#tablaPasosReal": [
+          {
+            "x": 45,
+            "y": 4170.734375,
+            "width": 762.1875,
+            "height": 547.96875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#metricPatm": [
+          {
+            "x": 86,
+            "y": 1825.265625,
+            "width": 193.0625,
+            "height": 33.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "22.4px",
+            "padding": "0px",
+            "margin": "4px 0px 2px"
+          }
+        ],
+        "#simCanvas": [
+          {
+            "x": 46,
+            "y": 5300.015625,
+            "width": 760.1875,
+            "height": 398.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".auth-container": [],
+        ".card": []
+      }
+    },
+    {
+      "screen": "recirculacion",
+      "mode": "desktop",
+      "reference": {
+        ".sim-header": [
+          {
+            "x": 264,
+            "y": 88,
+            "width": 1152,
+            "height": 112.34375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "25px 30px",
+            "margin": "0px 0px 25px"
+          }
+        ],
+        ".grid-layout": [
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 1152,
+            "height": 2539.203125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sidebar": [
+          {
+            "x": 0,
+            "y": 0,
+            "width": 240,
+            "height": 3072.640625,
+            "font": "Inter, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          },
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 360,
+            "height": 2539.203125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".main-content": [
+          {
+            "x": 649,
+            "y": 225.34375,
+            "width": 767,
+            "height": 2539.203125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sim-card": [
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 360,
+            "height": 333.71875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 579.0625,
+            "width": 360,
+            "height": 413.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 1012.328125,
+            "width": 360,
+            "height": 547.65625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 225.34375,
+            "width": 767,
+            "height": 566.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 670,
+            "y": 246.34375,
+            "width": 725,
+            "height": 215,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 811.953125,
+            "width": 767,
+            "height": 331.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1163.5625,
+            "width": 767,
+            "height": 443.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1626.953125,
+            "width": 767,
+            "height": 280.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1927.453125,
+            "width": 767,
+            "height": 332.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 2280.0625,
+            "width": 767,
+            "height": 398.484375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 2812.546875,
+            "width": 1152,
+            "height": 212.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "48px 0px 20px"
+          }
+        ],
+        ".sim-card-title": [
+          {
+            "x": 285,
+            "y": 246.34375,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 600.0625,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 1033.328125,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 691,
+            "y": 267.34375,
+            "width": 683,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 481.34375,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 832.953125,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1184.5625,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1647.953125,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1948.453125,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 2301.0625,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 2833.546875,
+            "width": 1110,
+            "height": 41.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          }
+        ],
+        "#tablaPasos": [
+          {
+            "x": 670,
+            "y": 2362.453125,
+            "width": 725,
+            "height": 295.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#tablaPasosReal": [],
+        "#metricPatm": [
+          {
+            "x": 711,
+            "y": 353.734375,
+            "width": 180.65625,
+            "height": 33.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "22.4px",
+            "padding": "0px",
+            "margin": "4px 0px 2px"
+          }
+        ],
+        "#simCanvas": [],
+        ".auth-container": [],
+        ".card": []
+      },
+      "modern": {
+        ".sim-header": [
+          {
+            "x": 264,
+            "y": 88,
+            "width": 1152,
+            "height": 112.34375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "25px 30px",
+            "margin": "0px 0px 25px"
+          }
+        ],
+        ".grid-layout": [
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 1152,
+            "height": 2539.203125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sidebar": [
+          {
+            "x": 0,
+            "y": 0,
+            "width": 240,
+            "height": 3072.640625,
+            "font": "Inter, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          },
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 360,
+            "height": 2539.203125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".main-content": [
+          {
+            "x": 649,
+            "y": 225.34375,
+            "width": 767,
+            "height": 2539.203125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sim-card": [
+          {
+            "x": 264,
+            "y": 225.34375,
+            "width": 360,
+            "height": 333.71875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 579.0625,
+            "width": 360,
+            "height": 413.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 1012.328125,
+            "width": 360,
+            "height": 547.65625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 225.34375,
+            "width": 767,
+            "height": 566.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 670,
+            "y": 246.34375,
+            "width": 725,
+            "height": 215,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 811.953125,
+            "width": 767,
+            "height": 331.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1163.5625,
+            "width": 767,
+            "height": 443.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1626.953125,
+            "width": 767,
+            "height": 280.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 1927.453125,
+            "width": 767,
+            "height": 332.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 649,
+            "y": 2280.0625,
+            "width": 767,
+            "height": 398.484375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 264,
+            "y": 2812.546875,
+            "width": 1152,
+            "height": 212.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "48px 0px 20px"
+          }
+        ],
+        ".sim-card-title": [
+          {
+            "x": 285,
+            "y": 246.34375,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 600.0625,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 1033.328125,
+            "width": 318,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 691,
+            "y": 267.34375,
+            "width": 683,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 481.34375,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 832.953125,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1184.5625,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1647.953125,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 1948.453125,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 670,
+            "y": 2301.0625,
+            "width": 725,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 285,
+            "y": 2833.546875,
+            "width": 1110,
+            "height": 41.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          }
+        ],
+        "#tablaPasos": [
+          {
+            "x": 670,
+            "y": 2362.453125,
+            "width": 725,
+            "height": 295.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#tablaPasosReal": [],
+        "#metricPatm": [
+          {
+            "x": 711,
+            "y": 353.734375,
+            "width": 180.65625,
+            "height": 33.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "22.4px",
+            "padding": "0px",
+            "margin": "4px 0px 2px"
+          }
+        ],
+        "#simCanvas": [],
+        ".auth-container": [],
+        ".card": []
+      }
+    },
+    {
+      "screen": "recirculacion",
+      "mode": "mobile",
+      "reference": {
+        ".sim-header": [
+          {
+            "x": 24,
+            "y": 88,
+            "width": 342,
+            "height": 204.234375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "25px 30px",
+            "margin": "0px 0px 25px"
+          }
+        ],
+        ".grid-layout": [
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 342,
+            "height": 3936.84375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sidebar": [
+          {
+            "x": -240,
+            "y": 0,
+            "width": 240,
+            "height": 4651.65625,
+            "font": "Inter, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px 0px 0px -240px"
+          },
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 722.109375,
+            "height": 1354.640625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".main-content": [
+          {
+            "x": 24,
+            "y": 1696.875,
+            "width": 722.109375,
+            "height": 2557.203125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sim-card": [
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 722.109375,
+            "height": 333.71875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 670.953125,
+            "width": 722.109375,
+            "height": 413.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 1104.21875,
+            "width": 722.109375,
+            "height": 547.65625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 1696.875,
+            "width": 722.109375,
+            "height": 584.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 45,
+            "y": 1717.875,
+            "width": 680.109375,
+            "height": 233,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 2301.484375,
+            "width": 722.109375,
+            "height": 331.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 2653.09375,
+            "width": 722.109375,
+            "height": 443.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3116.484375,
+            "width": 722.109375,
+            "height": 280.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3416.984375,
+            "width": 722.109375,
+            "height": 332.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3769.59375,
+            "width": 722.109375,
+            "height": 398.484375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 4302.078125,
+            "width": 342,
+            "height": 301.578125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "48px 0px 20px"
+          }
+        ],
+        ".sim-card-title": [
+          {
+            "x": 45,
+            "y": 338.234375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 691.953125,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 1125.21875,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 66,
+            "y": 1738.875,
+            "width": 638.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 1970.875,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 2322.484375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 2674.09375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3137.484375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3437.984375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3790.59375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 4323.078125,
+            "width": 300,
+            "height": 106.578125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          }
+        ],
+        "#tablaPasos": [
+          {
+            "x": 45,
+            "y": 3851.984375,
+            "width": 680.109375,
+            "height": 295.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#tablaPasosReal": [],
+        "#metricPatm": [
+          {
+            "x": 86,
+            "y": 1843.265625,
+            "width": 165.703125,
+            "height": 33.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "22.4px",
+            "padding": "0px",
+            "margin": "4px 0px 2px"
+          }
+        ],
+        "#simCanvas": [],
+        ".auth-container": [],
+        ".card": []
+      },
+      "modern": {
+        ".sim-header": [
+          {
+            "x": 24,
+            "y": 88,
+            "width": 342,
+            "height": 204.234375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "25px 30px",
+            "margin": "0px 0px 25px"
+          }
+        ],
+        ".grid-layout": [
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 342,
+            "height": 3936.84375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sidebar": [
+          {
+            "x": -240,
+            "y": 0,
+            "width": 240,
+            "height": 4651.65625,
+            "font": "Inter, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px 0px 0px -240px"
+          },
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 722.109375,
+            "height": 1354.640625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".main-content": [
+          {
+            "x": 24,
+            "y": 1696.875,
+            "width": 722.109375,
+            "height": 2557.203125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "0px",
+            "margin": "0px"
+          }
+        ],
+        ".sim-card": [
+          {
+            "x": 24,
+            "y": 317.234375,
+            "width": 722.109375,
+            "height": 333.71875,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 670.953125,
+            "width": 722.109375,
+            "height": 413.265625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 1104.21875,
+            "width": 722.109375,
+            "height": 547.65625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 1696.875,
+            "width": 722.109375,
+            "height": 584.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 45,
+            "y": 1717.875,
+            "width": 680.109375,
+            "height": 233,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 2301.484375,
+            "width": 722.109375,
+            "height": 331.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 2653.09375,
+            "width": 722.109375,
+            "height": 443.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3116.484375,
+            "width": 722.109375,
+            "height": 280.5,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3416.984375,
+            "width": 722.109375,
+            "height": 332.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 3769.59375,
+            "width": 722.109375,
+            "height": 398.484375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "0px 0px 20px"
+          },
+          {
+            "x": 24,
+            "y": 4302.078125,
+            "width": 342,
+            "height": 301.578125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "16px",
+            "padding": "20px",
+            "margin": "48px 0px 20px"
+          }
+        ],
+        ".sim-card-title": [
+          {
+            "x": 45,
+            "y": 338.234375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 691.953125,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 1125.21875,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 66,
+            "y": 1738.875,
+            "width": 638.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 1970.875,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 2322.484375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 2674.09375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3137.484375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3437.984375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 3790.59375,
+            "width": 680.109375,
+            "height": 36.390625,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          },
+          {
+            "x": 45,
+            "y": 4323.078125,
+            "width": 300,
+            "height": 106.578125,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "17.6px",
+            "padding": "0px 0px 8px",
+            "margin": "0px 0px 15px"
+          }
+        ],
+        "#tablaPasos": [
+          {
+            "x": 45,
+            "y": 3851.984375,
+            "width": 680.109375,
+            "height": 295.09375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "14.08px",
+            "padding": "0px",
+            "margin": "10px 0px 0px"
+          }
+        ],
+        "#tablaPasosReal": [],
+        "#metricPatm": [
+          {
+            "x": 86,
+            "y": 1843.265625,
+            "width": 165.703125,
+            "height": 33.609375,
+            "font": "\"Segoe UI\", system-ui, sans-serif",
+            "size": "22.4px",
+            "padding": "0px",
+            "margin": "4px 0px 2px"
+          }
+        ],
+        "#simCanvas": [],
+        ".auth-container": [],
+        ".card": []
+      }
+    },
+    {
+      "screen": "auth",
+      "mode": "desktop",
+      "reference": {
+        ".sim-header": [],
+        ".grid-layout": [],
+        ".sidebar": [],
+        ".main-content": [],
+        ".sim-card": [],
+        ".sim-card-title": [],
+        "#tablaPasos": [],
+        "#tablaPasosReal": [],
+        "#metricPatm": [],
+        "#simCanvas": [],
+        ".auth-container": [],
+        ".card": []
+      },
+      "modern": {
+        ".sim-header": [],
+        ".grid-layout": [],
+        ".sidebar": [],
+        ".main-content": [],
+        ".sim-card": [],
+        ".sim-card-title": [],
+        "#tablaPasos": [],
+        "#tablaPasosReal": [],
+        "#metricPatm": [],
+        "#simCanvas": [],
+        ".auth-container": [],
+        ".card": []
+      }
+    },
+    {
+      "screen": "auth",
+      "mode": "mobile",
+      "reference": {
+        ".sim-header": [],
+        ".grid-layout": [],
+        ".sidebar": [],
+        ".main-content": [],
+        ".sim-card": [],
+        ".sim-card-title": [],
+        "#tablaPasos": [],
+        "#tablaPasosReal": [],
+        "#metricPatm": [],
+        "#simCanvas": [],
+        ".auth-container": [],
+        ".card": []
+      },
+      "modern": {
+        ".sim-header": [],
+        ".grid-layout": [],
+        ".sidebar": [],
+        ".main-content": [],
+        ".sim-card": [],
+        ".sim-card-title": [],
+        "#tablaPasos": [],
+        "#tablaPasosReal": [],
+        "#metricPatm": [],
+        "#simCanvas": [],
+        ".auth-container": [],
+        ".card": []
+      }
+    }
+  ],
+  "differences": []
+}

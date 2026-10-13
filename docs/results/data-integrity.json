@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-08T20:52:08.504Z",
+  "source": "active simula",
+  "tables": {
+    "usuarios": {
+      "expected": 11,
+      "actual": 11,
+      "sequence": [
+        {
+          "last_value": "30",
+          "is_called": true
+        }
+      ]
+    },
+    "granos": {
+      "expected": 8,
+      "actual": 8,
+      "sequence": [
+        {
+          "last_value": "17",
+          "is_called": true
+        }
+      ]
+    },
+    "maquinaria": {
+      "expected": 22,
+      "actual": 22,
+      "sequence": [
+        {
+          "last_value": "26",
+          "is_called": true
+        }
+      ]
+    },
+    "historial_simulaciones": {
+      "expected": 2,
+      "actual": 2,
+      "sequence": [
+        {
+          "last_value": "11",
+          "is_called": true
+        }
+      ]
+    }
+  },
+  "discrepancies": [],
+  "orphans": []
+}

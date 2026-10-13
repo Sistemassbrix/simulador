@@ -1,0 +1,24 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {calculateDrying} from '../apps/api/src/engine/drying';
+import {calculateHarvest} from '../apps/api/src/engine/harvest';
+import {calculateLegacy} from '../apps/api/src/engine/legacy';
+import {readSource} from '../tools/read-source';
+import {verifyPassword} from '../apps/api/src/auth';
+import bcrypt from 'bcryptjs';
+const fixtures=JSON.parse(fs.readFileSync('tests/fixtures/drying-browser.json','utf8'));
+const html=(value:string)=>value.replace(/\s+/g,' ').trim();
+for(const [index,fixture]of fixtures.entries())test(`Browser original ${index+1}: ${fixture.input.tipoGrano}/${fixture.input.machine}/M0=${fixture.input.humedadInicial}/Mf=${fixture.input.humedadObjetivo}`,()=>{
+ const result=calculateDrying(fixture.input);
+ for(const[id,text]of Object.entries(fixture.cells))assert.equal(result.cells[id]?.innerText,text,id);
+ assert.equal(html(result.cells['#tablaPasos tbody'].innerHTML!),html(fixture.rows),'tablaPasos');
+ if(fixture.realRows!==undefined)assert.equal(html(result.cells['#tablaPasosReal tbody'].innerHTML!),html(fixture.realRows),'tablaPasosReal');
+ assert.deepEqual(result.charts.chartTransicionVitrea['data'],fixture.chart.data,'Chart.js datasets');
+});
+test('Recirculación conserva resultados y muestra únicamente calor',()=>{const f=fixtures[0];const a=calculateDrying(f.input),b=calculateDrying({...f.input,mode:'recirculacion'});for(const[id,v]of Object.entries(f.cells))assert.equal(a.cells[id]?.innerText,b.cells[id]?.innerText);assert.equal((b.cells['#tablaPasos tbody'].innerHTML!.match(/<tr>/g)||[]).length,3);assert.ok(!b.cells['#tablaPasos tbody'].innerHTML!.includes('Atempero'));});
+test('bcrypt PHP $2y$ funciona sin cambiar hash',async()=>{const hash=(await bcrypt.hash('Contraseña prueba ñá',10)).replace('$2b$','$2y$');assert.ok(await verifyPassword('Contraseña prueba ñá',hash));assert.ok(!await verifyPassword('incorrecta',hash));});
+test('Hashes ejecutados en PHP original: ASCII, Unicode y truncado bcrypt',async()=>{const fixtures=JSON.parse(fs.readFileSync('tests/fixtures/bcrypt-php.json','utf8'));for(const f of fixtures){assert.ok(f.hash.startsWith('$2y$'));assert.ok(await verifyPassword(f.password,f.hash));assert.ok(!await verifyPassword('incorrecta',f.hash));}});
+test('Dump y base activa: contraste de todas las filas',{skip:!fs.existsSync('reference/simulador_db.sql')||!fs.existsSync('private/active-data.json')},()=>{const dump=readSource('reference/simulador_db.sql'),active=readSource('private/active-data.json');for(const table of Object.keys(dump.tables)){const rows=(data:any)=>data.tables[table].map((r:any)=>Object.fromEntries(Object.entries(r).map(([k,v])=>[k,String(v)]))).sort((a:any,b:any)=>Number(a.id)-Number(b.id));assert.deepEqual(rows(dump),rows(active),table);}});
+test('Contratos PHP capturados desde ejecución original',()=>{const f=JSON.parse(fs.readFileSync('tests/fixtures/legacy-php.json','utf8'));for(const item of f)assert.deepEqual(calculateLegacy(item.input),item.resultados);});
+test('Cosecha sintética y real: referencia original independiente',()=>{const f=JSON.parse(fs.readFileSync('tests/fixtures/harvest-original.json','utf8'));for(const item of f){const actual=calculateHarvest(item.input,item.weather);const clean=(x:any)=>JSON.parse(JSON.stringify(x));assert.deepEqual(clean(actual),item.result);}});

@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-08T20:52:08.883Z",
+  "backup": "20261008-224939-upstream-20318d6-predeploy",
+  "isolatedContainer": "simulador-modern-restore-check",
+  "counts": {
+    "usuarios": 11,
+    "granos": 8,
+    "maquinaria": 22,
+    "historial_simulaciones": 2
+  },
+  "allFieldsMatch": true,
+  "success": true
+}

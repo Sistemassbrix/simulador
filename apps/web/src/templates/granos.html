@@ -1,0 +1,58 @@
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold"><i class="fas fa-seedling me-2 text-primary"></i>Gestión de Granos</h3>
+    
+    <button class="btn btn-primary" onclick="abrirModalCrear()">
+        <i class="fas fa-plus me-2"></i>Nuevo Grano
+    </button>
+    
+</div>
+
+<div class="dashboard-card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-custom mb-0 align-middle" id="tabla-granos">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="60%">Nombre del Grano</th>
+                        
+                        <th width="30%" class="text-center">Acciones</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="3" class="text-center py-4">Cargando granos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Formulario -->
+<div class="modal fade" id="modalGrano" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="form-grano">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold" id="modalGranoTitle">Nuevo Grano</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="grano_id" name="id" value="">
+            <div class="mb-3">
+                <label class="form-label">Nombre del Grano</label>
+                <input type="text" class="form-control" id="grano_nombre" name="nombre" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary" id="btn-guardar-grano">Guardar</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
