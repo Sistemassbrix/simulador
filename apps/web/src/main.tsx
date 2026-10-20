@@ -32,6 +32,7 @@ function App(){
  const name=user?screenName(screen):'auth',html=template(name);
  const [values,setValues]=useState<Record<string,string>>({}),[view,setView]=useState<any>({cells:{},charts:{}}),[grainProps,setGrainProps]=useState<any>({});
  const [machine,setMachine]=useState('ax'),[modal,setModal]=useState<string|null>(null),[rows,setRows]=useState<any[]>([]),[history,setHistory]=useState<any[]>([]),[detail,setDetail]=useState<any>(null);
+ const [historyStats,setHistoryStats]=useState<any>(null),[historyUserFilter,setHistoryUserFilter]=useState('todos'),[historyStatusFilter,setHistoryStatusFilter]=useState('todos'),[historySearch,setHistorySearch]=useState('');
  const [tabs,setTabs]=useState(new Set(['login'])),[months,setMonths]=useState(Array.from({length:12},(_,i)=>i+1)),[slot,setSlot]=useState<any>({tipo:'diurna',nombre:'Franja Diurna / Secado Solar',horaInicio:8,horaFin:18}),[grid,setGrid]=useState(false);
  const [harvestRevision,setHarvestRevision]=useState(0);const archiveInputs=useRef<any>(null),skipMonthRefresh=useRef(false),skipFilterRefresh=useRef(false);
  const [loaderRealtime,setLoaderRealtime]=useState(false);const [alertKind,setAlertKind]=useState('danger');const cityEdited=useRef(false);
@@ -45,7 +46,8 @@ function App(){
  function historyPush(url:string){window.history.pushState({},'',url);}
  useEffect(()=>{api('auth/me').then(d=>setUser(d.data)).catch(()=>api('auth/csrf')).finally(()=>setReady(true));const pop=()=>setScreen(new URLSearchParams(location.search).get('controller')||'dashboard');window.addEventListener('popstate',pop);return()=>window.removeEventListener('popstate',pop);},[]);
  useEffect(()=>{document.body.classList.toggle('auth-page',!user);document.title=(!user?'Acceso':labels[screen as keyof typeof labels]||'Historial de Escenarios')+' | Simulador';},[user,screen]);
- const reloadHistory=useCallback(()=>{const owner=currentIdentity.current?.id;return api('historial').then(d=>{if(owner===currentIdentity.current?.id)setHistory(d.data.map((x:any)=>({...x,creado_en:x.creado_en.replace('T',' ').replace(/\.\d{3}Z$/,'')})));});},[]);
+ const reloadHistory=useCallback((uFilter?:string,sFilter?:string)=>{const u=uFilter!==undefined?uFilter:historyUserFilter;const s=sFilter!==undefined?sFilter:historyStatusFilter;const p=new URLSearchParams();if(u&&u!=='todos')p.set('usuario_id',u);if(s&&s!=='todos')p.set('estado',s);const qs=p.toString()?'?'+p.toString():'';const owner=currentIdentity.current?.id;return api('historial'+qs).then(d=>{if(owner===currentIdentity.current?.id){setHistory(d.data.map((x:any)=>({...x,creado_en:x.creado_en.replace('T',' ').replace(/\.\d{3}Z$/,'')})));if(d.stats)setHistoryStats(d.stats);}});},[historyUserFilter,historyStatusFilter]);
+ const displayedHistory=useMemo(()=>{if(!historySearch.trim())return history;const q=historySearch.toLowerCase();return history.filter(item=>(item.nombre_escenario&&item.nombre_escenario.toLowerCase().includes(q))||(item.usuario_nombre&&item.usuario_nombre.toLowerCase().includes(q))||(item.usuario_login&&item.usuario_login.toLowerCase().includes(q))||(item.tipo&&item.tipo.toLowerCase().includes(q)));},[history,historySearch]);
  const reloadRows=useCallback(()=>{const config=catalogue[name];if(config)return api(config.endpoint).then(d=>{if(mountedScreen.current===name)setRows(d.data);});return Promise.resolve();},[name]);
  useEffect(()=>{if(!ready)return;const initial=defaults(html),params=new URLSearchParams(location.search);if(['dashboard','recirculacion'].includes(name)){if(params.has('temp'))initial.tempAmbiente=params.get('temp')!;if(params.has('hr'))initial.hrAmbiente=params.get('hr')!;if(params.get('alt')&&Number(params.get('alt')))initial.altitud=params.get('alt')!;}
    setBusy(false);cityEdited.current=false;archiveInputs.current=null;skipMonthRefresh.current=false;if(name==='cosecha'){setMonths(Array.from({length:12},(_,i)=>i+1));setSlot({tipo:'diurna',nombre:'Franja Diurna / Secado Solar',horaInicio:8,horaFin:18});setGrid(false);setHarvestRevision(r=>r+1);}setValues(initial);setView({cells:{},charts:{}});setRows([]);setProfiles([]);setSuggestions([]);setAlert('');setMachine('ax');setCategory(null);setRunning(false);setFinished(false);setReset(r=>r+1);mountedScreen.current=name;
@@ -82,9 +84,9 @@ function App(){
   if(a.startsWith('ejecutarSimulacion')){const d=await api('simulacion',{...values,mode:name,machine,locale:navigator.language});setView(d.data);return;}
   if(a.startsWith('guardarEscenario')){await saveScenario();return;}
   if(a.includes('window.print')){window.print();return;}
-  if(a.startsWith('exportarCSV')){if(!history.length){window.alert('No hay datos para exportar.');return;}download(historyCsv(history),'historial_escenarios.csv');return;}
-  if(a.startsWith('exportarPDF')){if(!history.length){window.alert('No hay datos para exportar.');return;}historyPdf(history);return;}
-  if(a.startsWith('limpiarHistorial')){if(!history.length)window.alert('El historial ya está vacío.');else if(window.confirm('¿Está seguro de querer limpiar TODO el historial? Esta acción no se puede deshacer.')){await api('historial/limpiar',{});await reloadHistory();}return;}
+  if(a.startsWith('exportarCSV')){if(!displayedHistory.length){window.alert('No hay datos para exportar.');return;}download(historyCsv(displayedHistory),'historial_escenarios.csv');return;}
+  if(a.startsWith('exportarPDF')){if(!displayedHistory.length){window.alert('No hay datos para exportar.');return;}historyPdf(displayedHistory);return;}
+  if(a.startsWith('limpiarHistorial')){if(!history.length){window.alert('El historial ya está vacío.');return;}if(user?.cargo==='Administrador'){if(window.confirm('Como administrador, esta acción solo limpiará los escenarios creados por su cuenta. El historial de todos los demás usuarios permanecerá intacto y guardado en el sistema. ¿Desea continuar?')){await api('historial/limpiar',{});await reloadHistory();}return;}if(window.confirm('¿Está seguro de querer limpiar su historial de escenarios?')){await api('historial/limpiar',{});await reloadHistory();}return;}
   if(a==='simBtnBuscarCiudad'||a==='btn-buscar-ciudad'){await searchCity();return;}
   if(a==='btn-obtener-clima'){await harvest();return;}
   if(a.startsWith('btn-meses-')){if(a==='btn-meses-limpiar')skipFilterRefresh.current=(values['filtro-tabla-mes']||'todos')!=='todos';setValues(v=>({...v,'filtro-tabla-mes':'todos'}));}
@@ -128,7 +130,80 @@ function App(){
    if(catalogue[name]&&id===catalogue[name].modal+'Title')return <h5 id={id} className="modal-title fw-bold">{name==='maquinaria'?(values.maquinaria_id?'Editar Máquina':'Nueva Máquina'):(values[catalogue[name].prefix+'id']?'Editar ':'Nuevo ')+catalogue[name].entity}</h5>;
    if(node.name==='tbody'&&parent?.attribs.id==='tabla-maquinaria'&&category==='Transportadores')return <tbody><tr><td colSpan={6} className='text-center py-4'>No hay información configurada para Transportadores (Próximamente).</td></tr></tbody>;
    if(node.name==='tbody'&&parent?.attribs.id?.startsWith('tabla-')&&catalogue[name]){const config=catalogue[name];return <tbody>{rows.length?rows.map(row=><tr key={row.id}>{config.columns.map((key:string)=><td key={key} className={key==='nombre'?'fw-bold':key==='cuerpo'?'text-center fw-bold':''}>{key==='cargo'?<span className="badge bg-primary">{row[key]}</span>:row[key]}</td>)}{user.cargo==='Administrador'&&<td className="text-center"><button className="btn btn-sm btn-outline-secondary me-1" title="Editar" onClick={()=>openCrud(row.id).catch(showError)}><i className="fas fa-edit"/></button>{' '}<button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={()=>deleteCrud(row.id).catch(showError)}><i className="fas fa-trash"/></button></td>}</tr>):<tr><td colSpan={config.columns.length+(user.cargo==='Administrador'?1:0)} className="text-center">{name==='usuarios'?'No hay usuarios registrados.':name==='granos'?'No hay granos registrados.':'No hay maquinaria registrada.'}</td></tr>}</tbody>;}
-   if(node.name==='tbody'&&parent?.attribs.id==='tablaHistorial')return <tbody>{history.length?history.map(item=><tr key={item.id}><td className="ps-3">{item.id}</td><td className="fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario,data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={5} className="text-center text-muted py-4">No hay escenarios guardados.</td></tr>}</tbody>;
+   if(id==='historial-admin-stats'){
+     if(user?.cargo!=='Administrador'){
+       return historyStats?<div className="alert alert-light border shadow-sm d-flex justify-content-between align-items-center mb-4 py-2 px-3"><div><i className="fas fa-history text-primary me-2"/>Has creado <strong>{historyStats.total_mes_usuario}</strong> escenarios en <strong>{historyStats.mes_actual} {historyStats.anio_actual}</strong> (Total histórico: <strong>{historyStats.total_usuario}</strong>).</div></div>:null;
+     }
+     const selectedUser=historyStats?.usuarios?.find((u:any)=>String(u.id)===historyUserFilter);
+     const totalMesTodos=historyStats?.total_mes_todos??0;
+     const totalTodos=historyStats?.total_todos??history.length;
+     const mesActual=historyStats?.mes_actual||'Mes Actual';
+     const anioActual=historyStats?.anio_actual||new Date().getFullYear();
+     return <div id={id} className="mb-4">
+       <div className="row g-3 mb-3">
+         <div className="col-md-4">
+           <div className="card border-0 shadow-sm rounded-4 h-100" style={{background:'linear-gradient(135deg, #eff6ff 0%, #ffffff 100%)',borderLeft:'4px solid #3b82f6'}}>
+             <div className="card-body p-3 d-flex align-items-center">
+               <div className="rounded-3 p-3 bg-primary bg-opacity-10 text-primary me-3"><i className="fas fa-layer-group fs-3"/></div>
+               <div className="flex-grow-1 overflow-hidden">
+                 <div className="text-muted small fw-semibold text-uppercase tracking-wider">Total de Escenarios</div>
+                 <div className="fs-2 fw-bold text-dark lh-1 my-1">{totalTodos}</div>
+                 <small className="text-primary fw-medium"><i className="fas fa-users me-1"/>Todos los usuarios</small>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div className="col-md-4">
+           <div className="card border-0 shadow-sm rounded-4 h-100" style={{background:'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)',borderLeft:'4px solid #10b981'}}>
+             <div className="card-body p-3 d-flex align-items-center">
+               <div className="rounded-3 p-3 bg-success bg-opacity-10 text-success me-3"><i className="fas fa-calendar-check fs-3"/></div>
+               <div className="flex-grow-1 overflow-hidden">
+                 <div className="text-muted small fw-semibold text-uppercase tracking-wider">Escenarios en {mesActual}</div>
+                 <div className="fs-2 fw-bold text-success lh-1 my-1">{totalMesTodos}</div>
+                 <small className="text-success fw-medium"><i className="fas fa-chart-line me-1"/>Mes en curso ({mesActual} {anioActual})</small>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div className="col-md-4">
+           <div className="card border-0 shadow-sm rounded-4 h-100" style={{background:'linear-gradient(135deg, #faf5ff 0%, #ffffff 100%)',borderLeft:'4px solid #8b5cf6'}}>
+             <div className="card-body p-3">
+               <div className="d-flex justify-content-between align-items-center mb-1">
+                 <span className="text-muted small fw-semibold text-uppercase tracking-wider"><i className="fas fa-user me-1 text-purple" style={{color:'#8b5cf6'}}/>Escenarios del Usuario ({mesActual})</span>
+               </div>
+               <select className="form-select form-select-sm mb-2" style={{borderColor:'#d8b4fe'}} value={historyUserFilter} onChange={e=>{const val=e.target.value;setHistoryUserFilter(val);reloadHistory(val,historyStatusFilter);}}>
+                 <option value="todos">Todos los usuarios (Ver desglose...)</option>
+                 {historyStats?.usuarios?.map((u:any)=><option key={u.id} value={String(u.id)}>{u.nombre} — {u.total_mes} en {mesActual} (Total: {u.total_historico})</option>)}
+               </select>
+               {selectedUser?<div className="d-flex align-items-baseline justify-content-between"><div><span className="fs-3 fw-bold text-dark">{selectedUser.total_mes}</span><span className="text-muted small ms-1">en el mes</span></div><small className="text-muted">Total: <strong>{selectedUser.total_historico}</strong> ({selectedUser.total_activos} act., {selectedUser.total_borrados} borr.)</small></div>:<small className="text-muted d-block"><i className="fas fa-info-circle me-1 text-primary"/>Seleccione un usuario para ver la cantidad que ha hecho en el mes.</small>}
+             </div>
+           </div>
+         </div>
+       </div>
+       <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 p-2 bg-white rounded-3 shadow-sm border">
+         <div className="btn-group btn-group-sm" role="group">
+           <button type="button" className={'btn '+(historyStatusFilter==='todos'?'btn-primary':'btn-outline-secondary')} onClick={()=>{setHistoryStatusFilter('todos');reloadHistory(historyUserFilter,'todos');}}>Todos ({historyStats?.total_todos??history.length})</button>
+           <button type="button" className={'btn '+(historyStatusFilter==='activos'?'btn-success':'btn-outline-secondary')} onClick={()=>{setHistoryStatusFilter('activos');reloadHistory(historyUserFilter,'activos');}}><i className="fas fa-check-circle me-1"/>Activos ({historyStats?.total_activos??0})</button>
+           <button type="button" className={'btn '+(historyStatusFilter==='borrados'?'btn-warning text-dark':'btn-outline-secondary')} onClick={()=>{setHistoryStatusFilter('borrados');reloadHistory(historyUserFilter,'borrados');}}><i className="fas fa-user-slash me-1"/>Borrados por usuario ({historyStats?.total_borrados_usuario??0})</button>
+         </div>
+         <div className="d-flex align-items-center gap-2" style={{maxWidth:320}}>
+           <div className="input-group input-group-sm">
+             <span className="input-group-text bg-light border-end-0"><i className="fas fa-search text-muted"/></span>
+             <input type="text" className="form-control border-start-0" placeholder="Buscar escenario o usuario..." value={historySearch} onChange={e=>setHistorySearch(e.target.value)}/>
+             {historySearch&&<button className="btn btn-outline-secondary" type="button" onClick={()=>setHistorySearch('')}><i className="fas fa-times"/></button>}
+           </div>
+         </div>
+       </div>
+     </div>;
+   }
+   if(node.name==='thead'&&parent?.attribs.id==='tablaHistorial'){
+     if(user?.cargo==='Administrador')return <thead className="table-light"><tr><th className="ps-3 border-0">USUARIO</th><th className="border-0">NOMBRE ESCENARIO</th><th className="border-0">TIPO</th><th className="border-0">FECHA</th><th className="border-0 text-center">ESTADO</th><th className="border-0 text-center">ACCIONES</th></tr></thead>;
+     return <thead className="table-light"><tr><th className="ps-3 border-0">NOMBRE ESCENARIO</th><th className="border-0">TIPO</th><th className="border-0">FECHA</th><th className="border-0 text-center">ACCIONES</th></tr></thead>;
+   }
+   if(node.name==='tbody'&&parent?.attribs.id==='tablaHistorial'){
+     if(user?.cargo==='Administrador')return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id} className={item.eliminado_por_usuario?'table-light opacity-75':''}><td className="ps-3"><div className="d-flex align-items-center"><i className="fas fa-user-circle text-primary me-2 fs-5"/><div><span className="fw-bold d-block text-dark">{item.usuario_nombre}</span><small className="text-muted">{item.usuario_cargo||item.usuario_login}</small></div></div></td><td className="fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center">{item.eliminado_por_usuario?<span className="badge bg-warning text-dark shadow-sm" title="El usuario eliminó este escenario de su historial"><i className="fas fa-trash-alt me-1"/>Borrado por usuario</span>:<span className="badge bg-success shadow-sm" title="Activo y visible para el usuario"><i className="fas fa-check me-1"/>Activo</span>}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario+(item.usuario_nombre?` (${item.usuario_nombre})`:''),data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button>{item.eliminado_por_usuario&&<button className="btn btn-sm btn-outline-success me-1" title="Restaurar para el usuario" onClick={async()=>{if(window.confirm(`¿Desea restaurar este escenario para que ${item.usuario_nombre} vuelva a verlo en su historial?`)){await api('historial/restaurar',{id:item.id});await reloadHistory();}}}><i className="fas fa-undo"/></button>}<button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={6} className="text-center text-muted py-4">No hay escenarios registrados.</td></tr>}</tbody>;
+     return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id}><td className="ps-3 fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario,data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={4} className="text-center text-muted py-4">No hay escenarios guardados.</td></tr>}</tbody>;
+   }
    if(node.name==='tbody'&&['tablaPasos','tablaPasosReal'].includes(parent?.attribs.id||''))return <tbody><Template html={view.cells?.['#'+parent!.attribs.id+' tbody']?.innerHTML||''} context={context}/></tbody>;
    return undefined;
  }};

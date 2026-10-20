@@ -235,7 +235,7 @@ function ejecutarSimulacion(): any {
         etapa: 'Enfriamiento Final',
         tipo: 'Enfriamiento',
         tempAire: Tamb.toFixed(1),
-        tempGrano: Tamb.toFixed(1),
+        tempGrano: (Tamb + 5).toFixed(1),
         tempAireSalida: (Tamb + 1.5).toFixed(1),
         hrAire: HRamb.toFixed(1),
         mEnt: currentM.toFixed(1),

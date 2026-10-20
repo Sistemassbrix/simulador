@@ -37,8 +37,11 @@ model Historial {
   tipo String? @db.VarChar(50)
   datos_json String? @db.Text
   creado_en DateTime @default(now()) @db.Timestamptz(0)
+  eliminado_por_usuario Boolean @default(false)
+  eliminado_en DateTime? @db.Timestamptz(0)
   // El original permite usuarios eliminados con historial huérfano. Conservar.
   @@index([usuario_id, creado_en])
+  @@index([usuario_id, eliminado_por_usuario, creado_en])
   @@map("historial_simulaciones")
 }
 model Sesion {
