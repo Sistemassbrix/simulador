@@ -66,37 +66,37 @@
 <!-- Modal Formulario -->
 <div class="modal fade" id="modalMaquinaria" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content shadow-lg border-0" style="background-color: #ffffff !important; background: #ffffff !important;">
       <form id="form-maquinaria">
-          <div class="modal-header">
-            <h5 class="modal-title fw-bold" id="modalMaquinariaTitle">Nueva Máquina</h5>
+          <div class="modal-header bg-white border-bottom py-3">
+            <h5 class="modal-title fw-bold text-dark" id="modalMaquinariaTitle">Nueva Máquina</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body p-4" style="background-color: #ffffff !important; background: #ffffff !important;">
             <input type="hidden" id="maquinaria_id" name="id" value="">
             <div class="mb-3">
-                <label class="form-label">Cuerpo (S/D)</label>
+                <label class="form-label fw-semibold">Cuerpo (S/D)</label>
                 <select class="form-select" id="maquinaria_cuerpo" name="cuerpo" required>
                     <option value="S">S (Simple)</option>
                     <option value="D">D (Doble)</option>
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Equipo modelo de la Torre</label>
+                <label class="form-label fw-semibold">Equipo modelo de la Torre</label>
                 <input type="text" class="form-control" id="maquinaria_nombre" name="nombre" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Caudal aire de la torre (m³/h)</label>
+                <label class="form-label fw-semibold">Caudal aire de la torre (m³/h)</label>
                 <input type="number" step="0.01" class="form-control" id="maquinaria_caudal_aire" name="caudal_aire" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Holding de la Torre (m³)</label>
+                <label class="form-label fw-semibold">Holding de la Torre (m³)</label>
                 <input type="number" step="0.01" class="form-control" id="maquinaria_holding" name="holding" required>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer bg-light border-top">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary" id="btn-guardar-maquinaria">Guardar</button>
+            <button type="submit" class="btn btn-primary fw-bold px-4" id="btn-guardar-maquinaria">Guardar</button>
           </div>
       </form>
     </div>

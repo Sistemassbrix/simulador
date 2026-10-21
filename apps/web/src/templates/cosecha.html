@@ -72,16 +72,50 @@
             <hr class="my-3 text-muted opacity-25">
 
             <!-- Row 2: Selector de los 12 Meses de Cosecha -->
-            <div class="mb-3">
-                <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
-                    <label class="form-label fw-semibold small text-muted mb-0">
-                        <i class="fas fa-calendar-alt text-success me-1"></i>Meses de cosecha (Selecciona los meses a analizar):
-                    </label>
-                    <div class="btn-group btn-group-sm mt-1 mt-md-0" role="group">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-todos"><i class="fas fa-check-double me-1"></i>Todos (12)</button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-seca"><i class="fas fa-sun me-1"></i>Época Seca</button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-lluvia"><i class="fas fa-cloud-rain me-1"></i>Época Lluvias</button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-limpiar"><i class="fas fa-times me-1"></i>Limpiar</button>
+            <div class="mb-3 p-3 bg-light rounded-3 border border-light-subtle shadow-sm">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
+                    <div class="d-flex align-items-center flex-wrap gap-2">
+                        <label class="form-label fw-semibold small text-dark mb-0">
+                            <i class="fas fa-calendar-alt text-success me-1"></i>Meses de cosecha (Selecciona los meses a analizar):
+                        </label>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold" id="badge-meses-contador">
+                            <i class="fas fa-calendar-check me-1"></i>12 seleccionados
+                        </span>
+                        <span class="badge bg-warning-subtle text-dark border border-warning px-2 py-1 small fw-semibold d-none" id="badge-meses-pendiente">
+                            <i class="fas fa-clock text-warning me-1"></i>Pendiente aplicar
+                        </span>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-1 align-items-center" role="group">
+                        <!-- Selector de un mes individual -->
+                        <select class="form-select form-select-sm" id="select-mes-individual" style="width: auto; min-width: 175px;" title="Escoger rápidamente un mes específico para analizar">
+                            <option value="">Escoger un solo mes...</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+
+                        <div class="btn-group btn-group-sm ms-1" role="group">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-todos" title="Seleccionar los 12 meses del año"><i class="fas fa-check-double me-1"></i>Todos (12)</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-seca" title="Diciembre a Abril"><i class="fas fa-sun text-warning me-1"></i>Época Seca</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-lluvia" title="Mayo a Noviembre"><i class="fas fa-cloud-rain text-info me-1"></i>Época Lluvias</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-limpiar" title="Deseleccionar todos los meses"><i class="fas fa-times me-1"></i>Limpiar</button>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm ms-1" id="btn-abrir-modal-meses" title="Abrir selector guiado de meses">
+                            <i class="fas fa-sliders-h me-1"></i>Opciones...
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm fw-bold shadow-sm ms-1" id="btn-aplicar-meses" title="Aplicar los meses seleccionados y recalcular análisis de clima">
+                            <i class="fas fa-check-circle me-1"></i>Aplicar Meses
+                        </button>
                     </div>
                 </div>
 
@@ -683,12 +717,12 @@
 <!-- Modal para Simulación Rápida -->
 <div class="modal fade" id="modalSimularDia" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fw-bold"><i class="fas fa-seedling text-success me-2"></i>Transferir Parámetros al Simulador</h5>
+        <div class="modal-content shadow-lg border-0" style="background-color: #ffffff !important; background: #ffffff !important;">
+            <div class="modal-header bg-white border-bottom py-3">
+                <h5 class="modal-title fw-bold text-dark"><i class="fas fa-seedling text-success me-2"></i>Transferir Parámetros al Simulador</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4" style="background-color: #ffffff !important; background: #ffffff !important;">
                 <p class="text-muted">Se transferirán las siguientes condiciones ambientales al simulador de secado:</p>
                 <ul class="list-group list-group-flush mb-3">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -709,7 +743,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer bg-light border-top">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" id="btn-confirmar-simular-dia">
                     <i class="fas fa-play me-1"></i>Ir a Simular Ahora
@@ -720,6 +754,108 @@
 </div>
 
 
+
+<!-- Modal Selector Asistido de Meses de Cosecha -->
+<div class="modal fade" id="modalSelectorMeses" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content shadow-lg border-0" style="background-color: #ffffff !important; background: #ffffff !important;">
+            <div class="modal-header bg-white border-bottom py-3">
+                <h5 class="modal-title fw-bold text-dark">
+                    <i class="fas fa-calendar-alt text-success me-2"></i>Selector de Meses de Cosecha
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4" style="background-color: #ffffff !important; background: #ffffff !important;">
+                <p class="text-muted small mb-3">
+                    Selecciona los meses en los que se realiza la cosecha de tu cultivo. Puedes elegir un solo mes o la combinación de meses que desees sin restricciones por trimestre. Al presionar <strong>Aplicar Selección</strong> el sistema recalculará los perfiles climáticos y Weibull.
+                </p>
+
+                <!-- Opción 1: Escoger un Mes Específico -->
+                <div class="p-3 bg-light rounded-3 border mb-3">
+                    <h6 class="fw-bold text-dark mb-2">
+                        <i class="fas fa-calendar-check text-primary me-2"></i>Opción 1: Escoger un Único Mes
+                    </h6>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <select class="form-select form-select-sm" id="select-modal-mes-individual" style="max-width: 260px;" title="Seleccionar un único mes de cosecha">
+                            <option value="">-- Elige un solo mes --</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                        <span class="text-muted small">Selecciona directamente el mes que deseas analizar.</span>
+                    </div>
+                </div>
+
+                <!-- Opción 2: Selección Libre de Meses (Haz clic en los meses deseados) -->
+                <div class="p-3 bg-white rounded-3 border mb-3 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="fw-bold text-dark mb-0">
+                            <i class="fas fa-th-large text-success me-2"></i>Opción 2: Escoger los Meses Deseados (Haz clic para activar/desactivar)
+                        </h6>
+                    </div>
+                    <div class="months-grid" id="modal-months-grid">
+                        <div class="month-chip active" data-mes="1">Enero</div>
+                        <div class="month-chip active" data-mes="2">Febrero</div>
+                        <div class="month-chip active" data-mes="3">Marzo</div>
+                        <div class="month-chip active" data-mes="4">Abril</div>
+                        <div class="month-chip active" data-mes="5">Mayo</div>
+                        <div class="month-chip active" data-mes="6">Junio</div>
+                        <div class="month-chip active" data-mes="7">Julio</div>
+                        <div class="month-chip active" data-mes="8">Agosto</div>
+                        <div class="month-chip active" data-mes="9">Septiembre</div>
+                        <div class="month-chip active" data-mes="10">Octubre</div>
+                        <div class="month-chip active" data-mes="11">Noviembre</div>
+                        <div class="month-chip active" data-mes="12">Diciembre</div>
+                    </div>
+                </div>
+
+                <!-- Accesos Rápidos de Temporadas Agroclimáticas -->
+                <div class="p-3 bg-light rounded-3 border mb-3">
+                    <h6 class="fw-bold text-dark mb-2">
+                        <i class="fas fa-bolt text-warning me-2"></i>Accesos Rápidos:
+                    </h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-modal-todos">
+                            <i class="fas fa-check-double me-1"></i>Todo el Año (12 Meses)
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-modal-seca">
+                            <i class="fas fa-sun text-warning me-1"></i>Época Seca (Dic - Abr · 5 meses)
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-modal-lluvia">
+                            <i class="fas fa-cloud-rain text-info me-1"></i>Época de Lluvias (May - Nov · 7 meses)
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" id="btn-modal-limpiar">
+                            <i class="fas fa-trash-alt me-1"></i>Limpiar Selección
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resumen de Meses -->
+                <div class="alert alert-success d-flex align-items-center justify-content-between p-3 mb-0 border-success-subtle">
+                    <div>
+                        <i class="fas fa-check-circle me-2 fs-5"></i>
+                        <span id="txt-modal-meses-resumen" class="fw-semibold">Meses seleccionados: 12</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-top">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success fw-bold px-4" id="btn-modal-aplicar">
+                    <i class="fas fa-play me-1"></i>Aplicar Selección y Cargar al Sistema
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Loader Overlay -->
 <div class="spinner-overlay" id="clima-loader">

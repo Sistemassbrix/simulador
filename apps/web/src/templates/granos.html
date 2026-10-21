@@ -33,22 +33,22 @@
 <!-- Modal Formulario -->
 <div class="modal fade" id="modalGrano" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content shadow-lg border-0" style="background-color: #ffffff !important; background: #ffffff !important;">
       <form id="form-grano">
-          <div class="modal-header">
-            <h5 class="modal-title fw-bold" id="modalGranoTitle">Nuevo Grano</h5>
+          <div class="modal-header bg-white border-bottom py-3">
+            <h5 class="modal-title fw-bold text-dark" id="modalGranoTitle">Nuevo Grano</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body p-4" style="background-color: #ffffff !important; background: #ffffff !important;">
             <input type="hidden" id="grano_id" name="id" value="">
             <div class="mb-3">
-                <label class="form-label">Nombre del Grano</label>
+                <label class="form-label fw-semibold">Nombre del Grano</label>
                 <input type="text" class="form-control" id="grano_nombre" name="nombre" required>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer bg-light border-top">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary" id="btn-guardar-grano">Guardar</button>
+            <button type="submit" class="btn btn-primary fw-bold px-4" id="btn-guardar-grano">Guardar</button>
           </div>
       </form>
     </div>

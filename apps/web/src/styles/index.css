@@ -6,7 +6,61 @@
 @import "./original.css";
 #root {width:100%;min-height:100vh;}
 .auth-page #root {display:flex;align-items:center;justify-content:center;}
-.original-dialog .modal-dialog {margin:0;max-width:none;}
-.original-dialog {position:fixed;z-index:1050;left:50%;top:28px;transform:translateX(-50%);width:500px;max-width:calc(100% - 1rem);max-height:calc(100vh - 56px);overflow:auto;outline:none;}
-@media(max-width:575.98px){.original-dialog{top:8px;width:calc(100% - 1rem);max-height:calc(100vh - 16px);}}
+/* Global Solid Modal System */
+.modal,
+.original-dialog {
+    --bs-modal-bg: #ffffff !important;
+}
+
+.original-dialog .modal-dialog,
+.modal-dialog {
+    margin: auto !important;
+    width: 100% !important;
+    max-width: 550px !important;
+    pointer-events: auto !important;
+}
+
+.original-dialog .modal-dialog.modal-lg,
+.modal-dialog.modal-lg {
+    max-width: 820px !important;
+}
+
+.modal-content,
+.original-dialog .modal-content {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.175) !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+    overflow: hidden !important;
+}
+
+.modal-header,
+.original-dialog .modal-header {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 1rem 1.25rem !important;
+}
+
+.modal-body,
+.original-dialog .modal-body {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    padding: 1.25rem !important;
+}
+
+.modal-footer,
+.original-dialog .modal-footer {
+    background-color: #f8fafc !important;
+    background: #f8fafc !important;
+    border-top: 1px solid #e2e8f0 !important;
+    padding: 0.85rem 1.25rem !important;
+}
+
+.modal-backdrop {
+    background-color: rgba(15, 23, 42, 0.75) !important;
+    backdrop-filter: blur(3px) !important;
+}
+
 .navbar-collapse {visibility:visible;}

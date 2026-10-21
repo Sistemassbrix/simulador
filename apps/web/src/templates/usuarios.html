@@ -38,58 +38,67 @@
 <!-- Modal Formulario Usuario -->
 <div class="modal fade" id="modalUsuario" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content shadow-lg border-0" style="background-color: #ffffff !important; background: #ffffff !important;">
       <form id="form-usuario">
-          <div class="modal-header">
-            <h5 class="modal-title fw-bold" id="modalUsuarioTitle">Nuevo Usuario</h5>
+          <div class="modal-header bg-white border-bottom py-3">
+            <h5 class="modal-title fw-bold text-dark" id="modalUsuarioTitle">Nuevo Usuario</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body p-4" style="background-color: #ffffff !important; background: #ffffff !important;">
             <input type="hidden" id="usr_id" name="id" value="">
             
             <div class="mb-3">
-                <label class="form-label">Nombre Completo</label>
+                <label class="form-label fw-semibold">Nombre Completo</label>
                 <input type="text" class="form-control" id="usr_nombre" name="nombre" required>
             </div>
             
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label class="form-label">Cédula</label>
+                    <label class="form-label fw-semibold">Cédula</label>
                     <input type="text" class="form-control" id="usr_cedula" name="cedula" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label">Usuario (Login)</label>
+                    <label class="form-label fw-semibold">Usuario (Login)</label>
                     <input type="text" class="form-control" id="usr_usuario" name="usuario" required>
                 </div>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Correo Electrónico</label>
+                <label class="form-label fw-semibold">Correo Electrónico</label>
                 <input type="email" class="form-control" id="usr_correo" name="correo" required>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Cargo</label>
-                    <select class="form-select" id="usr_cargo" name="cargo" required>
-                        <option value="">Seleccione...</option>
-                        <option value="Operador">Operador</option>
-                        <option value="Ingeniero">Ingeniero de Procesos</option>
-                        <option value="Auxiliar de sistemas">Auxiliar de sistemas</option>
-                        <option value="Administrador">Administrador</option>
-                    </select>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label" id="lbl_contrasena">Contraseña</label>
-                    <input type="password" class="form-control" id="usr_password" name="password">
-                    <small class="text-muted" id="help_password">Déjelo en blanco si no desea cambiarla.</small>
-                </div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Cargo</label>
+                <select class="form-select" id="usr_cargo" name="cargo" required>
+                    <option value="">Seleccione un cargo...</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Auxiliar de sistemas">Auxiliar de sistemas</option>
+                    <option value="Ceo Comercial y tecnologia">Ceo Comercial y tecnologia</option>
+                    <option value="Coordinadora de anteproyectos y presupuestacion">Coordinadora de anteproyectos y presupuestacion</option>
+                    <option value="Director Comercial y de proyectos">Director Comercial y de proyectos</option>
+                    <option value="Director de Proyectos">Director de Proyectos</option>
+                    <option value="Director de proyectos">Director de proyectos</option>
+                    <option value="Director de Servicios y ATC">Director de Servicios y ATC</option>
+                    <option value="Directora de ingeniería y diseño de productos">Directora de ingeniería y diseño de productos</option>
+                    <option value="Gerente Comercial">Gerente Comercial</option>
+                    <option value="Gerente General">Gerente General</option>
+                    <option value="Ingeniero de Procesos">Ingeniero de Procesos</option>
+                    <option value="Operador">Operador</option>
+                    <option value="VIP comercial">VIP comercial</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold" id="lbl_contrasena">Contraseña</label>
+                <input type="password" class="form-control" id="usr_password" name="password" placeholder="••••••••">
+                <small class="text-muted" id="help_password">Déjelo en blanco si no desea cambiarla.</small>
             </div>
 
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer bg-light border-top">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary" id="btn-guardar-usr">Guardar</button>
+            <button type="submit" class="btn btn-primary fw-bold px-4" id="btn-guardar-usr">Guardar</button>
           </div>
       </form>
     </div>

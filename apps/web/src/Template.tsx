@@ -24,6 +24,7 @@ export function Template({html,context}:{html:string;context:TemplateContext}){
     if(id==='buscar_ciudad')props.onFocus=context.focusCity;
     if(context.values[id]!==undefined){props.value=context.values[id];delete props.defaultValue;}
     if(tag==='select'&&props.value===undefined){const selected=node.children.find(n=>n instanceof Element&&n.attribs.selected!==undefined) as Element|undefined;props.value=selected?.attribs.value;}
+    if(tag==='select'&&props.value!==undefined&&props.value!==''){const optVals=node.children.filter((n):n is Element=>n instanceof Element&&n.name==='option').map(n=>n.attribs.value??'');if(!optVals.includes(String(props.value)))children=<><option value={props.value}>{props.value}</option>{children}</>;}
     if(!props.readOnly)props.onChange=(e:React.ChangeEvent<HTMLInputElement>)=>context.setValue(id,e.target.value);
     if(tag==='input')return React.createElement(tag,props);
   }
