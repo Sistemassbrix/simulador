@@ -116,10 +116,32 @@ export class HistorialController{
     nombre_escenario:data.nombre,
     tipo:data.tipo,
     datos_json:data.datos_json,
-    eliminado_por_usuario:false
+    eliminado_por_usuario:false,
+    creado_en:new Date()
    }
   });
   return{status:'success',message:'Escenario guardado en el historial.'};
+ }
+
+ @Post('editar')
+ async edit(@Body()body:unknown,@Req()req:AuthRequest){
+  const data=z.object({
+   id:z.coerce.number().int().positive(),
+   nombre:z.string().trim().min(1).max(150),
+   datos_json:z.string().max(1000000).optional()
+  }).parse(body);
+  const isAdmin=req.identity.cargo==='Administrador';
+  const where=isAdmin?{id:data.id}:{id:data.id,usuario_id:req.identity.id};
+  const updateData:any={nombre_escenario:data.nombre};
+  if(data.datos_json!==undefined){
+   JSON.parse(data.datos_json);
+   updateData.datos_json=data.datos_json;
+  }
+  const result=await this.db.historial.updateMany({where,data:updateData});
+  if(result.count===0){
+   return{status:'error',message:'No se pudo actualizar el escenario o no tiene permisos.'};
+  }
+  return{status:'success',message:'Escenario actualizado exitosamente.'};
  }
 
  @Post('eliminar')

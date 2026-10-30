@@ -201,9 +201,10 @@ function ejecutarSimulacion(): any {
         let tempAireSalida = tempGrano + (Math.max(tempAire - tempGrano, 0) * 0.15);
         let tempAireSalidaStr = tempAireSalida.toFixed(1);
         let potencia_kW = calorRequerido / 3600;
+        const isEn = input.locale === 'en-US' || (input.locale || '').startsWith('en') || input.lang === 'en';
         pasos.push({
-            etapa: `Paso ${i} (Calor)`,
-            tipo: 'Calor',
+            etapa: isEn ? `Pass ${i} (Heat)` : `Paso ${i} (Calor)`,
+            tipo: isEn ? 'Heat' : 'Calor',
             tempAire: tempAire.toFixed(1),
             tempGrano: tempGranoStr,
             tempAireSalida: tempAireSalidaStr,
@@ -217,8 +218,8 @@ function ejecutarSimulacion(): any {
         });
         // Add Atempero step
         pasos.push({
-            etapa: `Atempero ${i}`,
-            tipo: 'Atempero',
+            etapa: isEn ? `Tempering ${i}` : `Atempero ${i}`,
+            tipo: isEn ? 'Tempering' : 'Atempero',
             tempAire: '-',
             tempGrano: tempGranoStr,
             tempAireSalida: '-',
@@ -231,9 +232,10 @@ function ejecutarSimulacion(): any {
             h_efectivo: '-'
         });
     }
+    const isEnFinal = input.locale === 'en-US' || (input.locale || '').startsWith('en') || input.lang === 'en';
     pasos.push({
-        etapa: 'Enfriamiento Final',
-        tipo: 'Enfriamiento',
+        etapa: isEnFinal ? 'Final Cooling' : 'Enfriamiento Final',
+        tipo: isEnFinal ? 'Cooling' : 'Enfriamiento',
         tempAire: Tamb.toFixed(1),
         tempGrano: (Tamb + 5).toFixed(1),
         tempAireSalida: (Tamb + 1.5).toFixed(1),
@@ -359,15 +361,15 @@ function ejecutarSimulacion(): any {
     const isRecirculacion = input.mode === 'recirculacion';
     pasos.forEach((p: any) => {
         if (isRecirculacion) {
-            if (p.tipo !== 'Calor')
+            if (p.tipo !== 'Calor' && p.tipo !== 'Heat')
                 return;
         }
         let bClass = 'badge-cool'; // default
-        if (p.tipo === 'Calor')
+        if (p.tipo === 'Calor' || p.tipo === 'Heat')
             bClass = 'badge-heat';
-        else if (p.tipo === 'Atempero')
+        else if (p.tipo === 'Atempero' || p.tipo === 'Tempering')
             bClass = 'badge-temper';
-        else if (p.tipo === 'Operativo')
+        else if (p.tipo === 'Operativo' || p.tipo === 'Operating')
             bClass = 'badge-cool'; // o alguna clase distinta para operativo
         const rowHTML = `<tr>
             <td><strong>${p.etapa}</strong></td>
@@ -394,7 +396,7 @@ function ejecutarSimulacion(): any {
         const maqObjLocal = maqReqLocal ? maqReqLocal[maquinaSeleccionada] : null;
         if (maqObjLocal && caudalTotalCFM > 0) {
             let factorLocal = maqObjLocal.caudal / caudalTotalCFM;
-            if (p.tipo === 'Calor') {
+            if (p.tipo === 'Calor' || p.tipo === 'Heat') {
                 let prop = parseFloat(p.caudal) / caudalTotalCFM;
                 caudalRealStr = Math.round(maqObjLocal.caudal * prop).toLocaleString(input.locale || 'en-US');
                 // Variación operacional dinámica
@@ -412,14 +414,14 @@ function ejecutarSimulacion(): any {
                         hrAireReal = Math.max(hr - (hr * varTermica), hr * 0.6).toFixed(1);
                 }
             }
-            else if (p.tipo === 'Atempero') {
+            else if (p.tipo === 'Atempero' || p.tipo === 'Tempering') {
                 let varTermica = (factorLocal - 1) * 0.03;
                 let tg = parseFloat(p.tempGrano);
                 if (!isNaN(tg))
                     tempGranoReal = (tg - (tg * varTermica)).toFixed(1);
             }
             let tReal = Math.round(p.tiempo / factorLocal);
-            if (p.tipo === 'Calor') {
+            if (p.tipo === 'Calor' || p.tipo === 'Heat') {
                 tReal = Math.max(Math.min(tReal, 60), 50);
             }
             if (!isNaN(tReal) && tReal > 0) {
@@ -472,7 +474,7 @@ function dibujarCurvaVitrea(grano: any, pasos: any): any {
     let procesoT = [];
     let labelsProceso = [];
     pasos.forEach((p: any) => {
-        if (p.tipo === 'Calor' || p.tipo === 'Enfriamiento') {
+        if (p.tipo === 'Calor' || p.tipo === 'Enfriamiento' || p.tipo === 'Heat' || p.tipo === 'Cooling') {
             // Promedio entre humedad de entrada y salida del paso
             let mPromedio = (parseFloat(p.mEnt) + parseFloat(p.mSal)) / 2;
             procesoM.push(mPromedio);

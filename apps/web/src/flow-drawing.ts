@@ -74,7 +74,7 @@ function drawHopper(ctx: any, x: any, y: any, width: any, height: any, label: an
         ctx.fill();
     }
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 18px sans-serif';
+    ctx.font = 'bold 16px "Exo", "Muli", "Mulish", system-ui, -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(label, x + width / 2, y - 18);
 }
@@ -121,7 +121,7 @@ function drawDryingTower(ctx: any, x: any, y: any, width: any, height: any, labe
         ctx.stroke();
     }
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 18px sans-serif';
+    ctx.font = 'bold 16px "Exo", "Muli", "Mulish", system-ui, -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(label, x + width / 2 + 25, y - 18);
 }
@@ -166,7 +166,7 @@ function drawSilo(ctx: any, x: any, y: any, width: any, height: any, label: any,
         ctx.fillRect(x + 4, y + height - 25 - fillH, width - 8, fillH);
     }
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 18px sans-serif';
+    ctx.font = 'bold 16px "Exo", "Muli", "Mulish", system-ui, -apple-system, sans-serif';
     ctx.textAlign = 'center';
     let xOffset = label === 'DB' ? 25 : 0;
     ctx.fillText(label, x + width / 2 + xOffset, y - 18);

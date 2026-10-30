@@ -1,11 +1,351 @@
+@import url('https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
-@source "../components/ui";
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 @import "./original.css";
+@source "../components/ui";
+
+/* Local Self-Hosted Fonts (Exo & Muli/Mulish) for offline & zero-latency guarantee */
+@font-face {
+    font-family: 'Exo';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local('Exo'), url('/fonts/exo-roman.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Exo';
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: local('Exo Italic'), url('/fonts/exo-italic.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Muli';
+    font-style: normal;
+    font-weight: 200 1000;
+    font-display: swap;
+    src: local('Muli'), local('Mulish'), url('/fonts/mulish-roman.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Muli';
+    font-style: italic;
+    font-weight: 200 1000;
+    font-display: swap;
+    src: local('Muli Italic'), local('Mulish Italic'), url('/fonts/mulish-italic.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: 200 1000;
+    font-display: swap;
+    src: local('Mulish'), local('Muli'), url('/fonts/mulish-roman.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Mulish';
+    font-style: italic;
+    font-weight: 200 1000;
+    font-display: swap;
+    src: local('Mulish Italic'), local('Muli Italic'), url('/fonts/mulish-italic.woff2') format('woff2');
+}
+
+@theme {
+    --font-sans: 'Muli', 'Mulish', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-heading: 'Exo', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-exo: 'Exo', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-muli: 'Muli', 'Mulish', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Application Typography:
+   - Headings & Titles: 'Exo'
+   - General Text & UI: 'Muli' / 'Mulish'
+*/
+:root,
+[data-bs-theme="light"],
+[data-bs-theme="dark"] {
+    --heading-font: 'Exo', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --app-font: 'Muli', 'Mulish', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --bs-body-font-family: var(--app-font) !important;
+    --bs-font-sans-serif: var(--app-font) !important;
+    --bs-heading-font-family: var(--heading-font) !important;
+    --bs-btn-font-family: var(--app-font) !important;
+    --bs-primary: #F3912D !important;
+    --bs-primary-rgb: 243, 145, 45 !important;
+    --primary-color: #F3912D !important;
+}
+
+/* Base document typography */
+html,
+body {
+    font-family: var(--app-font) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Universal text & UI elements with MULI */
+body,
+#root,
+p,
+span,
+a,
+label,
+input,
+select,
+textarea,
+button,
+table,
+thead,
+tbody,
+tfoot,
+tr,
+th,
+td,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+form,
+div,
+small,
+strong,
+b,
+em,
+i:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.btn,
+.form-control,
+.form-select,
+.form-label,
+.form-text,
+.input-group-text,
+.badge,
+.alert,
+.list-group,
+.list-group-item,
+.nav,
+.nav-link,
+.dropdown-menu,
+.dropdown-item,
+.modal-body,
+.modal-footer,
+.modal-dialog,
+.swal2-popup,
+.swal2-html-container,
+.swal2-content,
+.swal2-actions,
+.sim-container,
+.sim-card,
+.sim-label,
+.sim-input,
+.sim-table,
+.metric-card,
+.metric-label,
+.metric-sub,
+.client-report-document {
+    font-family: var(--app-font) !important;
+}
+
+/* ==========================================================================
+   TITLES AND HEADINGS WITH EXO (PARA TODO EL APLICATIVO)
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6,
+.sim-header h1,
+.sim-header h2,
+.sim-card-title,
+.dashboard-card-title,
+.sidebar-heading,
+.navbar-brand,
+.modal-title,
+.modal-header h1,
+.modal-header h2,
+.modal-header h3,
+.modal-header h4,
+.modal-header h5,
+.modal-header h6,
+.card-title,
+.card-header,
+.alert-heading,
+.harvest-title,
+.harvest-header-tag,
+.stage-title,
+.profile-weather-card-title,
+.report-main-title,
+.client-report-section-title,
+.input-card-title,
+.quality-statement-title,
+.brand-logo-badge,
+.stat-value,
+.metric-val,
+.kpi-real-value,
+.signature-name,
+.swal2-title,
+[class*="-title"],
+[class*="-heading"],
+[class*="Title"],
+[class*="Heading"] {
+    font-family: var(--heading-font) !important;
+    letter-spacing: -0.01em;
+}
+
+/* Ensure inline text inside titles also inherits Exo (preserving FontAwesome icons) */
+h1 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+h2 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+h3 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+h4 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+h5 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.modal-title *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.card-title *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.sim-card-title *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.sidebar-heading *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.harvest-title *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.report-main-title *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.client-report-section-title *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+.swal2-title *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+[class*="-title"] *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]),
+[class*="-heading"] *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"]):not([class*="fa-brands"]) {
+    font-family: inherit !important;
+}
+
+/* Explicitly preserve FontAwesome icon fonts */
+.fa,
+.fas,
+.far,
+.fal,
+.fad,
+.fab,
+[class^="fa-"],
+[class*=" fa-"],
+[class*="fa-brands"],
+.fa::before,
+.fas::before,
+.far::before,
+.fal::before,
+.fad::before,
+.fab::before,
+[class^="fa-"]::before,
+[class*=" fa-"]::before,
+[class*="fa-brands"]::before,
+.svg-inline--fa {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+}
+
+.fab,
+.fab::before,
+[class*="fa-brands"],
+[class*="fa-brands"]::before {
+    font-family: "Font Awesome 6 Brands" !important;
+}
+
+.sim-label {
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
+/* Superbrix Corporate Theme (#F3912D) */
+.text-primary {
+    color: #F3912D !important;
+}
+
+.bg-primary {
+    background-color: #F3912D !important;
+}
+
+.border-primary {
+    border-color: #F3912D !important;
+}
+
+.btn-primary {
+    --bs-btn-bg: #F3912D !important;
+    --bs-btn-border-color: #F3912D !important;
+    --bs-btn-hover-bg: #d97706 !important;
+    --bs-btn-hover-border-color: #d97706 !important;
+    --bs-btn-active-bg: #b45309 !important;
+    --bs-btn-active-border-color: #b45309 !important;
+    --bs-btn-disabled-bg: #F3912D !important;
+    --bs-btn-disabled-border-color: #F3912D !important;
+    background-color: #F3912D !important;
+    border-color: #F3912D !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #d97706 !important;
+    border-color: #d97706 !important;
+    color: #ffffff !important;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #F3912D !important;
+    --bs-btn-border-color: #F3912D !important;
+    --bs-btn-hover-bg: #F3912D !important;
+    --bs-btn-hover-border-color: #F3912D !important;
+    --bs-btn-active-bg: #d97706 !important;
+    --bs-btn-active-border-color: #d97706 !important;
+    color: #F3912D !important;
+    border-color: #F3912D !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #F3912D !important;
+    color: #ffffff !important;
+}
+
+#sidebarToggle {
+    background-color: #F3912D !important;
+    border-color: #F3912D !important;
+    color: #ffffff !important;
+}
+
+#sidebarToggle:hover {
+    background-color: #d97706 !important;
+    border-color: #d97706 !important;
+}
+
 #root {width:100%;min-height:100vh;}
-.auth-page #root {display:flex;align-items:center;justify-content:center;}
+.auth-page {
+    background-image: url('/login-bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
+}
+.auth-page #root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    background: transparent !important;
+}
+.auth-page .container {width:100% !important;}
+.auth-page .glass-card {
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    border-radius: 1.25rem !important;
+    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.3) !important;
+}
+.auth-page .text-muted.small {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    font-weight: 600;
+}
+
 /* Global Solid Modal System */
 .modal,
 .original-dialog {
@@ -64,3 +404,492 @@
 }
 
 .navbar-collapse {visibility:visible;}
+
+.print-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* ==========================================================================
+   ESTILOS PARA EL REPORTE AL CLIENTE (PANTALLA Y MODO IMPRESIÓN)
+   ========================================================================== */
+
+#contenedor-reporte-cliente {
+    display: none;
+}
+
+.client-report-document {
+    font-family: var(--app-font) !important;
+    color: #0f172a;
+    background: #ffffff;
+    max-width: 980px;
+    margin: 0 auto;
+    font-size: 0.82rem;
+    line-height: 1.35;
+}
+
+.client-report-page {
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.client-report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.client-report-header .brand-logo-badge {
+    font-family: var(--heading-font) !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #60a5fa;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.client-report-header .report-main-title {
+    font-family: var(--heading-font) !important;
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 2px 0;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+}
+
+.client-report-header .report-subtitle {
+    font-size: 0.74rem;
+    color: #93c5fd;
+    margin: 0;
+}
+
+.client-report-header .header-right {
+    text-align: right;
+    font-size: 0.75rem;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.client-report-header .meta-label {
+    color: #94a3b8;
+    margin-right: 4px;
+}
+
+.client-report-header-mini {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #cbd5e1;
+    font-size: 0.78rem;
+}
+
+.client-report-section-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+}
+
+.client-inputs-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.input-card {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.74rem;
+}
+
+.input-card-title {
+    font-weight: 700;
+    font-size: 0.76rem;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+}
+
+.input-card-row {
+    margin-bottom: 3px;
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    line-height: 1.25;
+}
+
+.input-card-row .label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.input-card-row .val {
+    font-weight: 600;
+    text-align: right;
+}
+
+.kpi-real-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.kpi-real-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.kpi-real-card.border-blue { border-left: 4px solid #3b82f6; }
+.kpi-real-card.border-green { border-left: 4px solid #10b981; }
+.kpi-real-card.border-amber { border-left: 4px solid #f59e0b; }
+.kpi-real-card.border-emerald { border-left: 4px solid #059669; }
+.kpi-real-card.border-indigo { border-left: 4px solid #6366f1; }
+
+.kpi-real-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+    line-height: 1.15;
+}
+
+.kpi-real-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.kpi-real-value.text-blue { color: #1d4ed8; }
+.kpi-real-value.text-green { color: #047857; }
+.kpi-real-value.text-amber { color: #b45309; }
+.kpi-real-value.text-emerald { color: #065f46; }
+.kpi-real-value.text-indigo { color: #4338ca; }
+
+.kpi-real-sub {
+    font-size: 0.66rem;
+    color: #64748b;
+    line-height: 1.15;
+}
+
+.client-balance-summary {
+    margin-top: 14px;
+}
+
+.balance-summary-card {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.balance-item {
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.balance-label {
+    color: #475569;
+    font-weight: 600;
+}
+
+.balance-val {
+    font-size: 0.95rem;
+}
+
+.steps-table-wrapper {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.client-report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.72rem;
+}
+
+.client-report-table th {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    font-weight: 700;
+    padding: 5px 6px;
+    border-bottom: 2px solid #cbd5e1;
+    text-align: center;
+    font-size: 0.70rem;
+    line-height: 1.2;
+}
+
+.client-report-table th:first-child {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.client-report-table td {
+    padding: 4px 6px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: center;
+    color: #0f172a;
+    font-size: 0.72rem;
+}
+
+.client-report-table td:first-child {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.client-report-table tr:last-child td {
+    border-bottom: none;
+}
+
+.client-report-table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.client-report-table .sim-badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-size: 0.67rem;
+    font-weight: 600;
+}
+
+.client-report-table .badge-heat {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.client-report-table .badge-temper {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.client-report-table .badge-cool {
+    background: #e0f2fe;
+    color: #075985;
+}
+
+.chart-and-quality-box {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 14px;
+    background: #ffffff;
+}
+
+.chart-preview-container {
+    text-align: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 6px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.client-chart-image {
+    max-width: 100%;
+    max-height: 250px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.quality-statement-card {
+    padding: 8px 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #16a34a;
+    border-radius: 6px;
+}
+
+.quality-statement-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.quality-statement-text {
+    font-size: 0.75rem;
+    color: #166534;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.recommendations-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.recommendation-item {
+    font-size: 0.74rem;
+    color: #334155;
+    line-height: 1.35;
+    display: flex;
+    align-items: flex-start;
+}
+
+.signatures-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 15px;
+    padding: 10px 20px 0 20px;
+}
+
+.signature-card {
+    text-align: center;
+}
+
+.signature-line {
+    border-bottom: 1.5px solid #64748b;
+    margin-bottom: 8px;
+    height: 35px;
+}
+
+.signature-name {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 0.82rem;
+}
+
+.signature-role {
+    font-size: 0.73rem;
+    color: #475569;
+    font-weight: 600;
+}
+
+.signature-org {
+    font-size: 0.68rem;
+    color: #64748b;
+}
+
+.signature-date {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+/* ==========================================================================
+   REGLAS EXCLUSIVAS DE IMPRESIÓN PARA EL REPORTE AL CLIENTE
+   ========================================================================== */
+
+@media print {
+    body.modo-reporte-cliente * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body.modo-reporte-cliente {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        font-size: 0.82rem !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body.modo-reporte-cliente #sidebar-wrapper,
+    body.modo-reporte-cliente .navbar,
+    body.modo-reporte-cliente .sim-container > .sim-header,
+    body.modo-reporte-cliente .sim-container > .grid-layout,
+    body.modo-reporte-cliente .sim-card.mt-5,
+    body.modo-reporte-cliente .d-print-none,
+    body.modo-reporte-cliente .modal-backdrop,
+    body.modo-reporte-cliente .modal {
+        display: none !important;
+    }
+
+    body.modo-reporte-cliente #contenedor-reporte-cliente {
+        display: block !important;
+        position: relative !important;
+        width: 100% !important;
+        max-width: 980px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+    }
+
+    body.modo-reporte-cliente .client-report-document {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body.modo-reporte-cliente .client-report-page-1 {
+        page-break-after: always !important;
+        break-after: page !important;
+    }
+
+    body.modo-reporte-cliente .client-report-page-2 {
+        clear: both !important;
+        page-break-before: always !important;
+        break-before: page !important;
+        padding-top: 15px !important;
+    }
+
+    body.modo-reporte-cliente .client-info-card,
+    body.modo-reporte-cliente .kpi-card,
+    body.modo-reporte-cliente .steps-table-wrapper,
+    body.modo-reporte-cliente .chart-and-quality-box,
+    body.modo-reporte-cliente .recommendations-box,
+    body.modo-reporte-cliente .signature-card {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+}
+

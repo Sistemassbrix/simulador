@@ -1,9 +1,7 @@
-
-
 <style>
     :root {
-        --primary: #1e3a8a;
-        --primary-light: #3b82f6;
+        --primary: #F3912D;
+        --primary-light: #fb923c;
         --secondary: #059669;
         --accent: #d97706;
         --bg: #f8fafc;
@@ -12,60 +10,285 @@
         --border: #e2e8f0;
     }
 
-    .sim-container { max-width: 1300px; margin: 0 auto; color: var(--text); line-height: 1.5; font-family: 'Segoe UI', system-ui, sans-serif; }
-    
+    .sim-container {
+        max-width: 1480px;
+        width: 100%;
+        margin: 0 auto;
+        color: var(--text);
+        line-height: 1.5;
+        font-family: 'Muli', 'Mulish', system-ui, -apple-system, sans-serif;
+    }
+
     .sim-header {
-        background: linear-gradient(135deg, #1e3a8a, #0f172a);
-        color: white; padding: 25px 30px; border-radius: 12px; margin-bottom: 25px;
+        background-image: linear-gradient(90deg, rgba(15, 23, 42, 0.42) 0%, rgba(15, 23, 42, 0.15) 45%, rgba(15, 23, 42, 0) 100%), url('/banner-tempero.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 25px 30px;
+        border-radius: 12px;
+        margin-bottom: 25px;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
-    .sim-header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 5px; color: white;}
-    .sim-header p { color: #93c5fd; font-size: 0.95rem; margin-bottom: 0; }
 
-    .grid-layout { display: grid; grid-template-columns: 360px 1fr; gap: 25px; }
-    @media (max-width: 992px) { .grid-layout { grid-template-columns: 1fr; } }
+    .sim-header h1 {
+        font-family: 'Exo', system-ui, -apple-system, sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: white;
+    }
+
+    .sim-header p {
+        color: #93c5fd;
+        font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+
+    .horizontal-inputs-container {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+
+    .horizontal-input-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 16px 20px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .horizontal-card-title {
+        font-family: 'Exo', system-ui, -apple-system, sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #f97316;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 0.02em;
+    }
+
+    .inputs-row-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .inputs-row-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .inputs-row-site {
+        display: grid;
+        grid-template-columns: minmax(220px, 1.4fr) repeat(4, minmax(110px, 1fr));
+        gap: 14px;
+        align-items: flex-end;
+    }
+
+    @media (max-width: 1100px) {
+        .inputs-row-site {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .inputs-row-4 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .inputs-row-3,
+        .inputs-row-4,
+        .inputs-row-site {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .main-results-container {
+        width: 100%;
+    }
 
     .sim-card {
-        background: var(--card-bg); border-radius: 12px; padding: 20px;
-        border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 20px;
-    }
-    .sim-card-title {
-        font-size: 1.1rem; font-weight: 600; color: var(--primary);
-        margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #eff6ff;
+        min-width: 0;
+        overflow-wrap: break-word;
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid var(--border);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
     }
 
-    .form-group { margin-bottom: 14px; }
-    .sim-label { display: block; font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 4px; }
-    .sim-input {
-        width: 100%; padding: 9px 12px; border: 1px solid var(--border);
-        border-radius: 6px; font-size: 0.9rem; color: var(--text); background-color: #f8fafc;
+    .sim-card-title {
+        font-family: 'Exo', system-ui, -apple-system, sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #eff6ff;
     }
-    .sim-input:focus { outline: none; border-color: var(--primary-light); background-color: #fff; }
-    .unit { font-size: 0.75rem; color: #64748b; font-weight: normal; }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .sim-label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 4px;
+        font-family: 'Muli', 'Mulish', system-ui, sans-serif;
+        text-transform: none !important;
+    }
+
+    .sim-input {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 0.9rem;
+        color: var(--text);
+        background-color: #f8fafc;
+    }
+
+    .sim-input:focus {
+        outline: none;
+        border-color: var(--primary-light);
+        background-color: #fff;
+    }
+
+    .unit {
+        font-size: 0.75rem;
+        color: #64748b;
+        font-weight: normal;
+    }
 
     .btn-simulate {
-        width: 100%; background-color: var(--primary); color: white; border: none;
-        padding: 12px; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer;
+        width: 100%;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
     }
-    .btn-simulate:hover { background-color: #1d4ed8; color: white;}
 
-    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-    .metric-card { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid var(--primary-light); padding: 12px 16px; border-radius: 8px; }
-    .metric-card.accent { border-left-color: var(--accent); }
-    .metric-card.success { border-left-color: var(--secondary); }
-    .metric-label { font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 600; }
-    .metric-val { font-size: 1.4rem; font-weight: 700; color: #0f172a; margin: 4px 0 2px 0; }
-    .metric-sub { font-size: 0.75rem; color: #64748b; }
+    .btn-simulate:hover {
+        background-color: #d97706;
+        color: white;
+    }
 
-    .sim-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-top: 8px; }
-    .sim-table th, .sim-table td { padding: 8px 5px; text-align: center; border-bottom: 1px solid var(--border); }
-    .sim-table th:first-child, .sim-table td:first-child { text-align: left; padding-left: 10px; }
-    .sim-table th { background-color: #f1f5f9; color: #334155; font-weight: 700; line-height: 1.2; vertical-align: middle; }
-    .unit-th { font-size: 0.72rem; color: #64748b; font-weight: 500; display: block; margin-top: 2px; }
-    .sim-badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
-    .badge-heat { background: #fee2e2; color: #991b1b; }
-    .badge-temper { background: #fef3c7; color: #92400e; }
-    .badge-cool { background: #e0f2fe; color: #075985; }
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .metric-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid var(--primary-light);
+        padding: 12px 16px;
+        border-radius: 8px;
+    }
+
+    .metric-card.accent {
+        border-left-color: var(--accent);
+    }
+
+    .metric-card.success {
+        border-left-color: var(--secondary);
+    }
+
+    .metric-label {
+        font-family: 'Muli', 'Mulish', system-ui, -apple-system, sans-serif;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #64748b;
+        font-weight: 700;
+        letter-spacing: 0.025em;
+    }
+
+    .metric-val {
+        font-family: 'Exo', system-ui, -apple-system, sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 4px 0 2px 0;
+        font-feature-settings: "tnum" on, "lnum" on;
+    }
+
+    .metric-sub {
+        font-family: 'Muli', 'Mulish', system-ui, -apple-system, sans-serif;
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+
+    .sim-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.84rem;
+        margin-top: 8px;
+    }
+
+    .sim-table th,
+    .sim-table td {
+        padding: 8px 5px;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .sim-table th:first-child,
+    .sim-table td:first-child {
+        text-align: left;
+        padding-left: 10px;
+    }
+
+    .sim-table th {
+        background-color: #f1f5f9;
+        color: #334155;
+        font-weight: 700;
+        line-height: 1.2;
+        vertical-align: middle;
+    }
+
+    .unit-th {
+        font-size: 0.72rem;
+        color: #64748b;
+        font-weight: 500;
+        display: block;
+        margin-top: 2px;
+    }
+
+    .sim-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .badge-heat {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .badge-temper {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge-cool {
+        background: #e0f2fe;
+        color: #075985;
+    }
 
     /* Estilos de Impresión */
     @media print {
@@ -73,26 +296,35 @@
             size: landscape;
             margin: 8mm 10mm;
         }
-        
+
         * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
         }
 
-        html, body {
+        html,
+        body {
             margin: 0 !important;
             padding: 0 !important;
             background-color: #ffffff !important;
             font-size: 0.85rem;
             color: #0f172a !important;
         }
-        
+
         /* Ocultar elementos de UI no necesarios en el reporte */
-        #sidebar-wrapper, .btn-simulate, .d-print-none, #sidebarToggle, .navbar, .alert,
-        #simBuscarCiudad, #simBtnBuscarCiudad, #opciones-clima-sitio, #simSugerenciasCiudades {
+        #sidebar-wrapper,
+        .btn-simulate,
+        .d-print-none,
+        #sidebarToggle,
+        .navbar,
+        .alert,
+        #simBuscarCiudad,
+        #simBtnBuscarCiudad,
+        #opciones-clima-sitio,
+        #simSugerenciasCiudades {
             display: none !important;
         }
-        
+
         /* Contenedor proporcionado: no se estira a los extremos de la hoja */
         .sim-container {
             max-width: 980px !important;
@@ -127,12 +359,14 @@
             page-break-after: avoid !important;
             break-after: avoid !important;
         }
+
         .sim-header h1 {
             font-size: 1.25rem !important;
             margin-bottom: 3px !important;
             color: #ffffff !important;
             font-weight: 700 !important;
         }
+
         .sim-header p {
             font-size: 0.78rem !important;
             color: #93c5fd !important;
@@ -142,42 +376,52 @@
         /* Sidebar flotante a la izquierda (solo en Página 1) */
         .sidebar {
             float: left !important;
-            width: 225px !important;
+            width: 235px !important;
             margin: 0 !important;
             padding: 0 !important;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
         }
+
         .sidebar .sim-card {
-            padding: 8px 10px !important;
-            margin-bottom: 8px !important;
+            padding: 5px 8px !important;
+            margin-bottom: 5px !important;
             border: 1px solid #cbd5e1 !important;
-            border-radius: 8px !important;
+            border-radius: 6px !important;
             box-shadow: none !important;
             background: #ffffff !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
         }
+
         .sidebar .sim-card-title {
-            margin-bottom: 6px !important;
-            padding-bottom: 3px !important;
-            font-size: 0.82rem !important;
+            margin-bottom: 3px !important;
+            padding-bottom: 2px !important;
+            font-size: 0.76rem !important;
             font-weight: 700 !important;
             color: #1e3a8a !important;
             border-bottom: 1px solid #e2e8f0 !important;
         }
+
         .sidebar .form-group {
-            margin-bottom: 4px !important;
+            margin-bottom: 3px !important;
         }
+
         .sidebar .sim-label {
-            margin-bottom: 2px !important;
-            font-size: 0.72rem !important;
+            margin-bottom: 1px !important;
+            font-size: 0.67rem !important;
             font-weight: 600 !important;
             color: #475569 !important;
+            line-height: 1.15 !important;
         }
+
         .sidebar .sim-input {
-            padding: 3px 6px !important;
-            font-size: 0.78rem !important;
-            height: 25px !important;
-            line-height: 25px !important;
+            padding: 2px 4px !important;
+            font-size: 0.72rem !important;
+            height: 22px !important;
+            line-height: 22px !important;
             border: 1px solid #cbd5e1 !important;
             border-radius: 4px !important;
             background: #f8fafc !important;
@@ -185,11 +429,18 @@
             font-weight: 600 !important;
         }
 
+        .print-row-2 {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 4px !important;
+        }
+
         /* Contenido de Página 1 a la derecha del sidebar */
         .print-page-1-right {
             margin-left: 238px !important;
             display: block !important;
         }
+
         .print-page-1-right .sim-card {
             padding: 14px 18px !important;
             margin-bottom: 12px !important;
@@ -200,22 +451,27 @@
             page-break-inside: avoid !important;
             break-inside: avoid !important;
         }
+
         .print-page-1-right .sim-card .sim-card {
             padding: 0 !important;
             border: none !important;
             margin-bottom: 10px !important;
         }
+
         .print-page-1-right .metrics-grid {
             display: grid !important;
             gap: 12px !important;
             margin-bottom: 10px !important;
         }
+
         .print-page-1-right .sim-card .sim-card .metrics-grid {
             grid-template-columns: repeat(3, 1fr) !important;
         }
-        .print-page-1-right .sim-card > .metrics-grid {
+
+        .print-page-1-right .sim-card>.metrics-grid {
             grid-template-columns: repeat(4, 1fr) !important;
         }
+
         .print-page-1-right .metric-card {
             padding: 10px 14px !important;
             background: #f8fafc !important;
@@ -223,18 +479,21 @@
             border-left: 4px solid #3b82f6 !important;
             border-radius: 6px !important;
         }
+
         .print-page-1-right .metric-label {
             font-size: 0.7rem !important;
             color: #64748b !important;
             font-weight: 700 !important;
             text-transform: uppercase !important;
         }
+
         .print-page-1-right .metric-val {
             font-size: 1.35rem !important;
             font-weight: 800 !important;
             color: #0f172a !important;
             margin: 3px 0 !important;
         }
+
         .print-page-1-right .metric-sub {
             font-size: 0.72rem !important;
             color: #64748b !important;
@@ -257,6 +516,7 @@
         .print-page-2 {
             padding-top: 65px !important;
         }
+
         .print-page-3 {
             padding-top: 55px !important;
         }
@@ -290,12 +550,15 @@
             gap: 16px !important;
             margin-bottom: 0 !important;
         }
-        .print-page-2 .metrics-grid > div:nth-child(4) {
+
+        .print-page-2 .metrics-grid>div:nth-child(4) {
             grid-column: span 1 !important;
         }
-        .print-page-2 .metrics-grid > div:nth-child(5) {
+
+        .print-page-2 .metrics-grid>div:nth-child(5) {
             grid-column: span 2 !important;
         }
+
         .print-page-2 .metric-card {
             padding: 18px 20px !important;
             border-radius: 8px !important;
@@ -303,8 +566,15 @@
             border: 1px solid #e2e8f0 !important;
             border-left: 4px solid #3b82f6 !important;
         }
-        .print-page-2 .metric-card.accent { border-left-color: #d97706 !important; }
-        .print-page-2 .metric-card.success { border-left-color: #059669 !important; }
+
+        .print-page-2 .metric-card.accent {
+            border-left-color: #d97706 !important;
+        }
+
+        .print-page-2 .metric-card.success {
+            border-left-color: #059669 !important;
+        }
+
         .print-page-2 .metric-label {
             font-size: 0.75rem !important;
             font-weight: 700 !important;
@@ -312,21 +582,25 @@
             text-transform: uppercase !important;
             margin-bottom: 4px !important;
         }
+
         .print-page-2 .metric-val {
             font-size: 1.7rem !important;
             font-weight: 800 !important;
             color: #0f172a !important;
             margin: 4px 0 !important;
         }
+
         .print-page-2 .metric-sub {
             font-size: 0.75rem !important;
             color: #64748b !important;
         }
+
         .print-page-2 .sim-table {
             font-size: 0.85rem !important;
             width: 100% !important;
             border-collapse: collapse !important;
         }
+
         .print-page-2 .sim-table th {
             background-color: #f1f5f9 !important;
             color: #1e293b !important;
@@ -334,6 +608,7 @@
             padding: 8px 12px !important;
             font-size: 0.82rem !important;
         }
+
         .print-page-2 .sim-table td {
             padding: 9px 12px !important;
             border-bottom: 1px solid #e2e8f0 !important;
@@ -345,26 +620,32 @@
             padding: 16px 20px !important;
             margin-bottom: 16px !important;
         }
+
         .print-page-3 .chart-canvas-wrapper {
             height: 320px !important;
             width: 100% !important;
         }
+
         .print-page-3 canvas {
             max-height: 320px !important;
             width: 100% !important;
         }
+
         .print-page-3 .metrics-grid {
             display: grid !important;
             grid-template-columns: repeat(3, 1fr) !important;
             gap: 14px !important;
             margin-bottom: 0 !important;
         }
-        .print-page-3 .metrics-grid > div:nth-child(4) {
+
+        .print-page-3 .metrics-grid>div:nth-child(4) {
             grid-column: span 1 !important;
         }
-        .print-page-3 .metrics-grid > div:nth-child(5) {
+
+        .print-page-3 .metrics-grid>div:nth-child(5) {
             grid-column: span 2 !important;
         }
+
         .print-page-3 .metric-card {
             padding: 14px 18px !important;
             border-radius: 8px !important;
@@ -372,8 +653,15 @@
             border: 1px solid #e2e8f0 !important;
             border-left: 4px solid #3b82f6 !important;
         }
-        .print-page-3 .metric-card.accent { border-left-color: #d97706 !important; }
-        .print-page-3 .metric-card.success { border-left-color: #059669 !important; }
+
+        .print-page-3 .metric-card.accent {
+            border-left-color: #d97706 !important;
+        }
+
+        .print-page-3 .metric-card.success {
+            border-left-color: #059669 !important;
+        }
+
         .print-page-3 .metric-label {
             font-size: 0.75rem !important;
             font-weight: 700 !important;
@@ -381,21 +669,25 @@
             text-transform: uppercase !important;
             margin-bottom: 4px !important;
         }
+
         .print-page-3 .metric-val {
             font-size: 1.6rem !important;
             font-weight: 800 !important;
             color: #0f172a !important;
             margin: 4px 0 !important;
         }
+
         .print-page-3 .metric-sub {
             font-size: 0.75rem !important;
             color: #64748b !important;
         }
+
         .print-page-3 .sim-table {
             font-size: 0.80rem !important;
             width: 100% !important;
             border-collapse: collapse !important;
         }
+
         .print-page-3 .sim-table th {
             background-color: #f1f5f9 !important;
             color: #0f172a !important;
@@ -408,10 +700,12 @@
             line-height: 1.15 !important;
             white-space: normal !important;
         }
+
         .print-page-3 .sim-table th:first-child {
             text-align: left !important;
             padding-left: 6px !important;
         }
+
         .print-page-3 .sim-table td {
             padding: 6px 3px !important;
             border-bottom: 1px solid #e2e8f0 !important;
@@ -422,6 +716,7 @@
             font-weight: 600 !important;
             white-space: nowrap !important;
         }
+
         .print-page-3 .sim-table td:first-child {
             text-align: left !important;
             padding-left: 6px !important;
@@ -437,6 +732,7 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
     }
+
     .profile-weather-card {
         background: #f8fafc;
         border: 1px solid var(--border);
@@ -451,17 +747,20 @@
         align-items: center;
         text-decoration: none;
     }
+
     .profile-weather-card:hover {
         background: #f1f5f9;
         border-color: #cbd5e1;
         transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
+
     .profile-weather-card.active {
         background: #ecfdf5;
         border-color: var(--secondary);
         color: #047857;
     }
+
     .profile-weather-card-title {
         font-size: 0.7rem;
         font-weight: 700;
@@ -472,33 +771,41 @@
         align-items: center;
         gap: 4px;
     }
+
     .profile-weather-card.active .profile-weather-card-title {
         color: var(--secondary);
     }
+
     .profile-weather-card-value {
         font-size: 0.85rem;
         font-weight: 700;
         color: #0f172a;
     }
+
     .profile-weather-card.active .profile-weather-card-value {
         color: #064e3b;
     }
+
     .profile-weather-card-sub {
         font-size: 0.65rem;
         color: #64748b;
     }
+
     .profile-weather-card.active .profile-weather-card-sub {
         color: #047857;
     }
 </style>
 
 <!-- Banner si los datos provienen del análisis de cosecha -->
-<div id="alerta-clima-importado" class="alert alert-success alert-dismissible fade show d-none mb-3 shadow-sm" role="alert">
+<div id="alerta-clima-importado" class="alert alert-success alert-dismissible fade show d-none mb-3 shadow-sm"
+    role="alert">
     <div class="d-flex align-items-center">
         <i class="fas fa-cloud-sun fa-2x me-3 text-success"></i>
         <div>
-            <h6 class="alert-heading fw-bold mb-0" id="alerta-clima-titulo">¡Condiciones Ambientales de Cosecha Importadas!</h6>
-            <small class="mb-0 text-muted" id="alerta-clima-detalle">Se han cargado la temperatura y humedad relativa directamente desde el análisis de Open-Meteo.</small>
+            <h6 class="alert-heading fw-bold mb-0" id="alerta-clima-titulo">¡Condiciones Ambientales de Cosecha
+                Importadas!</h6>
+            <small class="mb-0 text-muted" id="alerta-clima-detalle">Se han cargado la temperatura y humedad relativa
+                directamente desde el análisis de Open-Meteo.</small>
         </div>
     </div>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -508,35 +815,39 @@
     <div class="sim-header">
         <h1>Simulador de Secado por Recirculación</h1>
         <p>Motor psicrométrico, cinética de Page y curvas higroscópicas de Chung-Pfost</p>
+        <div class="print-empresa-meta d-none d-print-block mt-2 pt-2 border-top border-light-subtle"
+            style="font-size: 0.8rem;">
+            <span class="me-3"><strong>Empresa:</strong> <span id="printEmpresaNombre">-</span></span>
+            <span class="me-3"><strong>Ubicación:</strong> <span id="printEmpresaUbicacion">-</span></span>
+            <span><strong>Contacto:</strong> <span id="printEmpresaContacto">-</span></span>
+        </div>
     </div>
 
-    <div class="grid-layout">
-        <div class="sidebar">
-            <div class="sim-card">
-                <div class="sim-card-title">1. Configuración de Grano</div>
+    <!-- 4 BLOQUES HORIZONTALES DE ENTRADA DE DATOS -->
+    <div class="horizontal-inputs-container">
+        <!-- 1. DATOS DE LA EMPRESA -->
+        <div class="horizontal-input-card">
+            <div class="horizontal-card-title"><span style="color:#f97316;font-weight:900;margin-right:6px;">|</span> 1. DATOS DE LA EMPRESA</div>
+            <div class="inputs-row-3">
                 <div class="form-group">
-                    <label class="sim-label" for="tipoGrano">Tipo de Grano</label>
-                    <select class="sim-input" id="tipoGrano" onchange="actualizarValoresGrano()">
-                        <option value="arroz">Arroz Paddy (Largo)</option>
-                        <option value="maiz">Maíz Amarillo</option>
-                        <option value="trigo">Trigo</option>
-                        <option value="sorgo">Sorgo</option>
-                        <option value="cebada">Cebada</option>
-                        <option value="soya">Soya</option>
-                    </select>
+                    <label class="sim-label" for="empresaNombre">Nombre de la empresa</label>
+                    <input class="sim-input" type="text" id="empresaNombre" placeholder="Ej: Agropecuaria El Trigal">
                 </div>
                 <div class="form-group">
-                    <label class="sim-label" for="tempLimiteGrano">Límite Temp. Grano <span class="unit">(°C)</span></label>
-                    <input class="sim-input" type="number" id="tempLimiteGrano" value="43" step="0.5">
+                    <label class="sim-label" for="empresaUbicacion">Ubicación</label>
+                    <input class="sim-input" type="text" id="empresaUbicacion" placeholder="Ej: Venezuela">
                 </div>
                 <div class="form-group">
-                    <label class="sim-label" for="densidadAparente">Densidad Aparente <span class="unit">(kg/m³)</span></label>
-                    <input class="sim-input" type="number" id="densidadAparente" value="580">
+                    <label class="sim-label" for="empresaContacto">Contacto</label>
+                    <input class="sim-input" type="text" id="empresaContacto" placeholder="Ej: 3208520252">
                 </div>
             </div>
+        </div>
 
-            <div class="sim-card">
-                <div class="sim-card-title">2. Parámetros Operativos</div>
+        <!-- 2. PARÁMETROS OPERATIVOS -->
+        <div class="horizontal-input-card">
+            <div class="horizontal-card-title"><span style="color:#f97316;font-weight:900;margin-right:6px;">|</span> 2. PARÁMETROS OPERATIVOS</div>
+            <div class="inputs-row-4">
                 <div class="form-group">
                     <label class="sim-label" for="humedadInicial">Humedad Inicial (M₀) <span class="unit">(% b.h.)</span></label>
                     <input class="sim-input" type="number" id="humedadInicial" value="22.0" step="0.1">
@@ -546,46 +857,75 @@
                     <input class="sim-input" type="number" id="humedadObjetivo" value="13.0" step="0.1">
                 </div>
                 <div class="form-group">
-                    <label class="sim-label" for="metaSecado">Meta de Procesamiento <span class="unit">(Ton/día)</span></label>
+                    <label class="sim-label" for="metaSecado">Meta de procesamiento <span class="unit">(ton/día)</span></label>
                     <input class="sim-input" type="number" id="metaSecado" value="250">
                 </div>
                 <div class="form-group">
-                    <label class="sim-label" for="velocidadAire">Velocidad del Aire <span class="unit">(m/s)</span></label>
+                    <label class="sim-label" for="velocidadAire">Velocidad del aire <span class="unit">(m/s)</span></label>
                     <input class="sim-input" type="number" id="velocidadAire" value="15" step="0.1">
                 </div>
             </div>
+        </div>
 
-            <div class="sim-card">
-                <div class="sim-card-title">3. Condiciones del Sitio</div>
-                
-                <!-- Buscador de ubicación -->
-                <div class="form-group" style="position: relative; margin-bottom: 20px;">
-                    <label class="sim-label" for="simBuscarCiudad" style="color: var(--primary);"><i class="fas fa-map-marker-alt me-1"></i> Buscar Clima por Ubicación</label>
+        <!-- 3. CONFIGURACIÓN DE GRANO -->
+        <div class="horizontal-input-card">
+            <div class="horizontal-card-title"><span style="color:#f97316;font-weight:900;margin-right:6px;">|</span> 3. CONFIGURACIÓN DE GRANO</div>
+            <div class="inputs-row-3">
+                <div class="form-group">
+                    <label class="sim-label" for="tipoGrano">Tipo de grano</label>
+                    <select class="sim-input" id="tipoGrano" onchange="actualizarValoresGrano()">
+                        <option value="arroz">Arroz paddy (largo)</option>
+                        <option value="maiz">Maíz Amarillo</option>
+                        <option value="trigo">Trigo</option>
+                        <option value="sorgo">Sorgo</option>
+                        <option value="cebada">Cebada</option>
+                        <option value="soya">Soya</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="tempLimiteGrano">Límite temperatura de grano <span class="unit">(C°)</span></label>
+                    <input class="sim-input" type="number" id="tempLimiteGrano" value="43" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label class="sim-label" for="densidadAparente">Densidad aparente <span class="unit">(kg/m³)</span></label>
+                    <input class="sim-input" type="number" id="densidadAparente" value="580">
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. CONDICIONES DEL SITIO -->
+        <div class="horizontal-input-card">
+            <div class="horizontal-card-title"><span style="color:#f97316;font-weight:900;margin-right:6px;">|</span> 4. CONDICIONES DEL SITIO</div>
+            
+            <!-- Perfiles de clima extraídos si existen -->
+            <div id="opciones-clima-sitio" class="mb-3 d-none">
+                <label class="sim-label text-muted mb-2" style="font-size: 0.8rem;">
+                    <i class="fas fa-clock me-1 text-primary"></i> Perfiles de la Zona (Haz clic para usar):
+                </label>
+                <div class="profile-weather-grid" id="grid-perfiles-clima"></div>
+            </div>
+
+            <div class="inputs-row-site">
+                <div class="form-group d-print-none" style="position: relative;">
+                    <label class="sim-label" for="simBuscarCiudad"><i class="fas fa-map-marker-alt me-1 text-danger"></i> Buscar clima por ubicación</label>
                     <div style="display: flex;">
-                        <input class="sim-input" type="text" id="simBuscarCiudad" placeholder="Ej: Medellín, Sinaloa..." autocomplete="off" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                        <button class="btn-simulate" type="button" id="simBtnBuscarCiudad" style="width: auto; border-top-left-radius: 0; border-bottom-left-radius: 0; padding: 9px 15px;">
+                        <input class="sim-input" type="text" id="simBuscarCiudad" placeholder="Ej: Venezuela, Medellín..."
+                            autocomplete="off" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                        <button class="btn-simulate" type="button" id="simBtnBuscarCiudad"
+                            style="width: auto; border-top-left-radius: 0; border-bottom-left-radius: 0; padding: 7px 14px; margin-top: 0; background: #f97316;">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <div id="simSugerenciasCiudades" style="display: none; position: absolute; z-index: 1000; background: white; width: 100%; border: 1px solid var(--border); border-top: none; max-height: 200px; overflow-y: auto; border-radius: 0 0 6px 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
-                </div>
-
-                <!-- Perfiles de clima extraídos -->
-                <div id="opciones-clima-sitio" class="mt-3 mb-3 d-none">
-                    <label class="sim-label text-muted mb-2" style="font-size: 0.8rem;">
-                        <i class="fas fa-clock me-1 text-primary"></i> Perfiles de la Zona (Haz clic para usar):
-                    </label>
-                    <div class="profile-weather-grid" id="grid-perfiles-clima">
-                        <!-- Dynamic profile cards will be loaded here -->
+                    <div id="simSugerenciasCiudades"
+                        style="display: none; position: absolute; z-index: 1000; background: white; width: 100%; border: 1px solid var(--border); border-top: none; max-height: 200px; overflow-y: auto; border-radius: 0 0 6px 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label class="sim-label" for="tempAmbiente">Temperatura Ambiente <span class="unit">(°C)</span></label>
+                    <label class="sim-label" for="tempAmbiente">Temperatura ambiente <span class="unit">(C°)</span></label>
                     <input class="sim-input" type="number" id="tempAmbiente" value="25.0" step="0.5">
                 </div>
                 <div class="form-group">
-                    <label class="sim-label" for="hrAmbiente">Humedad Relativa <span class="unit">(%)</span></label>
+                    <label class="sim-label" for="hrAmbiente">Humedad relativa <span class="unit">(%)</span></label>
                     <input class="sim-input" type="number" id="hrAmbiente" value="85">
                 </div>
                 <div class="form-group">
@@ -593,14 +933,16 @@
                     <input class="sim-input" type="number" id="altitud" value="15">
                 </div>
                 <div class="form-group">
-                    <label class="sim-label" for="eficienciaTermica">Eficiencia Térmica <span class="unit">(Fija)</span></label>
+                    <label class="sim-label" for="eficienciaTermica">Eficiencia térmica <span class="unit">(fija)</span></label>
                     <input class="sim-input bg-light" type="number" id="eficienciaTermica" value="0.50" readonly>
                 </div>
-                <button class="btn-simulate" onclick="ejecutarSimulacion()">Simular Secado</button>
+                
             </div>
         </div>
+    </div>
 
-        <div class="main-content">
+    <!-- RESULTADOS DE LA SIMULACIÓN -->
+    <div class="main-results-container">
             <div id="alertaIncoherencia"></div>
 
             <!-- BLOQUE PÁGINA 1 (Lado derecho del sidebar) -->
@@ -679,7 +1021,8 @@
                             <div class="metric-sub">Modelo Chung-Pfost</div>
                         </div>
                         <div class="metric-card" style="background-color: #f8f9fa; border-left: 4px solid #0d6efd;">
-                            <div class="metric-label text-primary fw-bold"><i class="fas fa-wind me-2"></i>Caudal Total de Aire</div>
+                            <div class="metric-label text-primary fw-bold"><i class="fas fa-wind me-2"></i>Caudal Total
+                                de Aire</div>
                             <div class="metric-val text-dark" id="metricCaudalTotal">0 m³/h</div>
                             <div class="metric-sub">Suma de pasos térmicos</div>
                         </div>
@@ -699,20 +1042,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr id="rowMaqAx" onclick="seleccionarMaquinaReal('ax')" style="cursor:pointer;" class="table-active">
-                                    <td><span class="sim-badge" style="background-color: #0d6efd; color: white;">AX</span></td>
+                                <tr id="rowMaqAx" onclick="seleccionarMaquinaReal('ax')" style="cursor:pointer;"
+                                    class="table-active">
+                                    <td><span class="sim-badge"
+                                            style="background-color: #0d6efd; color: white;">AX</span></td>
                                     <td id="maqAxModelo" class="fw-bold">--</td>
                                     <td id="maqAxCaudal">--</td>
                                     <td id="maqAxHolding">--</td>
                                 </tr>
                                 <tr id="rowMaqAxl" onclick="seleccionarMaquinaReal('axl')" style="cursor:pointer;">
-                                    <td><span class="sim-badge" style="background-color: #198754; color: white;">AXL</span></td>
+                                    <td><span class="sim-badge"
+                                            style="background-color: #198754; color: white;">AXL</span></td>
                                     <td id="maqAxlModelo" class="fw-bold">--</td>
                                     <td id="maqAxlCaudal">--</td>
                                     <td id="maqAxlHolding">--</td>
                                 </tr>
                                 <tr id="rowMaqMenor" onclick="seleccionarMaquinaReal('menor')" style="cursor:pointer;">
-                                    <td><span class="sim-badge" style="background-color: #dc3545; color: white;">Económica</span></td>
+                                    <td><span class="sim-badge"
+                                            style="background-color: #dc3545; color: white;">Económica</span></td>
                                     <td id="maqMenorModelo" class="fw-bold">--</td>
                                     <td id="maqMenorCaudal">--</td>
                                     <td id="maqMenorHolding">--</td>
@@ -754,12 +1101,14 @@
                             <div class="metric-sub" id="realSelDiesel">Diesel: 0 L/día</div>
                         </div>
                         <div class="metric-card" style="background-color: #e6f9ec; border-left: 4px solid #198754;">
-                            <div class="metric-label text-success fw-bold"><i class="fas fa-layer-group me-2"></i>Lotes / Baches</div>
+                            <div class="metric-label text-success fw-bold"><i class="fas fa-layer-group me-2"></i>Lotes
+                            </div>
                             <div class="metric-val text-dark" id="realSelBaches">0</div>
-                            <div class="metric-sub">Baches por día</div>
+                            <div class="metric-sub">Lotes por día</div>
                         </div>
                         <div class="metric-card" style="background-color: #fff9e6; border-left: 4px solid #ffc107;">
-                            <div class="metric-label text-warning-emphasis fw-bold"><i class="fas fa-clock me-2"></i>Tiempo Total por Lote</div>
+                            <div id="metricLabelTiempoTotalRecirc" class="metric-label text-warning-emphasis fw-bold"
+                                style=""><i class="fas fa-clock me-2"></i>Tiempo Total por Lote</div>
                             <div class="metric-val text-dark" id="realSelTiempo">0h 0m</div>
                             <div class="metric-sub">Tiempo de retención</div>
                         </div>
@@ -799,8 +1148,12 @@
                 <button class="btn btn-primary px-4 py-2 shadow-sm" onclick="window.print()">
                     <i class="fas fa-print me-2"></i>Imprimir
                 </button>
+                <button class="btn btn-dark px-4 py-2 shadow-sm" id="btnReporteCliente"
+                    onclick="imprimirReporteCliente()"
+                    style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); border: 1px solid #1e3a8a; font-weight: 600;">
+                    <i class="fas fa-file-invoice me-2 text-info"></i>Reporte al Cliente
+                </button>
             </div>
-        </div>
     </div>
 
     <!-- Historial de Escenarios -->
@@ -841,5 +1194,3 @@
         </div>
     </div>
 </div>
-
-

@@ -1,8 +1,11 @@
 
 
 :root {
-    --primary-color: #4f46e5; /* Indigo */
-    --primary-hover: #4338ca;
+    --primary-color: #F3912D; /* Superbrix Corporate Orange */
+    --primary-hover: #d97706;
+    --primary-active: #b45309;
+    --bs-primary: #F3912D;
+    --bs-primary-rgb: 243, 145, 45;
     --bg-color: #f3f4f6; /* Light gray */
     --surface-color: #ffffff;
     --text-main: #1f2937;
@@ -16,8 +19,13 @@
     --transition-fast: 0.2s ease;
 }
 
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: var(--heading-font, 'Exo', system-ui, -apple-system, sans-serif);
+}
+
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--app-font, 'Muli', 'Mulish', system-ui, -apple-system, sans-serif);
     background-color: var(--bg-color);
     color: var(--text-main);
     min-height: 100vh;
@@ -25,9 +33,14 @@ body {
     flex-direction: column;
 }
 
-/* Background gradient animation for Auth page */
+/* Background for Auth page */
 .auth-page {
-    background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+    background-image: url('/login-bg.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,23 +72,27 @@ body {
 
 .form-control:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 4px rgba(243, 145, 45, 0.18);
 }
 
 /* Buttons */
 .btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #ffffff !important;
     border-radius: 0.5rem;
     padding: 0.75rem 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
     transition: all var(--transition-fast);
 }
 
-.btn-primary:hover {
-    background-color: var(--primary-hover);
-    border-color: var(--primary-hover);
-    transform: scale(1.02);
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
 }
 
 /* Navbar */
@@ -163,6 +180,29 @@ body {
 #sidebar-wrapper .sidebar-heading {
     padding: 0.875rem 1.25rem;
     font-size: 1.2rem;
+    color: #F3912D !important;
+}
+
+#sidebar-wrapper .list-group-item.text-primary {
+    color: #F3912D !important;
+}
+
+#sidebar-wrapper .list-group-item:hover {
+    color: #F3912D !important;
+}
+
+#sidebarToggle {
+    background-color: #F3912D !important;
+    border-color: #F3912D !important;
+    color: #ffffff !important;
+}
+
+#sidebarToggle:hover,
+#sidebarToggle:focus,
+#sidebarToggle:active {
+    background-color: #d97706 !important;
+    border-color: #d97706 !important;
+    color: #ffffff !important;
 }
 
 #sidebar-wrapper .list-group {

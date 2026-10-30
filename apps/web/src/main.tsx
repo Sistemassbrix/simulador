@@ -7,6 +7,9 @@ import {Dialog} from './components/ui/dialog';
 import {Flow} from './components/Flow';
 import {download,historyCsv,historyPdf,harvestCsv,hourlyCsv} from './export';
 import Swal from 'sweetalert2';
+import { Language, t, translateRole } from './i18n';
+import { FlagUS, FlagES } from './components/Flags';
+import { ClientReport } from './components/ClientReport';
 import './styles/index.css';
 const templates=import.meta.glob('./templates/*.html',{query:'?raw',import:'default',eager:true}) as Record<string,string>;
 const template=(screen:string)=>templates[`./templates/${screen}.html`]||'';
@@ -39,6 +42,9 @@ function App(){
  const [alert,setAlert]=useState(''),[busy,setBusy]=useState(false),[suggestions,setSuggestions]=useState<any[]>([]),[profiles,setProfiles]=useState<any[]>([]),[profile,setProfile]=useState(0),[climateNotice,setClimateNotice]=useState('');
  const [running,setRunning]=useState(false),[finished,setFinished]=useState(false),[reset,setReset]=useState(0),[progress,setProgress]=useState<any>({batch:1,stage:0,total:1});
  const [sidebarOpen,setSidebarOpen]=useState(false),[suggestionMessage,setSuggestionMessage]=useState('');
+ const [simOpen, setSimOpen]=useState(true);
+ const [lang, setLang]=useState<Language>('es');
+ const [showClientReport, setShowClientReport]=useState(false);
  const [category,setCategory]=useState<string|null>(null);
  const [weatherSelection,setWeatherSelection]=useState<any>(null);const calcId=useRef(0);const mountedScreen=useRef('');
  const chartDetails=useMemo(()=>({...view.details,franja:slot}),[view.details,slot]);
@@ -92,6 +98,7 @@ function App(){
   if(a.startsWith('ejecutarSimulacion')){const d=await api('simulacion',{...values,mode:name,machine,locale:navigator.language});setView(d.data);return;}
   if(a.startsWith('guardarEscenario')){await saveScenario();return;}
   if(a.includes('window.print')){window.print();return;}
+   if(a.includes('imprimirReporteCliente')||a==='btnReporteCliente'){setShowClientReport(true);return;}
   if(a.startsWith('exportarCSV')){if(!displayedHistory.length){window.alert('No hay datos para exportar.');return;}download(historyCsv(displayedHistory),'historial_escenarios.csv');return;}
   if(a.startsWith('exportarPDF')){if(!displayedHistory.length){window.alert('No hay datos para exportar.');return;}historyPdf(displayedHistory);return;}
   if(a.startsWith('limpiarHistorial')){if(!history.length){window.alert('El historial ya está vacío.');return;}if(user?.cargo==='Administrador'){if(window.confirm('Como administrador, esta acción solo limpiará los escenarios creados por su cuenta. El historial de todos los demás usuarios permanecerá intacto y guardado en el sistema. ¿Desea continuar?')){await api('historial/limpiar',{});await reloadHistory();}return;}if(window.confirm('¿Está seguro de querer limpiar su historial de escenarios?')){await api('historial/limpiar',{});await reloadHistory();}return;}
@@ -136,7 +143,7 @@ function App(){
  cells['tituloSimulacionAnim']={innerText:`Simulación Visual de Proceso (Bache ${progress.batch} de ${progress.total})`};cells.animKpiTotalBaches={innerText:view.cells?.realSelBaches?.innerText||'0'};cells.animKpiBacheActual={innerText:`Bache Actual: ${progress.batch} / ${progress.total}`};
  if(profiles.length)cells['opciones-clima-sitio']={removeClass:'d-none'};
  for(const[k,t]of Object.entries({rowMaqAx:'ax',rowMaqAxl:'axl',rowMaqMenor:'menor'}))cells[k]={removeClass:'table-active',addClass:machine===t?'table-active':''};
- const context:TemplateContext={focusCity:()=>{if(name==='cosecha'&&!(values.buscar_ciudad||'').trim())setSuggestions(frequentCities.slice(0,5));},busy,values,setValue,cells,charts:view.charts||{},chartDetails,action,submit,modal,close:()=>setModal(null),admin:user?.cargo==='Administrador',auth:!user,tabs,months,slot:slot.tipo,grid,custom(node:Element){
+ const context:TemplateContext={focusCity:()=>{if(name==='cosecha'&&!(values.buscar_ciudad||'').trim())setSuggestions(frequentCities.slice(0,5));},busy,values,setValue,cells,charts:view.charts||{},chartDetails,action,submit,modal,close:()=>setModal(null),admin:user?.cargo==='Administrador',auth:!user,tabs,months,slot:slot.tipo,grid,lang,custom(node:Element){
    const id=node.attribs.id||'',parent=node.parent instanceof Element?node.parent:null;
    if(id==='auth-alert')return alert?<div id={id} className={"alert alert-"+alertKind} role="alert">{alert}</div>:<div id={id} className="alert d-none"/>;
    if(id==='btnStartAnim')return <button id={id} className={'btn btn-sm shadow-sm '+(finished?'btn-secondary':running?'btn-warning':'btn-success')} onClick={()=>action(id)}><i className={'fas '+(finished?'fa-check':running?'fa-pause':'fa-play')+' me-1'}/>{finished?' Finalizado':running?' Pausar':' Iniciar'}</button>;
@@ -228,6 +235,101 @@ function App(){
  }};
  if(!ready)return <div className="spinner-border m-4" role="status"/>;
  const content=<><Template html={html} context={context}/><Dialog open={!!detail} onOpenChange={v=>{if(!v)setDetail(null);}} title={detail?.title}><div className="modal-content border-0 shadow-lg"><div className="modal-header bg-light border-0"><h5 className="modal-title fw-bold">{detail?.title}</h5><button className="btn-close" onClick={()=>setDetail(null)}/></div><div className="modal-body p-0"><ul className="list-group list-group-flush">{Object.entries(detail?.data||{}).map(([key,value])=><li className="list-group-item d-flex justify-content-between align-items-center" key={key}><strong>{key}</strong><span>{String(value)}</span></li>)}</ul></div>{detail?.weather&&<div className="modal-footer"><button className="btn btn-secondary" onClick={()=>setDetail(null)}>Cerrar</button><button className="btn btn-primary" onClick={()=>{applyWeather(weatherSelection);setDetail(null);}}>Aplicar al Simulador</button></div>}</div></Dialog></>;
- return user?<div className={"d-flex"+(sidebarOpen?" toggled":"")} id="wrapper"><div className="sidebar bg-white border-end" id="sidebar-wrapper"><div className="sidebar-heading text-center py-4 fs-4 fw-bold text-primary border-bottom"><i className="fas fa-leaf me-2"/>Simulador</div><div className="list-group list-group-flush my-3">{Object.entries(labels).map(([target,label],i)=><a key={target} href={'/?controller='+target+'&action=index'} onClick={e=>{e.preventDefault();navigate(target);}} className={'list-group-item list-group-item-action bg-transparent fw-bold border-0 '+(i<3?'mb-1 ':'')+(screen===target?'text-primary':'text-muted')}><i className={'fas fa-'+icons[i]+' me-2'}/>{label}</a>)}</div></div><div id="page-content-wrapper" className="w-100 bg-light"><nav className="navbar navbar-expand-lg navbar-light navbar-custom border-bottom"><div className="container-fluid"><button className="btn btn-primary btn-sm" id="sidebarToggle" onClick={()=>setSidebarOpen(v=>!v)}><i className="fas fa-bars"/></button><div className="collapse navbar-collapse justify-content-end" id="navbarNav"><ul className="navbar-nav align-items-center"><li className="nav-item me-3"><span className="nav-link text-muted"><i className="fas fa-user-circle me-1"/>{user.nombre} ({user.cargo})</span></li><li className="nav-item"><button className="btn btn-outline-danger btn-sm" onClick={async()=>{await api('auth/logout',{});setUser(null);await api('auth/csrf');}}>Cerrar Sesión</button></li></ul></div></div></nav><div className="container-fluid mt-4 mb-5 px-4">{alert&&<div className="alert alert-warning" role="alert">{alert}</div>}{content}</div></div></div>:content;
+ return user?<div className={"d-flex"+(sidebarOpen?" toggled":"")} id="wrapper"><div className="sidebar bg-white border-end" id="sidebar-wrapper"><div className="sidebar-heading text-center py-3 border-bottom d-flex align-items-center justify-content-center px-3" style={{ minHeight: '96px' }}><img src="/logo.png" alt="Super Simulador" style={{ height: '80px', width: 'auto', maxWidth: '100%', objectFit: 'contain' }} /></div><div className="list-group list-group-flush my-2">
+  {/* 1. Gestión de Granos */}
+  <a
+    href="/?controller=grano&action=index"
+    onClick={e=>{e.preventDefault();navigate('grano');}}
+    className={'list-group-item list-group-item-action bg-transparent fw-bold border-0 py-2 d-flex align-items-center '+(screen==='grano'?'text-primary active-nav-item':'text-muted')}
+  >
+    <i className="fas fa-seedling me-2 text-center" style={{ width: '20px' }}/>
+    <span>{lang==='en'?'Grain Management':'Gestión de Granos'}</span>
+  </a>
+
+  {/* 2. Menú Desplegable Simuladores */}
+  <div className="nav-dropdown-wrapper">
+    <button
+      type="button"
+      className={'list-group-item list-group-item-action bg-transparent fw-bold border-0 py-2 w-100 d-flex align-items-center justify-content-between '+(['dashboard','recirculacion'].includes(screen)?'text-primary':'text-muted')}
+      onClick={()=>setSimOpen(o=>!o)}
+      style={{ cursor: 'pointer' }}
+    >
+      <div className="d-flex align-items-center">
+        <i className="fas fa-calculator me-2 text-center" style={{ width: '20px' }}/>
+        <span>{lang==='en'?'Simulators':'Simuladores'}</span>
+      </div>
+      <i className={'fas fa-chevron-'+(simOpen?'down':'right')+' ms-auto'} style={{ fontSize: '0.75rem' }}/>
+    </button>
+    {simOpen&&(
+      <div className="ps-3 py-1" style={{ borderLeft: '2px solid #fed7aa', marginLeft: '1.25rem' }}>
+        <a
+          href="/?controller=dashboard&action=index"
+          onClick={e=>{e.preventDefault();navigate('dashboard');}}
+          className={'list-group-item list-group-item-action bg-transparent fw-bold border-0 py-1.5 px-2 mb-1 rounded-2 '+(screen==='dashboard'?'text-white bg-primary shadow-sm':'text-muted')}
+          style={{ fontSize: '0.85rem' }}
+        >
+          <i className="fas fa-fire me-2"/>
+          {lang==='en'?'Tempering Drying':'Secado por Tempero'}
+        </a>
+        <a
+          href="/?controller=recirculacion&action=index"
+          onClick={e=>{e.preventDefault();navigate('recirculacion');}}
+          className={'list-group-item list-group-item-action bg-transparent fw-bold border-0 py-1.5 px-2 rounded-2 '+(screen==='recirculacion'?'text-white bg-primary shadow-sm':'text-muted')}
+          style={{ fontSize: '0.85rem' }}
+        >
+          <i className="fas fa-sync-alt me-2"/>
+          {lang==='en'?'Recirculation Drying':'Secado por Recirculación'}
+        </a>
+      </div>
+    )}
+  </div>
+
+  {/* 3. Info Técnica por Equipo */}
+  <a
+    href="/?controller=maquinaria&action=index"
+    onClick={e=>{e.preventDefault();navigate('maquinaria');}}
+    className={'list-group-item list-group-item-action bg-transparent fw-bold border-0 py-2 d-flex align-items-center '+(screen==='maquinaria'?'text-primary active-nav-item':'text-muted')}
+  >
+    <i className="fas fa-tractor me-2 text-center" style={{ width: '20px' }}/>
+    <span>{lang==='en'?'Technical Info by Equipment':'Info Técnica por Equipo'}</span>
+  </a>
+
+  {/* 4. Condiciones de Cosecha */}
+  <a
+    href="/?controller=cosecha&action=index"
+    onClick={e=>{e.preventDefault();navigate('cosecha');}}
+    className={'list-group-item list-group-item-action bg-transparent fw-bold border-0 py-2 d-flex align-items-center '+(screen==='cosecha'?'text-primary active-nav-item':'text-muted')}
+  >
+    <i className="fas fa-cloud-sun-rain me-2 text-center" style={{ width: '20px' }}/>
+    <span>{lang==='en'?'Harvest Conditions':'Condiciones de Cosecha'}</span>
+  </a>
+
+  {/* 5. Usuarios (Si es Administrador o tiene acceso) */}
+  {user?.cargo==='Administrador'&&(
+    <a
+      href="/?controller=usuario&action=index"
+      onClick={e=>{e.preventDefault();navigate('usuario');}}
+      className={'list-group-item list-group-item-action bg-transparent fw-bold border-0 py-2 d-flex align-items-center '+(screen==='usuario'?'text-primary active-nav-item':'text-muted')}
+    >
+      <i className="fas fa-users-cog me-2 text-center" style={{ width: '20px' }}/>
+      <span>{lang==='en'?'Users':'Usuarios'}</span>
+    </a>
+  )}
+</div></div><div id="page-content-wrapper" className="w-100 bg-light"><nav className="navbar navbar-expand-lg navbar-light navbar-custom border-bottom"><div className="container-fluid"><button className="btn btn-primary btn-sm" id="sidebarToggle" onClick={()=>setSidebarOpen(v=>!v)}><i className="fas fa-bars"/></button><div className="collapse navbar-collapse justify-content-end" id="navbarNav"><ul className="navbar-nav align-items-center"><li className="nav-item me-3 d-flex align-items-center gap-2">
+  <img src="/superbrix-logo.png" alt="SuperBrix" style={{ height: '34px', width: 'auto', objectFit: 'contain', display: 'block' }} />
+  <button
+    type="button"
+    className="btn btn-sm btn-light border shadow-sm d-inline-flex align-items-center gap-2 px-2 py-1 ms-1"
+    style={{ fontSize: '0.82rem', height: '32px' }}
+    onClick={()=>setLang(l=>l==='es'?'en':'es')}
+    title={lang==='es'?'Switch to English':'Cambiar a Español'}
+  >
+    {lang==='es'?(
+      <><FlagUS width={20} height={14}/><span className="fw-bold" style={{color:'#1e293b'}}>EN</span></>
+    ):(
+      <><FlagES width={20} height={14}/><span className="fw-bold" style={{color:'#1e293b'}}>ES</span></>
+    )}
+  </button>
+</li><li className="nav-item me-3"><span className="nav-link text-muted"><i className="fas fa-user-circle me-1"/>{user.nombre} ({user.cargo})</span></li><li className="nav-item"><button className="btn btn-outline-danger btn-sm" onClick={async()=>{await api('auth/logout',{});setUser(null);await api('auth/csrf');}}>Cerrar Sesión</button></li></ul></div></div></nav><div className="container-fluid py-3 px-2 px-md-3 px-xl-4 w-100" style={{ maxWidth: "1560px" }}>{alert&&<div className="alert alert-warning" role="alert">{alert}</div>}{content}</div></div></div>:content;
 }
 createRoot(document.getElementById('root')!).render(<App/>);
