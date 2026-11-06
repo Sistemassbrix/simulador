@@ -67,9 +67,39 @@ function App(){
  useEffect(()=>{if(!user||mountedScreen.current!==name||!['dashboard','recirculacion'].includes(name)||!values.tipoGrano)return;
    const serial=++calcId.current;const timer=setTimeout(()=>api('simulacion',{...values,mode:name,machine,locale:navigator.language}).then(d=>{if(serial===calcId.current&&mountedScreen.current===name)setView(d.data);}).catch(e=>{if(serial===calcId.current&&mountedScreen.current===name)setAlert(e.message);}),80);return()=>clearTimeout(timer);
  },[values,machine,name,user]);
- const harvest=useCallback(async(overrideMonths?:number[])=>{if(isNaN(parseFloat(values.latitud))||isNaN(parseFloat(values.longitud))){void Swal.fire('Coordenadas incompletas','Por favor ingrese latitud y longitud válidas.','warning');return;}const targetMonths=overrideMonths??months;const body={...values,months:targetMonths,franja:slot};const cacheKey=`cosecha_${values.latitud}_${values.longitud}_${values.anios_historicos||5}_${[...targetMonths].sort((a,b)=>a-b).join(',')}_${slot.tipo}`;try{const cached=sessionStorage.getItem(cacheKey);if(cached){const parsed=JSON.parse(cached);archiveInputs.current=body;setView(parsed);setAppliedMonths(targetMonths);return;}}catch{}archiveInputs.current=body;setLoaderRealtime(false);setBusy(true);setAlert('');try{const d=await api('clima/cosecha',body);if(mountedScreen.current==='cosecha'){setView(d.data);setAppliedMonths(targetMonths);try{sessionStorage.setItem(cacheKey,JSON.stringify(d.data));}catch{}}}catch(e:any){setAlert(e.message);}finally{if(mountedScreen.current==='cosecha')setBusy(false);}},[values,months,slot]);
- // Lazy fetching: Weather consultation only occurs when user clicks 'Consultar Clima y Modelar Weibull'
-  useEffect(()=>{if(skipMonthRefresh.current)skipMonthRefresh.current=false;},[name]);
+ const harvest=useCallback(async(overrideMonths?:number[])=>{
+  if(isNaN(parseFloat(values.latitud))||isNaN(parseFloat(values.longitud))){
+    void Swal.fire('Coordenadas incompletas','Por favor ingrese latitud y longitud válidas.','warning');
+    return;
+  }
+  const targetMonths=(overrideMonths??months);
+  if(!targetMonths.length){
+    void Swal.fire('Selecciona los meses','Por favor selecciona al menos un mes de cosecha para consultar el clima y modelar Weibull.','info');
+    return;
+  }
+  const body={...values,months:targetMonths,franja:slot};
+  archiveInputs.current=body;
+  setLoaderRealtime(false);
+  setBusy(true);
+  setAlert('');
+  try{
+    const d=await api('clima/cosecha',body);
+    if(mountedScreen.current==='cosecha'){
+      setView(d.data);
+      setAppliedMonths(targetMonths);
+    }
+  }catch(e:any){
+    setAlert(e.message);
+  }finally{
+    if(mountedScreen.current==='cosecha')setBusy(false);
+  }
+},[values,months,slot]);
+ useEffect(()=>{
+  if(skipMonthRefresh.current){skipMonthRefresh.current=false;return;}
+  if(name==='cosecha'&&values.latitud&&!view.details){
+    api('clima/cosecha/inicial',{...values,months,franja:slot}).then(d=>{if(mountedScreen.current==='cosecha')setView(d.data);}).catch(showError);
+  }
+},[name,values.latitud]);
  useEffect(()=>{if(skipFilterRefresh.current){skipFilterRefresh.current=false;return;}if(name==='cosecha'&&archiveInputs.current){api('clima/cosecha',{...archiveInputs.current,franja:slot,'filtro-tabla-dia':values['filtro-tabla-dia']||'','filtro-tabla-mes':values['filtro-tabla-mes']||'todos'}).then(d=>{if(mountedScreen.current==='cosecha')setView(d.data);}).catch(showError);}},[slot,values['filtro-tabla-dia'],values['filtro-tabla-mes']]);
  const setValue=(id:string,v:string)=>{
   if(id==='buscar_ciudad'||id==='simBuscarCiudad')cityEdited.current=true;
@@ -266,7 +296,7 @@ function App(){
               <small className="text-muted text-truncate me-2" style={{ maxWidth: '340px' }}>
                 {labelSummary}
               </small>
-              <button type="button" className="btn btn-sm btn-primary px-3 fw-bold" onClick={()=>setMonthDropdownOpen(false)}>
+              <button type="button" className="btn btn-sm btn-primary px-3 fw-bold" onClick={()=>{setMonthDropdownOpen(false);if(months.length>0)harvest(months);}}>
                 Listo
               </button>
             </div>
