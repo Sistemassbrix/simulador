@@ -36,7 +36,7 @@ function App(){
  const [values,setValues]=useState<Record<string,string>>({}),[view,setView]=useState<any>({cells:{},charts:{}}),[grainProps,setGrainProps]=useState<any>({});
  const [machine,setMachine]=useState('ax'),[modal,setModal]=useState<string|null>(null),[rows,setRows]=useState<any[]>([]),[history,setHistory]=useState<any[]>([]),[detail,setDetail]=useState<any>(null);
  const [historyStats,setHistoryStats]=useState<any>(null),[historyUserFilter,setHistoryUserFilter]=useState('todos'),[historyStatusFilter,setHistoryStatusFilter]=useState('todos'),[historySearch,setHistorySearch]=useState('');
- const [tabs,setTabs]=useState(new Set(['login'])),[months,setMonths]=useState(Array.from({length:12},(_,i)=>i+1)),[appliedMonths,setAppliedMonths]=useState(Array.from({length:12},(_,i)=>i+1)),[slot,setSlot]=useState<any>({tipo:'diurna',nombre:'Franja Diurna / Secado Solar',horaInicio:8,horaFin:18}),[grid,setGrid]=useState(false);
+ const [tabs,setTabs]=useState(new Set(['login'])),[months,setMonths]=useState<number[]>([]),[appliedMonths,setAppliedMonths]=useState(Array.from({length:12},(_,i)=>i+1)),[slot,setSlot]=useState<any>({tipo:'diurna',nombre:'Franja Diurna / Secado Solar',horaInicio:8,horaFin:18}),[grid,setGrid]=useState(false);
  const [harvestRevision,setHarvestRevision]=useState(0);const archiveInputs=useRef<any>(null),skipMonthRefresh=useRef(false),skipFilterRefresh=useRef(false);
  const [loaderRealtime,setLoaderRealtime]=useState(false);const [alertKind,setAlertKind]=useState('danger');const cityEdited=useRef(false);
  const [alert,setAlert]=useState(''),[busy,setBusy]=useState(false),[suggestions,setSuggestions]=useState<any[]>([]),[profiles,setProfiles]=useState<any[]>([]),[profile,setProfile]=useState(0),[climateNotice,setClimateNotice]=useState('');
@@ -192,29 +192,31 @@ function App(){
       const monthNamesList=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
       const allSelected=months.length===12;
       const noneSelected=months.length===0;
-      const labelSummary=allSelected?(lang==='en'?'All months (12)':'Todos los meses (12)'):noneSelected?(lang==='en'?'No month selected':'Ningún mes seleccionado'):months.length<=2?months.map(m=>monthNamesList[m-1]).join(', '):`${months.length} ${lang==='en'?'months selected':'meses seleccionados'}`;
-      return <div id={id} className="mb-3 position-relative">
+      const labelSummary=allSelected?(lang==='en'?'All months (12)':'Todos los meses (12)'):noneSelected?(lang==='en'?'Select months...':'Seleccionar meses de cosecha...'):months.map(m=>monthNamesList[m-1]).join(', ');
+      return <div id={id} className="mb-3 position-relative" style={{ overflow: 'visible' }}>
         <label className="form-label fw-semibold small text-muted mb-1">
           <i className="fas fa-calendar-alt text-success me-1"/>Meses de cosecha:
         </label>
-        <div className="input-group" style={{ maxWidth: '480px' }}>
+        <div className="input-group" style={{ maxWidth: '640px' }}>
           <button
             type="button"
             className="form-select text-start d-flex justify-content-between align-items-center bg-white shadow-sm"
             onClick={()=>setMonthDropdownOpen(o=>!o)}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', height: '42px', minHeight: '42px', borderRadius: '0.5rem' }}
           >
-            <span className="fw-semibold text-dark text-truncate me-2">{labelSummary}</span>
-            <i className={'fas fa-chevron-'+(monthDropdownOpen?'up':'down')+' text-muted'}/>
+            <span className={'fw-semibold text-truncate me-2 '+(noneSelected?'text-muted':'text-dark')}>
+              {labelSummary}
+            </span>
+            <i className={'fas fa-chevron-'+(monthDropdownOpen?'up':'down')+' text-muted ms-2'}/>
           </button>
         </div>
         {monthDropdownOpen&&(
           <div
-            className="dropdown-menu show shadow-lg border rounded-3 p-2 mt-1"
-            style={{ position: 'absolute', zIndex: 1060, minWidth: '320px', maxWidth: '420px', background: '#ffffff' }}
+            className="dropdown-menu show shadow-lg border rounded-3 p-3 mt-1"
+            style={{ position: 'absolute', zIndex: 1060, width: '100%', maxWidth: '580px', background: '#ffffff' }}
           >
-            <div className="p-2 border-bottom mb-2 bg-light rounded-2">
-              <label className="form-check-label fw-bold d-flex align-items-center gap-2 cursor-pointer mb-0">
+            <div className="d-flex align-items-center justify-content-between p-2 border-bottom mb-2 bg-light rounded-2">
+              <label className="form-check-label fw-bold d-flex align-items-center gap-2 cursor-pointer mb-0 text-dark">
                 <input
                   type="checkbox"
                   className="form-check-input mt-0"
@@ -226,24 +228,27 @@ function App(){
                 />
                 <span>Seleccionar todos</span>
               </label>
+              <span className="badge bg-primary text-white">
+                {months.length} de 12
+              </span>
             </div>
-            <div className="d-flex gap-1 mb-2 px-1">
-              <button type="button" className="btn btn-outline-secondary btn-xs py-1 px-2" style={{ fontSize: '0.75rem' }} onClick={()=>setMonths([1,2,3,4,12])}>
+            <div className="d-flex gap-1 mb-3 px-1">
+              <button type="button" className="btn btn-outline-secondary btn-sm py-1 px-2" style={{ fontSize: '0.78rem' }} onClick={()=>setMonths([1,2,3,4,12])}>
                 <i className="fas fa-sun text-warning me-1"/>Época Seca
               </button>
-              <button type="button" className="btn btn-outline-secondary btn-xs py-1 px-2" style={{ fontSize: '0.75rem' }} onClick={()=>setMonths([5,6,7,8,9,10,11])}>
+              <button type="button" className="btn btn-outline-secondary btn-sm py-1 px-2" style={{ fontSize: '0.78rem' }} onClick={()=>setMonths([5,6,7,8,9,10,11])}>
                 <i className="fas fa-cloud-rain text-info me-1"/>Época Lluvias
               </button>
-              <button type="button" className="btn btn-outline-secondary btn-xs py-1 px-2 ms-auto" style={{ fontSize: '0.75rem' }} onClick={()=>setMonths([])}>
+              <button type="button" className="btn btn-outline-danger btn-sm py-1 px-2 ms-auto" style={{ fontSize: '0.78rem' }} onClick={()=>setMonths([])}>
                 <i className="fas fa-times me-1"/>Limpiar
               </button>
             </div>
-            <div className="row g-1 px-1" style={{ maxHeight: '220px', overflowY: 'auto' }}>
+            <div className="row g-2 px-1" style={{ maxHeight: '280px', overflowY: 'auto' }}>
               {monthNamesList.map((mName, idx)=>{
                 const mNum=idx+1;
                 const checked=months.includes(mNum);
-                return <div key={mNum} className="col-6">
-                  <label className={'dropdown-item rounded-2 py-1 px-2 d-flex align-items-center gap-2 cursor-pointer '+(checked?'bg-success bg-opacity-10 text-success fw-semibold':'')}>
+                return <div key={mNum} className="col-sm-6 col-12">
+                  <label className={'dropdown-item rounded-2 py-2 px-2 d-flex align-items-center gap-2 cursor-pointer border '+(checked?'bg-success bg-opacity-10 border-success text-success fw-bold':'border-light')}>
                     <input
                       type="checkbox"
                       className="form-check-input mt-0"
@@ -257,7 +262,10 @@ function App(){
                 </div>;
               })}
             </div>
-            <div className="d-flex justify-content-end pt-2 border-top mt-2">
+            <div className="d-flex justify-content-between align-items-center pt-2 border-top mt-3">
+              <small className="text-muted text-truncate me-2" style={{ maxWidth: '340px' }}>
+                {labelSummary}
+              </small>
               <button type="button" className="btn btn-sm btn-primary px-3 fw-bold" onClick={()=>setMonthDropdownOpen(false)}>
                 Listo
               </button>
