@@ -10,10 +10,24 @@
         <h2 class="harvest-title mb-1">Condiciones ambientales de cosecha</h2>
         <p class="harvest-subtitle mb-0">Análisis horario, distribución probabilística Weibull y disponibilidad de energía para secado</p>
     </div>
-    <div class="mt-2 mt-md-0">
-        <a href="index.php?controller=dashboard&action=index" class="btn btn-outline-primary shadow-sm">
-            <i class="fas fa-calculator me-1"></i>Ir al Simulador de Secado
-        </a>
+    <div class="dropdown mt-2 mt-md-0" id="dropdown-cosecha-simuladores-wrap">
+        <button class="btn btn-outline-primary dropdown-toggle shadow-sm fw-bold px-3 py-2" type="button" id="btn-toggle-simuladores" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-calculator me-2"></i>Ir a Simuladores
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0" id="menu-simuladores-cosecha" style="min-width: 230px;">
+            <li>
+                <a class="dropdown-item py-2 fw-semibold d-flex align-items-center" href="/?controller=dashboard&action=index">
+                    <i class="fas fa-fire me-2 text-warning fs-5" style="width: 22px;"></i>
+                    <span>Secado por Tempero</span>
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item py-2 fw-semibold d-flex align-items-center" href="/?controller=recirculacion&action=index">
+                    <i class="fas fa-sync-alt me-2 text-success fs-5" style="width: 22px;"></i>
+                    <span>Secado por Recirculación</span>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -71,70 +85,8 @@
 
             <hr class="my-3 text-muted opacity-25">
 
-            <!-- Row 2: Selector de los 12 Meses de Cosecha -->
-            <div class="mb-3 p-3 bg-light rounded-3 border border-light-subtle shadow-sm">
-                <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
-                    <div class="d-flex align-items-center flex-wrap gap-2">
-                        <label class="form-label fw-semibold small text-dark mb-0">
-                            <i class="fas fa-calendar-alt text-success me-1"></i>Meses de cosecha (Selecciona los meses a analizar):
-                        </label>
-                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small fw-semibold" id="badge-meses-contador">
-                            <i class="fas fa-calendar-check me-1"></i>12 seleccionados
-                        </span>
-                        <span class="badge bg-warning-subtle text-dark border border-warning px-2 py-1 small fw-semibold d-none" id="badge-meses-pendiente">
-                            <i class="fas fa-clock text-warning me-1"></i>Pendiente aplicar
-                        </span>
-                    </div>
-
-                    <div class="d-flex flex-wrap gap-1 align-items-center" role="group">
-                        <!-- Selector de un mes individual -->
-                        <select class="form-select form-select-sm" id="select-mes-individual" style="width: auto; min-width: 175px;" title="Escoger rápidamente un mes específico para analizar">
-                            <option value="">Escoger un solo mes...</option>
-                            <option value="1">Enero</option>
-                            <option value="2">Febrero</option>
-                            <option value="3">Marzo</option>
-                            <option value="4">Abril</option>
-                            <option value="5">Mayo</option>
-                            <option value="6">Junio</option>
-                            <option value="7">Julio</option>
-                            <option value="8">Agosto</option>
-                            <option value="9">Septiembre</option>
-                            <option value="10">Octubre</option>
-                            <option value="11">Noviembre</option>
-                            <option value="12">Diciembre</option>
-                        </select>
-
-                        <div class="btn-group btn-group-sm ms-1" role="group">
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-todos" title="Seleccionar los 12 meses del año"><i class="fas fa-check-double me-1"></i>Todos (12)</button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-seca" title="Diciembre a Abril"><i class="fas fa-sun text-warning me-1"></i>Época Seca</button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-lluvia" title="Mayo a Noviembre"><i class="fas fa-cloud-rain text-info me-1"></i>Época Lluvias</button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-meses-limpiar" title="Deseleccionar todos los meses"><i class="fas fa-times me-1"></i>Limpiar</button>
-                        </div>
-                        <button type="button" class="btn btn-outline-primary btn-sm ms-1" id="btn-abrir-modal-meses" title="Abrir selector guiado de meses">
-                            <i class="fas fa-sliders-h me-1"></i>Opciones...
-                        </button>
-                        <button type="button" class="btn btn-success btn-sm fw-bold shadow-sm ms-1" id="btn-aplicar-meses" title="Aplicar los meses seleccionados y recalcular análisis de clima">
-                            <i class="fas fa-check-circle me-1"></i>Aplicar Meses
-                        </button>
-                    </div>
-                </div>
-
-                <div class="months-grid" id="contenedor-meses">
-                    <!-- 12 Meses interactivos sin truncamiento -->
-                    <div class="month-chip active" data-mes="1"><i class="fas fa-check-circle"></i> Enero</div>
-                    <div class="month-chip active" data-mes="2"><i class="fas fa-check-circle"></i> Febrero</div>
-                    <div class="month-chip active" data-mes="3"><i class="fas fa-check-circle"></i> Marzo</div>
-                    <div class="month-chip active" data-mes="4"><i class="fas fa-check-circle"></i> Abril</div>
-                    <div class="month-chip active" data-mes="5"><i class="fas fa-check-circle"></i> Mayo</div>
-                    <div class="month-chip active" data-mes="6"><i class="fas fa-check-circle"></i> Junio</div>
-                    <div class="month-chip active" data-mes="7"><i class="fas fa-check-circle"></i> Julio</div>
-                    <div class="month-chip active" data-mes="8"><i class="fas fa-check-circle"></i> Agosto</div>
-                    <div class="month-chip active" data-mes="9"><i class="fas fa-check-circle"></i> Septiembre</div>
-                    <div class="month-chip active" data-mes="10"><i class="fas fa-check-circle"></i> Octubre</div>
-                    <div class="month-chip active" data-mes="11"><i class="fas fa-check-circle"></i> Noviembre</div>
-                    <div class="month-chip active" data-mes="12"><i class="fas fa-check-circle"></i> Diciembre</div>
-                </div>
-            </div>
+            <!-- Row 2: Selector Multi-Select de Meses de Cosecha -->
+            <div class="mb-3" id="cosecha-month-multiselect-container"></div>
 
             <!-- Row 3: Acciones de Consulta -->
             <div class="d-flex flex-wrap gap-2 align-items-center mt-3 pt-2">

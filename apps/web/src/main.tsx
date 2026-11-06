@@ -5,7 +5,7 @@ import {Template,TemplateContext} from './Template';
 import {api} from './api';
 import {Dialog} from './components/ui/dialog';
 import {Flow} from './components/Flow';
-import {download,historyCsv,historyPdf,harvestCsv,hourlyCsv} from './export';
+import {download,historyCsv,historyPdf,harvestCsv,hourlyCsv,singleScenarioPdf} from './export';
 import Swal from 'sweetalert2';
 import { Language, t, translateRole } from './i18n';
 import { FlagUS, FlagES } from './components/Flags';
@@ -45,6 +45,9 @@ function App(){
  const [simOpen, setSimOpen]=useState(true);
  const [lang, setLang]=useState<Language>('es');
  const [showClientReport, setShowClientReport]=useState(false);
+ const [monthDropdownOpen, setMonthDropdownOpen]=useState(false);
+ const [editItem, setEditItem]=useState<any>(null);
+ const [editName, setEditName]=useState('');
  const [category,setCategory]=useState<string|null>(null);
  const [weatherSelection,setWeatherSelection]=useState<any>(null);const calcId=useRef(0);const mountedScreen=useRef('');
  const chartDetails=useMemo(()=>({...view.details,franja:slot}),[view.details,slot]);
@@ -52,7 +55,7 @@ function App(){
  function historyPush(url:string){window.history.pushState({},'',url);}
  useEffect(()=>{api('auth/me').then(d=>setUser(d.data)).catch(()=>api('auth/csrf')).finally(()=>setReady(true));const pop=()=>setScreen(new URLSearchParams(location.search).get('controller')||'dashboard');window.addEventListener('popstate',pop);return()=>window.removeEventListener('popstate',pop);},[]);
  useEffect(()=>{document.body.classList.toggle('auth-page',!user);document.title=(!user?'Acceso':labels[screen as keyof typeof labels]||'Historial de Escenarios')+' | Simulador';},[user,screen]);
- const reloadHistory=useCallback((uFilter?:string,sFilter?:string)=>{const u=uFilter!==undefined?uFilter:historyUserFilter;const s=sFilter!==undefined?sFilter:historyStatusFilter;const p=new URLSearchParams();if(u&&u!=='todos')p.set('usuario_id',u);if(s&&s!=='todos')p.set('estado',s);const qs=p.toString()?'?'+p.toString():'';const owner=currentIdentity.current?.id;return api('historial'+qs).then(d=>{if(owner===currentIdentity.current?.id){setHistory(d.data.map((x:any)=>({...x,creado_en:x.creado_en.replace('T',' ').replace(/\.\d{3}Z$/,'')})));if(d.stats)setHistoryStats(d.stats);}});},[historyUserFilter,historyStatusFilter]);
+ const reloadHistory=useCallback((uFilter?:string,sFilter?:string)=>{const u=uFilter!==undefined?uFilter:historyUserFilter;const s=sFilter!==undefined?sFilter:historyStatusFilter;const p=new URLSearchParams();if(u&&u!=='todos')p.set('usuario_id',u);if(s&&s!=='todos')p.set('estado',s);const qs=p.toString()?'?'+p.toString():'';const owner=currentIdentity.current?.id;return api('historial'+qs).then(d=>{if(owner===currentIdentity.current?.id){setHistory(d.data.map((x:any)=>{let dtStr=x.creado_en;try{const dt=new Date(x.creado_en);if(!isNaN(dt.getTime())){const pad=(n:number)=>String(n).padStart(2,'0');let h=dt.getHours();const ampm=h>=12?'pm':'am';h=h%12;h=h?h:12;dtStr=`${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())} ${pad(h)}:${pad(dt.getMinutes())}:${pad(dt.getSeconds())} ${ampm}`;}}catch{}return{...x,creado_en:dtStr};}));if(d.stats)setHistoryStats(d.stats);}});},[historyUserFilter,historyStatusFilter]);
  const displayedHistory=useMemo(()=>{if(!historySearch.trim())return history;const q=historySearch.toLowerCase();return history.filter(item=>(item.nombre_escenario&&item.nombre_escenario.toLowerCase().includes(q))||(item.usuario_nombre&&item.usuario_nombre.toLowerCase().includes(q))||(item.usuario_login&&item.usuario_login.toLowerCase().includes(q))||(item.tipo&&item.tipo.toLowerCase().includes(q)));},[history,historySearch]);
  const reloadRows=useCallback(()=>{const config=catalogue[name];if(config)return api(config.endpoint).then(d=>{if(mountedScreen.current===name)setRows(d.data);});return Promise.resolve();},[name]);
  useEffect(()=>{if(!ready)return;const initial=defaults(html),params=new URLSearchParams(location.search);if(['dashboard','recirculacion'].includes(name)){if(params.has('temp'))initial.tempAmbiente=params.get('temp')!;if(params.has('hr'))initial.hrAmbiente=params.get('hr')!;if(params.get('alt')&&Number(params.get('alt')))initial.altitud=params.get('alt')!;}
@@ -63,8 +66,9 @@ function App(){
  useEffect(()=>{if(!user||mountedScreen.current!==name||!['dashboard','recirculacion'].includes(name)||!values.tipoGrano)return;
    const serial=++calcId.current;const timer=setTimeout(()=>api('simulacion',{...values,mode:name,machine,locale:navigator.language}).then(d=>{if(serial===calcId.current&&mountedScreen.current===name)setView(d.data);}).catch(e=>{if(serial===calcId.current&&mountedScreen.current===name)setAlert(e.message);}),80);return()=>clearTimeout(timer);
  },[values,machine,name,user]);
- const harvest=useCallback(async(overrideMonths?:number[])=>{if(isNaN(parseFloat(values.latitud))||isNaN(parseFloat(values.longitud))){void Swal.fire('Coordenadas incompletas','Por favor ingrese latitud y longitud válidas.','warning');return;}const targetMonths=overrideMonths??months;const body={...values,months:targetMonths,franja:slot};archiveInputs.current=body;setLoaderRealtime(false);setBusy(true);setAlert('');try{const d=await api('clima/cosecha',body);if(mountedScreen.current==='cosecha'){setView(d.data);setAppliedMonths(targetMonths);}}catch(e:any){setAlert(e.message);}finally{if(mountedScreen.current==='cosecha')setBusy(false);}},[values,months,slot]);
- useEffect(()=>{if(skipMonthRefresh.current){skipMonthRefresh.current=false;return;}if(name==='cosecha'&&values.latitud){if(!view.details)api('clima/cosecha/inicial',{...values,months,franja:slot}).then(d=>{if(mountedScreen.current==='cosecha')setView(d.data);}).catch(showError);const timer=setTimeout(()=>harvest(months),150);return()=>clearTimeout(timer);}},[name,harvestRevision]);
+ const harvest=useCallback(async(overrideMonths?:number[])=>{if(isNaN(parseFloat(values.latitud))||isNaN(parseFloat(values.longitud))){void Swal.fire('Coordenadas incompletas','Por favor ingrese latitud y longitud válidas.','warning');return;}const targetMonths=overrideMonths??months;const body={...values,months:targetMonths,franja:slot};const cacheKey=`cosecha_${values.latitud}_${values.longitud}_${values.anios_historicos||5}_${[...targetMonths].sort((a,b)=>a-b).join(',')}_${slot.tipo}`;try{const cached=sessionStorage.getItem(cacheKey);if(cached){const parsed=JSON.parse(cached);archiveInputs.current=body;setView(parsed);setAppliedMonths(targetMonths);return;}}catch{}archiveInputs.current=body;setLoaderRealtime(false);setBusy(true);setAlert('');try{const d=await api('clima/cosecha',body);if(mountedScreen.current==='cosecha'){setView(d.data);setAppliedMonths(targetMonths);try{sessionStorage.setItem(cacheKey,JSON.stringify(d.data));}catch{}}}catch(e:any){setAlert(e.message);}finally{if(mountedScreen.current==='cosecha')setBusy(false);}},[values,months,slot]);
+ // Lazy fetching: Weather consultation only occurs when user clicks 'Consultar Clima y Modelar Weibull'
+  useEffect(()=>{if(skipMonthRefresh.current)skipMonthRefresh.current=false;},[name]);
  useEffect(()=>{if(skipFilterRefresh.current){skipFilterRefresh.current=false;return;}if(name==='cosecha'&&archiveInputs.current){api('clima/cosecha',{...archiveInputs.current,franja:slot,'filtro-tabla-dia':values['filtro-tabla-dia']||'','filtro-tabla-mes':values['filtro-tabla-mes']||'todos'}).then(d=>{if(mountedScreen.current==='cosecha')setView(d.data);}).catch(showError);}},[slot,values['filtro-tabla-dia'],values['filtro-tabla-mes']]);
  const setValue=(id:string,v:string)=>{
   if(id==='buscar_ciudad'||id==='simBuscarCiudad')cityEdited.current=true;
@@ -84,7 +88,7 @@ function App(){
  async function submit(id:string,form:HTMLFormElement){const data:any=Object.fromEntries(new FormData(form));setBusy(true);setAlert('');try{if(id==='form-login'){const d=await api('auth/login',data);setAlertKind('success');setAlert(d.message);await new Promise(resolve=>setTimeout(resolve,1000));setUser(d.data);navigate('dashboard');}else if(id==='form-register'){const d=await api('auth/register',data);setAlertKind('success');setAlert(d.message);setValues(v=>({...v,...Object.fromEntries(Object.entries(defaults(html)).filter(([id])=>id.startsWith('reg-')))}));setTimeout(()=>setTabs(new Set(['login'])),1500);}else if(id==='form-cosecha-clima'){await harvest();}else{if(!data.id)delete data.id;const d=await api(catalogue[name].endpoint+'/guardar',data);setModal(null);await reloadRows();void Swal.fire('¡Éxito!',d.message,'success');}}catch(e){if(catalogue[name])void Swal.fire('Error',(e as Error).message,'error');else showError(e);}finally{setBusy(false);}}
  async function openCrud(id?:number){const config=catalogue[name];let item:any={};if(id)item=(await api(config.endpoint+'/'+id)).data;setValues(v=>{const next={...v};for(const key of Object.keys(defaults(html)).filter(x=>x.startsWith(config.prefix)))next[key]=String(item[key.slice(config.prefix.length)]??'');next[config.prefix+'password']='';if(name==='maquinaria')next.maquinaria_cuerpo=item.cuerpo||'S';return next;});setModal(config.modal);}
  async function deleteCrud(id:number){const choice=await Swal.fire({title:'¿Estás seguro?',text:'¡No podrás revertir esto!',icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',cancelButtonColor:'#6c757d',confirmButtonText:'Sí, eliminar'});if(!choice.isConfirmed)return;try{const d=await api(catalogue[name].endpoint+'/eliminar',{id});void Swal.fire('Eliminado',d.message,'success');await reloadRows();}catch(e){void Swal.fire('Error',(e as Error).message,'error');}}
- async function saveScenario(){const title=window.prompt('Ingrese un nombre para este escenario:','Escenario '+new Date().toLocaleString());if(!title)return;const metric=(id:string)=>view.cells[id]?.innerText||'';const data={'Grano':grainProps[values.tipoGrano]?.nombre||values.tipoGrano,'Humedad Inicial (%)':values.humedadInicial,'Humedad Objetivo (%)':values.humedadObjetivo,'Meta Secado (Ton/día)':values.metaSecado,'Velocidad Aire (m/s)':values.velocidadAire,'Temperatura Ambiente (°C)':values.tempAmbiente,'Humedad Relativa Ambiente (%)':values.hrAmbiente,'Altitud (msnm)':values.altitud,'Consumo Térmico Real (kWh)':metric('realSelEnergia'),'Agua a Evaporar Total (Ton/día)':metric('metricAguaTotal').replace('Total: ',''),'Caudal Total de Aire':metric('metricCaudalTotal'),'Máquina Recomendada':metric('maqAxModelo')};await api('historial/guardar',{nombre:title,tipo:name==='recirculacion'?'Recirculación':'Tempero',datos_json:JSON.stringify(data)});window.alert('Escenario guardado exitosamente.');await reloadHistory();}
+ async function saveScenario(){const title=window.prompt('Ingrese un nombre para este escenario:','Escenario '+new Date().toLocaleString());if(!title)return;const metric=(id:string)=>view.cells[id]?.innerText||'';const data={'Nombre de la Empresa':values.empresaNombre||'','Ubicación':values.empresaUbicacion||'','Contacto':values.empresaContacto||'','Grano':grainProps[values.tipoGrano]?.nombre||values.tipoGrano,'Humedad Inicial (%)':values.humedadInicial,'Humedad Objetivo (%)':values.humedadObjetivo,'Meta Secado (Ton/día)':values.metaSecado,'Velocidad Aire (m/s)':values.velocidadAire,'Temperatura Ambiente (°C)':values.tempAmbiente,'Humedad Relativa Ambiente (%)':values.hrAmbiente,'Altitud (msnm)':values.altitud,'Consumo Térmico Real (kWh)':metric('realSelEnergia'),'Agua a Evaporar Total (Ton/día)':metric('metricAguaTotal').replace('Total: ',''),'Caudal Total de Aire':metric('metricCaudalTotal'),'Máquina Recomendada':metric('maqAxModelo')};await api('historial/guardar',{nombre:title,tipo:name==='recirculacion'?'Recirculación':'Tempero',datos_json:JSON.stringify(data)});window.alert('Escenario guardado exitosamente.');await reloadHistory();}
  const applyWeather=(w:any)=>navigate('dashboard',{temp:String(w.temp),hr:String(w.hr),alt:values.altitud_clima||'185',origen:w.tipo||'cosecha_recomendacion',dia:w.valor||'',ciudad:values.buscar_ciudad||''});
  async function action(a:string,attrs:Record<string,string>={}){try{
   if(attrs['data-bs-toggle']==='pill'){setTabs(t=>{const next=new Set(t);const target=(attrs['data-bs-target']||'').slice(1);if(target==='login'||target==='register'){next.delete('login');next.delete('register');}else for(const item of next)if(item!=='login'&&item!=='register')next.delete(item);next.add(target);return next;});return;}
@@ -145,7 +149,85 @@ function App(){
  for(const[k,t]of Object.entries({rowMaqAx:'ax',rowMaqAxl:'axl',rowMaqMenor:'menor'}))cells[k]={removeClass:'table-active',addClass:machine===t?'table-active':''};
  const context:TemplateContext={focusCity:()=>{if(name==='cosecha'&&!(values.buscar_ciudad||'').trim())setSuggestions(frequentCities.slice(0,5));},busy,values,setValue,cells,charts:view.charts||{},chartDetails,action,submit,modal,close:()=>setModal(null),admin:user?.cargo==='Administrador',auth:!user,tabs,months,slot:slot.tipo,grid,lang,custom(node:Element){
    const id=node.attribs.id||'',parent=node.parent instanceof Element?node.parent:null;
-   if(id==='auth-alert')return alert?<div id={id} className={"alert alert-"+alertKind} role="alert">{alert}</div>:<div id={id} className="alert d-none"/>;
+   if(id==='cosecha-month-multiselect-container'){
+      const monthNamesList=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      const allSelected=months.length===12;
+      const noneSelected=months.length===0;
+      const labelSummary=allSelected?'Todos los meses (12)':noneSelected?'Ningún mes seleccionado':months.length<=3?months.map(m=>monthNamesList[m-1]).join(', '):`${months.length} meses seleccionados`;
+      return <div id={id} className="mb-3 position-relative">
+        <label className="form-label fw-semibold small text-muted mb-1">
+          <i className="fas fa-calendar-alt text-success me-1"/>Meses de cosecha:
+        </label>
+        <div className="input-group" style={{ maxWidth: '480px' }}>
+          <button
+            type="button"
+            className="form-select text-start d-flex justify-content-between align-items-center bg-white shadow-sm"
+            onClick={()=>setMonthDropdownOpen(o=>!o)}
+            style={{ cursor: 'pointer' }}
+          >
+            <span className="fw-semibold text-dark text-truncate me-2">{labelSummary}</span>
+            <i className={'fas fa-chevron-'+(monthDropdownOpen?'up':'down')+' text-muted'}/>
+          </button>
+        </div>
+        {monthDropdownOpen&&(
+          <div
+            className="dropdown-menu show shadow-lg border rounded-3 p-2 mt-1"
+            style={{ position: 'absolute', zIndex: 1060, minWidth: '320px', maxWidth: '420px', background: '#ffffff' }}
+          >
+            <div className="p-2 border-bottom mb-2 bg-light rounded-2">
+              <label className="form-check-label fw-bold d-flex align-items-center gap-2 cursor-pointer mb-0">
+                <input
+                  type="checkbox"
+                  className="form-check-input mt-0"
+                  checked={allSelected}
+                  onChange={e=>{
+                    if(e.target.checked)setMonths(Array.from({length:12},(_,i)=>i+1));
+                    else setMonths([]);
+                  }}
+                />
+                <span>Seleccionar todos</span>
+              </label>
+            </div>
+            <div className="d-flex gap-1 mb-2 px-1">
+              <button type="button" className="btn btn-outline-secondary btn-xs py-1 px-2" style={{ fontSize: '0.75rem' }} onClick={()=>setMonths([1,2,3,4,12])}>
+                <i className="fas fa-sun text-warning me-1"/>Época Seca
+              </button>
+              <button type="button" className="btn btn-outline-secondary btn-xs py-1 px-2" style={{ fontSize: '0.75rem' }} onClick={()=>setMonths([5,6,7,8,9,10,11])}>
+                <i className="fas fa-cloud-rain text-info me-1"/>Época Lluvias
+              </button>
+              <button type="button" className="btn btn-outline-secondary btn-xs py-1 px-2 ms-auto" style={{ fontSize: '0.75rem' }} onClick={()=>setMonths([])}>
+                <i className="fas fa-times me-1"/>Limpiar
+              </button>
+            </div>
+            <div className="row g-1 px-1" style={{ maxHeight: '220px', overflowY: 'auto' }}>
+              {monthNamesList.map((mName, idx)=>{
+                const mNum=idx+1;
+                const checked=months.includes(mNum);
+                return <div key={mNum} className="col-6">
+                  <label className={'dropdown-item rounded-2 py-1 px-2 d-flex align-items-center gap-2 cursor-pointer '+(checked?'bg-success bg-opacity-10 text-success fw-semibold':'')}>
+                    <input
+                      type="checkbox"
+                      className="form-check-input mt-0"
+                      checked={checked}
+                      onChange={()=>{
+                        setMonths(curr=>curr.includes(mNum)?curr.filter(x=>x!==mNum):[...curr,mNum].sort((a,b)=>a-b));
+                      }}
+                    />
+                    <span>{mName}</span>
+                  </label>
+                </div>;
+              })}
+            </div>
+            <div className="d-flex justify-content-end pt-2 border-top mt-2">
+              <button type="button" className="btn btn-sm btn-primary px-3 fw-bold" onClick={()=>setMonthDropdownOpen(false)}>
+                Listo
+              </button>
+            </div>
+          </div>
+        )}
+      </div>;
+    }
+    if(id==='auth-alert')return alert?<div id={id} className={"alert alert-"+alertKind} role="alert">{alert}</div>:<div id={id} className="alert d-none"/>;
    if(id==='btnStartAnim')return <button id={id} className={'btn btn-sm shadow-sm '+(finished?'btn-secondary':running?'btn-warning':'btn-success')} onClick={()=>action(id)}><i className={'fas '+(finished?'fa-check':running?'fa-pause':'fa-play')+' me-1'}/>{finished?' Finalizado':running?' Pausar':' Iniciar'}</button>;
    if(id==='simCanvas')return <Flow running={running} reset={reset} batches={batches} initial={Number(values.humedadInicial)||24} final={Number(values.humedadObjetivo)||18} onProgress={onProgress} onFinish={onFinish}/>;
    if(id.startsWith('stg-')&&/^stg-\d$/.test(id)){const index=Number(id.at(-1)),drop=Math.max(0,Number(values.humedadInicial)-Number(values.humedadObjetivo)),h1=(Number(values.humedadInicial)-drop*.5).toFixed(1),h2=(Number(values.humedadInicial)-drop*.78).toFixed(1),hf=Number(values.humedadObjetivo).toFixed(1);const titles=['1. '+(progress.batch===1?'Carga Inicial':'Carga Directa'),'2. Atempero 1','3. Paso 2','4. Atempero 2','5. Paso 3','6. Descarga Final'];return <div className={'stage-card '+(progress.stage===index?'active':progress.stage>index?'completed':'')} id={id}><div className="stage-title">{titles[index]}</div><div className="stage-meta"><span>{['SC ➔ TS y DB','TS ➔ DB','DB ➔ TS','TS ➔ DB','DB ➔ TS','TS ➔ SA'][index]}</span><span>{[progress.batch===1?`${Number(values.humedadInicial).toFixed(1)}% ➔ ${h1}%`:`${Number(values.humedadInicial).toFixed(1)}%`,`${h1}%`,`${h1}% ➔ ${h2}%`,`${h2}%`,`${h2}% ➔ ${hf}%`,`Meta ${hf}%`][index]}</span></div></div>;}
@@ -170,7 +252,7 @@ function App(){
          <div className="col-md-4">
            <div className="card border-0 shadow-sm rounded-4 h-100" style={{background:'linear-gradient(135deg, #eff6ff 0%, #ffffff 100%)',borderLeft:'4px solid #3b82f6'}}>
              <div className="card-body p-3 d-flex align-items-center">
-               <div className="rounded-3 p-3 bg-primary bg-opacity-10 text-primary me-3"><i className="fas fa-layer-group fs-3"/></div>
+               <div className="rounded-3 p-3 text-white me-3 d-flex align-items-center justify-content-center" style={{ backgroundColor: '#F3912D', width: '54px', height: '54px' }}><i className="fas fa-layer-group fs-3 text-white" style={{ color: '#ffffff' }}/></div>
                <div className="flex-grow-1 overflow-hidden">
                  <div className="text-muted small fw-semibold text-uppercase tracking-wider">Total de Escenarios</div>
                  <div className="fs-2 fw-bold text-dark lh-1 my-1">{totalTodos}</div>
@@ -227,14 +309,14 @@ function App(){
      return <thead className="table-light"><tr><th className="ps-3 border-0">NOMBRE ESCENARIO</th><th className="border-0">TIPO</th><th className="border-0">FECHA</th><th className="border-0 text-center">ACCIONES</th></tr></thead>;
    }
    if(node.name==='tbody'&&parent?.attribs.id==='tablaHistorial'){
-     if(user?.cargo==='Administrador')return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id} className={item.eliminado_por_usuario?'table-light opacity-75':''}><td className="ps-3"><div className="d-flex align-items-center"><i className="fas fa-user-circle text-primary me-2 fs-5"/><div><span className="fw-bold d-block text-dark">{item.usuario_nombre}</span><small className="text-muted">{item.usuario_cargo||item.usuario_login}</small></div></div></td><td className="fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center">{item.eliminado_por_usuario?<span className="badge bg-warning text-dark shadow-sm" title="El usuario eliminó este escenario de su historial"><i className="fas fa-trash-alt me-1"/>Borrado por usuario</span>:<span className="badge bg-success shadow-sm" title="Activo y visible para el usuario"><i className="fas fa-check me-1"/>Activo</span>}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario+(item.usuario_nombre?` (${item.usuario_nombre})`:''),data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button>{item.eliminado_por_usuario&&<button className="btn btn-sm btn-outline-success me-1" title="Restaurar para el usuario" onClick={async()=>{if(window.confirm(`¿Desea restaurar este escenario para que ${item.usuario_nombre} vuelva a verlo en su historial?`)){await api('historial/restaurar',{id:item.id});await reloadHistory();}}}><i className="fas fa-undo"/></button>}<button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={6} className="text-center text-muted py-4">No hay escenarios registrados.</td></tr>}</tbody>;
-     return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id}><td className="ps-3 fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario,data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={4} className="text-center text-muted py-4">No hay escenarios guardados.</td></tr>}</tbody>;
+     if(user?.cargo==='Administrador')return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id} className={item.eliminado_por_usuario?'table-light opacity-75':''}><td className="ps-3"><div className="d-flex align-items-center"><i className="fas fa-user-circle text-primary me-2 fs-5"/><div><span className="fw-bold d-block text-dark">{item.usuario_nombre}</span><small className="text-muted">{item.usuario_cargo||item.usuario_login}</small></div></div></td><td className="fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center">{item.eliminado_por_usuario?<span className="badge bg-warning text-dark shadow-sm" title="El usuario eliminó este escenario de su historial"><i className="fas fa-trash-alt me-1"/>Borrado por usuario</span>:<span className="badge bg-success shadow-sm" title="Activo y visible para el usuario"><i className="fas fa-check me-1"/>Activo</span>}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario+(item.usuario_nombre?` (${item.usuario_nombre})`:''),data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-primary me-1" title="Editar Nombre" onClick={()=>{setEditItem(item);setEditName(item.nombre_escenario||'');}}><i className="fas fa-edit"/></button><button className="btn btn-sm btn-outline-secondary me-1" title="Descargar PDF" onClick={()=>singleScenarioPdf(item,lang)}><i className="fas fa-file-pdf text-danger"/></button>{item.eliminado_por_usuario&&<button className="btn btn-sm btn-outline-success me-1" title="Restaurar para el usuario" onClick={async()=>{if(window.confirm(`¿Desea restaurar este escenario para que ${item.usuario_nombre} vuelva a verlo en su historial?`)){await api('historial/restaurar',{id:item.id});await reloadHistory();}}}><i className="fas fa-undo"/></button>}<button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={6} className="text-center text-muted py-4">No hay escenarios registrados.</td></tr>}</tbody>;
+     return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id}><td className="ps-3 fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario,data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-primary me-1" title="Editar Nombre" onClick={()=>{setEditItem(item);setEditName(item.nombre_escenario||'');}}><i className="fas fa-edit"/></button><button className="btn btn-sm btn-outline-secondary me-1" title="Descargar PDF" onClick={()=>singleScenarioPdf(item,lang)}><i className="fas fa-file-pdf text-danger"/></button><button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={4} className="text-center text-muted py-4">No hay escenarios guardados.</td></tr>}</tbody>;
    }
    if(node.name==='tbody'&&['tablaPasos','tablaPasosReal'].includes(parent?.attribs.id||''))return <tbody><Template html={view.cells?.['#'+parent!.attribs.id+' tbody']?.innerHTML||''} context={context}/></tbody>;
    return undefined;
  }};
  if(!ready)return <div className="spinner-border m-4" role="status"/>;
- const content=<><Template html={html} context={context}/><Dialog open={!!detail} onOpenChange={v=>{if(!v)setDetail(null);}} title={detail?.title}><div className="modal-content border-0 shadow-lg"><div className="modal-header bg-light border-0"><h5 className="modal-title fw-bold">{detail?.title}</h5><button className="btn-close" onClick={()=>setDetail(null)}/></div><div className="modal-body p-0"><ul className="list-group list-group-flush">{Object.entries(detail?.data||{}).map(([key,value])=><li className="list-group-item d-flex justify-content-between align-items-center" key={key}><strong>{key}</strong><span>{String(value)}</span></li>)}</ul></div>{detail?.weather&&<div className="modal-footer"><button className="btn btn-secondary" onClick={()=>setDetail(null)}>Cerrar</button><button className="btn btn-primary" onClick={()=>{applyWeather(weatherSelection);setDetail(null);}}>Aplicar al Simulador</button></div>}</div></Dialog></>;
+ const content=<><Template html={html} context={context}/><Dialog open={!!detail} onOpenChange={v=>{if(!v)setDetail(null);}} title={detail?.title}><div className="modal-content border-0 shadow-lg"><div className="modal-header bg-light border-0"><h5 className="modal-title fw-bold">{detail?.title}</h5><button className="btn-close" onClick={()=>setDetail(null)}/></div><div className="modal-body p-0"><ul className="list-group list-group-flush">{Object.entries(detail?.data||{}).map(([key,value])=><li className="list-group-item d-flex justify-content-between align-items-center" key={key}><strong>{key}</strong><span>{String(value)}</span></li>)}</ul></div>{detail?.weather&&<div className="modal-footer"><button className="btn btn-secondary" onClick={()=>setDetail(null)}>Cerrar</button><button className="btn btn-primary" onClick={()=>{applyWeather(weatherSelection);setDetail(null);}}>Aplicar al Simulador</button></div>}</div></Dialog><Dialog open={!!editItem} onOpenChange={v=>{if(!v)setEditItem(null);}} title="Editar Nombre del Escenario"><div className="modal-content border-0 shadow-lg"><div className="modal-header bg-light border-0"><h5 className="modal-title fw-bold"><i className="fas fa-edit me-2 text-primary"/>Editar Nombre del Escenario</h5><button className="btn-close" onClick={()=>setEditItem(null)}/></div><div className="modal-body"><label className="form-label fw-semibold small text-muted mb-1">Nombre del escenario</label><input type="text" className="form-control" value={editName} onChange={e=>setEditName(e.target.value)}/></div><div className="modal-footer"><button className="btn btn-secondary" onClick={()=>setEditItem(null)}>Cancelar</button><button className="btn btn-primary px-3 fw-bold" onClick={async()=>{if(!editName.trim())return;try{await api('historial/editar',{id:editItem.id,nombre:editName.trim()});setEditItem(null);await reloadHistory();}catch(e:any){showError(e);}}}>Guardar Cambios</button></div></div></Dialog><Dialog open={showClientReport} onOpenChange={v=>setShowClientReport(v)} title="Reporte Técnico al Cliente"><div className="modal-content border-0 shadow-lg" style={{ maxWidth: '1000px', width: '95vw', margin: 'auto' }}><div className="modal-header bg-dark text-white border-0 py-2 px-3 d-flex justify-content-between align-items-center"><h6 className="modal-title fw-bold text-white mb-0"><i className="fas fa-file-invoice me-2 text-info"/>Vista Previa - Reporte al Cliente</h6><div className="d-flex align-items-center gap-2"><button type="button" className="btn btn-success btn-sm fw-bold px-3" onClick={()=>{window.print();}}><i className="fas fa-print me-1"/>Imprimir / Guardar PDF</button><button type="button" className="btn-close btn-close-white" onClick={()=>setShowClientReport(false)}/></div></div><div className="modal-body p-2 p-md-3" style={{ maxHeight: '82vh', overflowY: 'auto', background: '#f1f5f9' }}><div id="contenedor-reporte-cliente"><ClientReport user={user} values={values} view={view} machine={machine} mode={name} lang={lang}/></div></div></div></Dialog></>;
  return user?<div className={"d-flex"+(sidebarOpen?" toggled":"")} id="wrapper"><div className="sidebar bg-white border-end" id="sidebar-wrapper"><div className="sidebar-heading text-center py-3 border-bottom d-flex align-items-center justify-content-center px-3" style={{ minHeight: '96px' }}><img src="/logo.png" alt="Super Simulador" style={{ height: '80px', width: 'auto', maxWidth: '100%', objectFit: 'contain' }} /></div><div className="list-group list-group-flush my-2">
   {/* 1. Gestión de Granos */}
   <a
