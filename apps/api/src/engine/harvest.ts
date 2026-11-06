@@ -405,15 +405,18 @@ function actualizarPrediccionAptitud(hrPromedio24: any, hrFranja: any, perfil24:
         .map((h: any) => h.deficit);
     const deficitPromedio = deficitFranja.length > 0 ? (deficitFranja.reduce((a: any, b: any) => a + b, 0) / deficitFranja.length).toFixed(1) : 0;
     output.select('#aptitud-deficit').text(`${deficitPromedio} g/kg`);
-    const $card = output.select('#aptitud-icono').closest('.dashboard-card');
+    const $card = output.select('#card-prediccion-aptitud');
+    const $cardClosest = output.select('#aptitud-icono').closest('.dashboard-card');
     const $icono = output.select('#aptitud-icono');
     const $titulo = output.select('#aptitud-titulo');
     const $hi = output.select('#aptitud-hi');
     const $riesgo = output.select('#aptitud-riesgo');
     const $desc = output.select('#aptitud-descripcion');
     if (hrPromedio24 < 68 && hrFranja < 62) {
-        // ÓPTIMA
-        $card.css({ 'border-color': '#10b981', 'background': 'linear-gradient(to right, #ffffff, #f0fdf4)' });
+        // ÓPTIMA (Meses secos / Verano: ej. Enero, Febrero, Marzo)
+        const styleOpt = { 'border-color': '#10b981', 'background': 'linear-gradient(to right, #ffffff, #f0fdf4)' };
+        $card.css(styleOpt);
+        $cardClosest.css(styleOpt);
         $icono.html('<i class="fas fa-check-circle" style="color: #10b981;"></i>');
         $titulo.text('ÓPTIMA').css('color', '#10b981');
         $hi.text('16% - 18%').removeClass('text-warning text-danger').addClass('text-success');
@@ -421,8 +424,10 @@ function actualizarPrediccionAptitud(hrPromedio24: any, hrFranja: any, perfil24:
         $desc.html('<strong>Condiciones excelentes:</strong> Precipitaciones bajas y alta capacidad de evaporación solar diurna. El grano entra relativamente seco a planta. El secado será muy rápido y requerirá mínimo gasto de combustible térmico.');
     }
     else if (hrPromedio24 >= 68 && hrPromedio24 <= 78) {
-        // MODERADA
-        $card.css({ 'border-color': '#f59e0b', 'background': 'linear-gradient(to right, #ffffff, #fffbeb)' });
+        // MODERADA (Meses de transición: ej. Abril, Noviembre, Diciembre)
+        const styleMod = { 'border-color': '#f59e0b', 'background': 'linear-gradient(to right, #ffffff, #fffbeb)' };
+        $card.css(styleMod);
+        $cardClosest.css(styleMod);
         $icono.html('<i class="fas fa-exclamation-circle" style="color: #f59e0b;"></i>');
         $titulo.text('MODERADA').css('color', '#f59e0b');
         $hi.text('20% - 22%').removeClass('text-success text-danger').addClass('text-warning');
@@ -430,8 +435,10 @@ function actualizarPrediccionAptitud(hrPromedio24: any, hrFranja: any, perfil24:
         $desc.html('<strong>Condiciones favorables con precaución:</strong> Días con nubosidad o lluvias intermitentes. El grano requerirá pre-limpieza rigurosa y secado continuo con aire caliente controlado para evitar pérdida de calidad.');
     }
     else {
-        // CRÍTICA
-        $card.css({ 'border-color': '#ef4444', 'background': 'linear-gradient(to right, #ffffff, #fef2f2)' });
+        // CRÍTICA / RIESGOSA (Meses de alta humedad o temporada de lluvias: ej. Mayo, Junio, Julio, Agosto, Septiembre, Octubre)
+        const styleCrit = { 'border-color': '#ef4444', 'background': 'linear-gradient(to right, #ffffff, #fef2f2)' };
+        $card.css(styleCrit);
+        $cardClosest.css(styleCrit);
         $icono.html('<i class="fas fa-times-circle" style="color: #ef4444;"></i>');
         $titulo.text('CRÍTICA / RIESGOSA').css('color', '#ef4444');
         $hi.text('24% - 28%').removeClass('text-success text-warning').addClass('text-danger');
@@ -439,6 +446,7 @@ function actualizarPrediccionAptitud(hrPromedio24: any, hrFranja: any, perfil24:
         $desc.html('<strong>Alerta Climática:</strong> Exceso de lluvias y humedad muy alta. El grano hiperhúmedo tiene máximo riesgo de deterioro por hongos y condensación. El secador requerirá <strong>máxima potencia térmica</strong> (Peor Escenario P90).');
     }
 }
+
 function renderizarTablaHoraria(horas24: any): any {
     const $tbody = output.select('#tbody-clima-horas');
     if (!$tbody.length)

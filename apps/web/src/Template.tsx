@@ -29,7 +29,7 @@ export function Template({html,context}:{html:string;context:TemplateContext}){
   if(context.auth&&context.busy&&classes.includes('spinner-border'))props.className=classes.replace('d-none','');
   const reactStyle=(style:Record<string,any>={})=>Object.fromEntries(Object.entries(style).map(([key,value])=>[key.replace(/-([a-z])/g,(_match,letter)=>letter.toUpperCase()),value]));
   const containsId=(element:Element,target:string):boolean=>element.attribs.id===target||element.children.some(child=>child instanceof Element&&containsId(child,target));
-  if(classes.split(' ').includes('dashboard-card')&&containsId(node,'aptitud-icono'))props.style={...props.style,...reactStyle(context.cells['aptitud-icono::closest']?.style)};
+  if(classes.split(' ').includes('dashboard-card')&&containsId(node,'aptitud-icono'))props.style={...props.style,...reactStyle(context.cells['card-prediccion-aptitud']?.style||context.cells['aptitud-icono::closest']?.style)};
   let children:ReactNode=domToReact(node.children as DOMNode[],options);
   if(cell){
    if(cell.innerText!==undefined)children=context.lang==='en'?translate(cell.innerText,'en'):cell.innerText;

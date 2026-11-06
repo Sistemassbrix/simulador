@@ -7,7 +7,7 @@ const coordinateNumber=(min:number,max:number)=>z.preprocess(value=>typeof value
 const coordinates=z.object({latitud:coordinateNumber(-90,90),longitud:coordinateNumber(-180,180)});
 export const harvestInput=coordinates.extend({altitud_clima:z.coerce.number().finite(),anios_historicos:z.coerce.number().int().min(1).max(10),months:z.array(z.number().int().min(1).max(12)).max(12),buscar_ciudad:z.string().max(250),franja:z.object({tipo:z.string(),nombre:z.string(),horaInicio:z.number().int().min(0).max(23),horaFin:z.number().int().min(0).max(23)}), 'filtro-tabla-dia':z.string().max(100).default(''),'filtro-tabla-mes':z.string().max(10).default('todos')});
 const archiveCache=new Map<string,{at:number,data:any}>();
-function harvestValues(body:unknown){const p=harvestInput.parse(body);if(!p.months.length)p.months=Array.from({length:12},(_,i)=>i+1);return p;}
+function harvestValues(body:unknown){const p=harvestInput.parse(body);return p;}
 export async function weatherFetch(url:string,timeout=12000):Promise<any>{try{const response=await fetch(url,{signal:AbortSignal.timeout(timeout)});if(!response.ok)throw new Error('HTTP '+response.status);return await response.json();}catch{throw new BadGatewayException('No se pudo conectar con la API de tiempo real de Open-Meteo.');}}
 @Controller('clima') @UseGuards(SessionGuard)
 export class ClimateController {
