@@ -46,6 +46,7 @@ function App(){
  const [lang, setLang]=useState<Language>('es');
  const [showClientReport, setShowClientReport]=useState(false);
  const [monthDropdownOpen, setMonthDropdownOpen]=useState(false);
+ const [simDropdownOpen, setSimDropdownOpen]=useState(false);
  const [editItem, setEditItem]=useState<any>(null);
  const [editName, setEditName]=useState('');
  const [category,setCategory]=useState<string|null>(null);
@@ -149,11 +150,49 @@ function App(){
  for(const[k,t]of Object.entries({rowMaqAx:'ax',rowMaqAxl:'axl',rowMaqMenor:'menor'}))cells[k]={removeClass:'table-active',addClass:machine===t?'table-active':''};
  const context:TemplateContext={focusCity:()=>{if(name==='cosecha'&&!(values.buscar_ciudad||'').trim())setSuggestions(frequentCities.slice(0,5));},busy,values,setValue,cells,charts:view.charts||{},chartDetails,action,submit,modal,close:()=>setModal(null),admin:user?.cargo==='Administrador',auth:!user,tabs,months,slot:slot.tipo,grid,lang,custom(node:Element){
    const id=node.attribs.id||'',parent=node.parent instanceof Element?node.parent:null;
+   if(id==='cosecha-simuladores-dropdown-container'){
+     return <div id={id} className="dropdown position-relative">
+       <button
+         type="button"
+         className="btn btn-outline-primary dropdown-toggle shadow-sm fw-bold px-3 py-2 d-flex align-items-center gap-2"
+         onClick={()=>setSimDropdownOpen(o=>!o)}
+         style={{ height: '42px', borderRadius: '0.5rem' }}
+         id="btn-cosecha-ir-simuladores"
+       >
+         <i className="fas fa-calculator text-primary"/>
+         <span>{lang==='en'?'Go to Simulators':'Ir a Simuladores'}</span>
+         <i className={'fas fa-chevron-'+(simDropdownOpen?'up':'down')+' ms-1 small'}/>
+       </button>
+       {simDropdownOpen&&(
+         <div
+           className="dropdown-menu dropdown-menu-end show shadow-lg border rounded-3 p-2 mt-1"
+           style={{ position: 'absolute', right: 0, zIndex: 1060, minWidth: '240px', background: '#ffffff' }}
+         >
+           <button
+             type="button"
+             className="dropdown-item py-2 px-3 fw-semibold d-flex align-items-center gap-2 rounded-2"
+             onClick={()=>{setSimDropdownOpen(false);navigate('dashboard');}}
+           >
+             <span className="fs-5">🌾</span>
+             <span>{lang==='en'?'Tempering Drying':'Secado por Tempero'}</span>
+           </button>
+           <button
+             type="button"
+             className="dropdown-item py-2 px-3 fw-semibold d-flex align-items-center gap-2 rounded-2"
+             onClick={()=>{setSimDropdownOpen(false);navigate('recirculacion');}}
+           >
+             <span className="fs-5">🔄</span>
+             <span>{lang==='en'?'Recirculation Drying':'Secado por Recirculación'}</span>
+           </button>
+         </div>
+       )}
+     </div>;
+   }
    if(id==='cosecha-month-multiselect-container'){
       const monthNamesList=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
       const allSelected=months.length===12;
       const noneSelected=months.length===0;
-      const labelSummary=allSelected?'Todos los meses (12)':noneSelected?'Ningún mes seleccionado':months.length<=3?months.map(m=>monthNamesList[m-1]).join(', '):`${months.length} meses seleccionados`;
+      const labelSummary=allSelected?(lang==='en'?'All months (12)':'Todos los meses (12)'):noneSelected?(lang==='en'?'No month selected':'Ningún mes seleccionado'):months.length<=2?months.map(m=>monthNamesList[m-1]).join(', '):`${months.length} ${lang==='en'?'months selected':'meses seleccionados'}`;
       return <div id={id} className="mb-3 position-relative">
         <label className="form-label fw-semibold small text-muted mb-1">
           <i className="fas fa-calendar-alt text-success me-1"/>Meses de cosecha:

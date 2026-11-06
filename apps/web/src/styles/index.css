@@ -916,3 +916,42 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     font-weight: 400 !important;
     font-style: normal !important;
 }
+
+/* Selector Años Históricos - Altura uniforme 42px, padding y ancho sin texto cortado */
+#anios_historicos {
+    min-width: 250px !important;
+    height: 42px !important;
+    padding: 0.45rem 2.2rem 0.45rem 0.85rem !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    border: 1px solid #d1d5db !important;
+    background-position: right 0.75rem center !important;
+    background-size: 16px 12px !important;
+}
+
+#form-cosecha-clima .form-control,
+#form-cosecha-clima .input-group-text,
+#form-cosecha-clima .input-group > .btn {
+    height: 42px !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.9rem !important;
+}
+
+#form-cosecha-clima .input-group > .form-control {
+    border-radius: 0 !important;
+}
+
+#form-cosecha-clima .input-group > .input-group-text {
+    border-top-left-radius: 0.5rem !important;
+    border-bottom-left-radius: 0.5rem !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+#form-cosecha-clima .input-group > .btn {
+    border-top-right-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
