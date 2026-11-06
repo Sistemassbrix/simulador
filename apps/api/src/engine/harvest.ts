@@ -194,9 +194,10 @@ function generarDatosSinteticosAvanzados(lat: any, lon: any, alt: any, anioInici
     const listaDias = [];
     mesesSeleccionados.forEach((mes: any) => {
         const numDias = diasPorMes[mes - 1];
-        const esLluvioso = (mes >= 5 && mes <= 11);
-        const factorMesTemp = esLluvioso ? -0.8 : 1.6;
-        const factorMesHr = esLluvioso ? 11.0 : -9.0;
+        // Curva agroclimática estacional realista (Seco: Dic-Mar, Transición: Abr/Nov, Lluvioso/Crítico: May-Oct)
+        const esLluvioso = (mes >= 5 && mes <= 10);
+        const factorMesTemp = (mes <= 3 || mes === 12) ? 2.0 : (mes === 4 || mes === 11) ? 0.5 : -1.2;
+        const factorMesHr = (mes <= 3 || mes === 12) ? -12.0 : (mes === 4 || mes === 11) ? 2.0 : 16.0;
         for (let d = 1; d <= numDias; d++) {
             const variacionDia = Math.sin((d / 31) * Math.PI) * 0.7;
             const diaTMean = baseTemp + factorMesTemp + variacionDia;
@@ -412,7 +413,7 @@ function actualizarPrediccionAptitud(hrPromedio24: any, hrFranja: any, perfil24:
     const $hi = output.select('#aptitud-hi');
     const $riesgo = output.select('#aptitud-riesgo');
     const $desc = output.select('#aptitud-descripcion');
-    if (hrPromedio24 < 68 && hrFranja < 62) {
+    if (hrPromedio24 < 66 && hrFranja < 58) {
         // ÓPTIMA (Meses secos / Verano: ej. Enero, Febrero, Marzo)
         const styleOpt = { 'border-color': '#10b981', 'background': 'linear-gradient(to right, #ffffff, #f0fdf4)' };
         $card.css(styleOpt);
@@ -423,7 +424,7 @@ function actualizarPrediccionAptitud(hrPromedio24: any, hrFranja: any, perfil24:
         $riesgo.text('Bajo').removeClass('text-warning text-danger').addClass('text-success');
         $desc.html('<strong>Condiciones excelentes:</strong> Precipitaciones bajas y alta capacidad de evaporación solar diurna. El grano entra relativamente seco a planta. El secado será muy rápido y requerirá mínimo gasto de combustible térmico.');
     }
-    else if (hrPromedio24 >= 68 && hrPromedio24 <= 78) {
+    else if (hrPromedio24 >= 66 && hrPromedio24 < 74) {
         // MODERADA (Meses de transición: ej. Abril, Noviembre, Diciembre)
         const styleMod = { 'border-color': '#f59e0b', 'background': 'linear-gradient(to right, #ffffff, #fffbeb)' };
         $card.css(styleMod);
@@ -927,7 +928,7 @@ function renderizarGraficoSerieTemporalInstance(canvasId: any, dias: any): any {
     }
 }
 
- const months=input.months || Array.from({length:12},(_,i)=>i+1);
+ const months=(Array.isArray(input.months) && input.months.length > 0) ? input.months : Array.from({length:12},(_,i)=>i+1);
  const end=2025,start=end-(Number(input.anios_historicos)||5)+1;
  const lat=Number(input.latitud),lon=Number(input.longitud),alt=parseInt(input.altitud_clima)||185;
  if(data?.hourly?.time?.length)procesarDatosHistoricosCompletos(data,start,end,months,lat,lon,alt);
