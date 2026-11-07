@@ -195,31 +195,6 @@ function App(){
     return;
   }
    if(a.includes('imprimirReporteCliente')||a==='btnReporteCliente'){
-     const nom = (values.empresaNombre || '').trim();
-     const ubi = (values.empresaUbicacion || '').trim();
-     const con = (values.empresaContacto || '').trim();
-     if(!nom || !ubi || !con){
-       const proceed = await Swal.fire({
-         title: lang === 'en' ? 'Incomplete Company Information' : 'Datos de Empresa Incompletos',
-         html: lang === 'en'
-           ? 'To generate a professional client report, please fill in the <b>Company Name</b>, <b>Location</b>, and <b>Contact</b> in the input form.<br><br>Do you want to complete them now?'
-           : 'Para generar un reporte profesional al cliente, debe diligenciar previamente el <b>Nombre de la empresa</b>, <b>Ubicación</b> y <b>Contacto</b> en la sección de datos de entrada.<br><br>¿Desea completarlos ahora?',
-         icon: 'warning',
-         showCancelButton: true,
-         confirmButtonColor: '#F3912D',
-         cancelButtonColor: '#64748b',
-         confirmButtonText: lang === 'en' ? '<i class="fas fa-edit me-1"></i> Complete Information' : '<i class="fas fa-edit me-1"></i> Diligenciar Datos',
-         cancelButtonText: lang === 'en' ? 'Open Anyway' : 'Abrir de todos modos'
-       });
-       if(proceed.isConfirmed){
-         const empInput = document.querySelector('input[name="empresaNombre"]') as HTMLInputElement || document.getElementById('empresaNombre');
-         if(empInput){
-           empInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-           empInput.focus();
-         }
-         return;
-       }
-     }
      setShowClientReport(true);
      return;
    }

@@ -84,101 +84,6 @@ export function ClientReport({
   const grainKey = (values.tipoGrano || 'arroz').toLowerCase();
   const grainLabel = grainMap[grainKey] ? (isEn ? grainMap[grainKey].en : grainMap[grainKey].es) : (values.tipoGrano || 'Arroz Paddy (Largo)');
 
-  // Generación de configuración de gráfica de transición vítrea (con fallback local autónomo si view.charts aún no está poblado)
-  const chartConfig = React.useMemo(() => {
-    if (view?.charts?.chartTransicionVitrea) {
-      return view.charts.chartTransicionVitrea;
-    }
-    const granosConfig: Record<string, { nombre: string; limitTemp: number; Tgs: number; Tgw: number; k_gt: number }> = {
-      arroz: { nombre: 'Arroz Paddy (Largo)', limitTemp: 43.0, Tgs: 140.0, Tgw: 0.0, k_gt: 9.5 },
-      maiz: { nombre: 'Maíz Amarillo', limitTemp: 85.0, Tgs: 145.0, Tgw: 0.0, k_gt: 9.8 },
-      trigo: { nombre: 'Trigo', limitTemp: 50.0, Tgs: 135.0, Tgw: 0.0, k_gt: 9.2 },
-      sorgo: { nombre: 'Sorgo', limitTemp: 60.0, Tgs: 140.0, Tgw: 0.0, k_gt: 9.5 },
-      cebada: { nombre: 'Cebada', limitTemp: 45.0, Tgs: 130.0, Tgw: 0.0, k_gt: 9.0 },
-      soya: { nombre: 'Soya', limitTemp: 40.0, Tgs: 120.0, Tgw: 0.0, k_gt: 8.5 }
-    };
-    const grano = granosConfig[grainKey] || granosConfig.arroz;
-    const mValues: number[] = [];
-    const tgValues: string[] = [];
-    for (let m = 10; m <= 25; m += 0.5) {
-      const Xw = m / 100;
-      const Xs = 1 - Xw;
-      const tg = (Xs * grano.Tgs + grano.k_gt * Xw * grano.Tgw) / (Xs + grano.k_gt * Xw);
-      mValues.push(m);
-      tgValues.push(tg.toFixed(2));
-    }
-    const procesoPoints: Array<{ x: number; y: number; etapa: string }> = [];
-    for (const st of steps) {
-      if (st.tipo.toLowerCase().includes('calor') || st.tipo.toLowerCase().includes('enfri') || st.tipo.toLowerCase().includes('heat') || st.tipo.toLowerCase().includes('cool')) {
-        const ent = parseFloat(st.mEnt.replace('%', '')) || 20;
-        const sal = parseFloat(st.mSal.replace('%', '')) || ent;
-        const tGrano = parseFloat(st.tempGrano) || 40;
-        procesoPoints.push({ x: (ent + sal) / 2, y: tGrano, etapa: st.etapa });
-      }
-    }
-    return {
-      type: 'line',
-      data: {
-        labels: mValues,
-        datasets: [
-          {
-            label: isEn ? 'Rubbery State (Soft/Plastic)' : 'Estado Cauchoso (Blando/Plástico)',
-            data: tgValues,
-            backgroundColor: 'rgba(249, 219, 192, 0.4)',
-            fill: 'end',
-            borderWidth: 0,
-            pointRadius: 0
-          },
-          {
-            label: isEn ? 'Glass Transition Curve (Tg)' : 'Curva de Transición Vítrea (Tg)',
-            data: tgValues,
-            borderColor: '#2563eb',
-            backgroundColor: 'rgba(191, 219, 254, 0.4)',
-            fill: 'start',
-            borderWidth: 3,
-            tension: 0.4,
-            pointRadius: 0
-          },
-          {
-            label: isEn ? 'Grain Temp. in Process' : 'Temp. Grano en Proceso',
-            data: procesoPoints,
-            borderColor: '#ef4444',
-            backgroundColor: '#ef4444',
-            borderWidth: 1,
-            pointRadius: 6,
-            type: 'scatter'
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'linear',
-            title: { display: true, text: isEn ? 'Moisture Content (% w.b.)' : 'Contenido de Humedad (% b.h.)', font: { weight: 'bold' } },
-            min: 10,
-            max: 25,
-            grid: { color: 'rgba(0,0,0,0.05)' }
-          },
-          y: {
-            title: { display: true, text: isEn ? 'Temperature (°C)' : 'Temperatura (°C)', font: { weight: 'bold' } },
-            suggestedMin: 20,
-            suggestedMax: Math.max(80, grano.limitTemp + 5),
-            grid: { color: 'rgba(0,0,0,0.05)' }
-          }
-        },
-        plugins: {
-          title: {
-            display: true,
-            text: (isEn ? 'Glass Transition Curve (Tg) for ' : 'Curva de Transición Vítrea (Tg) para ') + grano.nombre,
-            font: { size: 14 }
-          }
-        }
-      }
-    };
-  }, [view?.charts?.chartTransicionVitrea, grainKey, steps, isEn]);
-
   // Configuración de Grano (Image 1)
   const tempLimiteGrano = values.tempLimiteGrano || '43';
   const densidadAparente = values.densidadAparente || '580';
@@ -204,6 +109,11 @@ export function ClientReport({
   const energia = view.cells?.realSelEnergia?.innerText || '1870 kWh';
   const diesel = view.cells?.realSelDiesel?.innerText || 'Diesel: 4186 L/día';
   const baches = view.cells?.realSelBaches?.innerText || '2.2';
+
+  // Client info (Datos de la Empresa)
+  const empresaNombre = (values.empresaNombre || '').trim() || (isEn ? 'Unspecified Company' : 'Empresa por Definir');
+  const empresaUbicacion = (values.empresaUbicacion || '').trim() || (isEn ? 'Unspecified Location' : 'Ubicación por Definir');
+  const empresaContacto = (values.empresaContacto || '').trim() || (isEn ? 'Unspecified Contact' : 'Contacto por Definir');
 
   // Extracción de la Estrategia Multipaso Real (OMITIENDO LA COLUMNA DE TIEMPO)
   const getReportSteps = (): StepItem[] => {
@@ -311,6 +221,103 @@ export function ClientReport({
   };
 
   const steps = getReportSteps();
+
+  // Generación de configuración de gráfica de transición vítrea (con fallback local autónomo si view.charts aún no está poblado)
+  const chartConfig = React.useMemo(() => {
+    if (view?.charts?.chartTransicionVitrea) {
+      return view.charts.chartTransicionVitrea;
+    }
+    const granosConfig: Record<string, { nombre: string; limitTemp: number; Tgs: number; Tgw: number; k_gt: number }> = {
+      arroz: { nombre: 'Arroz Paddy (Largo)', limitTemp: 43.0, Tgs: 140.0, Tgw: 0.0, k_gt: 9.5 },
+      maiz: { nombre: 'Maíz Amarillo', limitTemp: 85.0, Tgs: 145.0, Tgw: 0.0, k_gt: 9.8 },
+      trigo: { nombre: 'Trigo', limitTemp: 50.0, Tgs: 135.0, Tgw: 0.0, k_gt: 9.2 },
+      sorgo: { nombre: 'Sorgo', limitTemp: 60.0, Tgs: 140.0, Tgw: 0.0, k_gt: 9.5 },
+      cebada: { nombre: 'Cebada', limitTemp: 45.0, Tgs: 130.0, Tgw: 0.0, k_gt: 9.0 },
+      soya: { nombre: 'Soya', limitTemp: 40.0, Tgs: 120.0, Tgw: 0.0, k_gt: 8.5 }
+    };
+    const grano = granosConfig[grainKey] || granosConfig.arroz;
+    const mValues: number[] = [];
+    const tgValues: string[] = [];
+    for (let m = 10; m <= 25; m += 0.5) {
+      const Xw = m / 100;
+      const Xs = 1 - Xw;
+      const tg = (Xs * grano.Tgs + grano.k_gt * Xw * grano.Tgw) / (Xs + grano.k_gt * Xw);
+      mValues.push(m);
+      tgValues.push(tg.toFixed(2));
+    }
+    const procesoPoints: Array<{ x: number; y: number; etapa: string }> = [];
+    for (const st of steps) {
+      if (st.tipo.toLowerCase().includes('calor') || st.tipo.toLowerCase().includes('enfri') || st.tipo.toLowerCase().includes('heat') || st.tipo.toLowerCase().includes('cool')) {
+        const ent = parseFloat(st.mEnt.replace('%', '')) || 20;
+        const sal = parseFloat(st.mSal.replace('%', '')) || ent;
+        const tGrano = parseFloat(st.tempGrano) || 40;
+        procesoPoints.push({ x: (ent + sal) / 2, y: tGrano, etapa: st.etapa });
+      }
+    }
+    return {
+      type: 'line',
+      data: {
+        labels: mValues,
+        datasets: [
+          {
+            label: isEn ? 'Rubbery State (Soft/Plastic)' : 'Estado Cauchoso (Blando/Plástico)',
+            data: tgValues,
+            backgroundColor: 'rgba(249, 219, 192, 0.4)',
+            fill: 'end',
+            borderWidth: 0,
+            pointRadius: 0
+          },
+          {
+            label: isEn ? 'Glass Transition Curve (Tg)' : 'Curva de Transición Vítrea (Tg)',
+            data: tgValues,
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(191, 219, 254, 0.4)',
+            fill: 'start',
+            borderWidth: 3,
+            tension: 0.4,
+            pointRadius: 0
+          },
+          {
+            label: isEn ? 'Grain Temp. in Process' : 'Temp. Grano en Proceso',
+            data: procesoPoints,
+            borderColor: '#ef4444',
+            backgroundColor: '#ef4444',
+            borderWidth: 1,
+            pointRadius: 6,
+            type: 'scatter'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: 'linear',
+            title: { display: true, text: isEn ? 'Moisture Content (% w.b.)' : 'Contenido de Humedad (% b.h.)', font: { weight: 'bold' } },
+            min: 10,
+            max: 25,
+            grid: { color: 'rgba(0,0,0,0.05)' }
+          },
+          y: {
+            title: { display: true, text: isEn ? 'Temperature (°C)' : 'Temperatura (°C)', font: { weight: 'bold' } },
+            suggestedMin: 20,
+            suggestedMax: Math.max(80, grano.limitTemp + 5),
+            grid: { color: 'rgba(0,0,0,0.05)' }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: (isEn ? 'Glass Transition Curve (Tg) for ' : 'Curva de Transición Vítrea (Tg) para ') + grano.nombre,
+            font: { size: 14 }
+          }
+        }
+      }
+    };
+  }, [view?.charts?.chartTransicionVitrea, grainKey, steps, isEn]);
+
+
 
   return (
     <div className="client-report-document">
