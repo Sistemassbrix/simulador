@@ -150,6 +150,10 @@ i:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-"])
 .metric-label,
 .metric-sub,
 .client-report-document {
+    --report-orange: #F3912D;
+    --report-orange-dark: #c2410c;
+    --report-orange-light: #fff7ed;
+    --report-orange-border: #fed7aa;
     font-family: var(--app-font) !important;
 }
 
@@ -517,8 +521,9 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
 }
 
 .input-card {
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    border: 1px solid #fed7aa;
+    border-top: 3px solid #F3912D;
     border-radius: 6px;
     padding: 8px 10px;
     font-size: 0.74rem;
@@ -529,7 +534,8 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     font-size: 0.76rem;
     margin-bottom: 6px;
     padding-bottom: 3px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #fed7aa;
+    color: #c2410c !important;
     text-transform: uppercase;
     letter-spacing: 0.02em;
     display: flex;
@@ -613,8 +619,9 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
+    background: #fffaf5;
+    border: 1.5px solid #fed7aa;
+    border-left: 5px solid #F3912D;
     border-radius: 8px;
     padding: 12px 16px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.03);
@@ -638,7 +645,8 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
 
 .steps-table-wrapper {
     background: #ffffff;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #fed7aa;
+    border-top: 3px solid #F3912D;
     border-radius: 6px;
     overflow: hidden;
     margin-bottom: 10px;
@@ -717,7 +725,8 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     gap: 14px;
     align-items: center;
     margin-bottom: 12px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #fed7aa;
+    border-top: 3px solid #F3912D;
     border-radius: 6px;
     padding: 10px 14px;
     background: #ffffff;
@@ -768,8 +777,9 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
 }
 
 .recommendations-box {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #fffaf5;
+    border: 1px solid #fed7aa;
+    border-left: 4px solid #F3912D;
     border-radius: 6px;
     padding: 10px 14px;
     margin-bottom: 16px;
