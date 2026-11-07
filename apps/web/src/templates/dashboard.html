@@ -324,10 +324,13 @@
     /* ============================================================= */
 /* REGLAS DE IMPRESIÓN PROFESIONAL (ESTILO SUPERBRIX #F3912D)      */
 /* ============================================================= */
+/* ============================================================= */
+/* REGLAS DE IMPRESIÓN PROFESIONAL (ESTILO SUPERBRIX #F3912D)      */
+/* ============================================================= */
 @media print {
     @page {
         size: letter landscape;
-        margin: 8mm 10mm;
+        margin: 6mm 10mm;
     }
 
     * {
@@ -340,7 +343,7 @@
         margin: 0 !important;
         padding: 0 !important;
         background-color: #ffffff !important;
-        font-size: 0.82rem;
+        font-size: 0.80rem;
         color: #0f172a !important;
     }
 
@@ -351,6 +354,8 @@
     #sidebarToggle,
     .navbar,
     .alert,
+    #alerta-clima-importado,
+    #alertaIncoherencia,
     #simBuscarCiudad,
     #simBtnBuscarCiudad,
     #opciones-clima-sitio,
@@ -383,34 +388,36 @@
         background-size: cover !important;
         background-position: center !important;
         color: #ffffff !important;
-        padding: 18px 24px !important;
-        border-radius: 10px !important;
-        margin-bottom: 12px !important;
+        padding: 14px 20px !important;
+        border-radius: 8px !important;
+        margin-bottom: 8px !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
         box-shadow: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
         page-break-after: avoid !important;
         break-after: avoid !important;
     }
 
     .sim-header h1 {
         font-family: 'Exo', system-ui, -apple-system, sans-serif !important;
-        font-size: 1.45rem !important;
+        font-size: 1.35rem !important;
         font-weight: 700 !important;
         color: #ffffff !important;
-        margin-bottom: 3px !important;
+        margin-bottom: 2px !important;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
     }
 
     .sim-header p {
         color: #f1f5f9 !important;
-        font-size: 0.82rem !important;
+        font-size: 0.78rem !important;
         font-weight: 500 !important;
         margin-bottom: 0 !important;
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
     }
 
     .print-empresa-meta {
-        font-size: 0.78rem !important;
+        font-size: 0.75rem !important;
         color: #fed7aa !important;
         border-color: rgba(255, 255, 255, 0.25) !important;
     }
@@ -423,16 +430,16 @@
     .horizontal-inputs-container {
         display: flex !important;
         flex-direction: column !important;
-        gap: 8px !important;
-        margin-bottom: 12px !important;
-        page-break-after: always !important;
-        break-after: page !important;
+        gap: 6px !important;
+        margin-bottom: 0 !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
 
     .horizontal-input-card {
         background: #ffffff !important;
-        border-radius: 8px !important;
-        padding: 8px 14px !important;
+        border-radius: 6px !important;
+        padding: 6px 12px !important;
         border: 1px solid #cbd5e1 !important;
         border-left: 5px solid #F3912D !important;
         box-shadow: none !important;
@@ -442,10 +449,10 @@
 
     .horizontal-card-title {
         font-family: 'Exo', system-ui, -apple-system, sans-serif !important;
-        font-size: 0.88rem !important;
+        font-size: 0.84rem !important;
         font-weight: 700 !important;
         color: #F3912D !important;
-        margin-bottom: 6px !important;
+        margin-bottom: 4px !important;
         display: flex !important;
         align-items: center !important;
         letter-spacing: 0.02em !important;
@@ -462,26 +469,26 @@
     }
 
     .horizontal-inputs-container .sim-label {
-        margin-bottom: 2px !important;
-        font-size: 0.72rem !important;
+        margin-bottom: 1px !important;
+        font-size: 0.70rem !important;
         font-weight: 600 !important;
         color: #475569 !important;
         line-height: 1.15 !important;
     }
 
     .horizontal-inputs-container .sim-label .unit {
-        font-size: 0.65rem !important;
+        font-size: 0.62rem !important;
         color: #94a3b8 !important;
     }
 
     .horizontal-inputs-container .sim-input {
-        padding: 3px 8px !important;
-        font-size: 0.76rem !important;
-        height: 26px !important;
-        min-height: 26px !important;
+        padding: 2px 6px !important;
+        font-size: 0.74rem !important;
+        height: 24px !important;
+        min-height: 24px !important;
         line-height: 20px !important;
         border: 1px solid #cbd5e1 !important;
-        border-radius: 5px !important;
+        border-radius: 4px !important;
         background: #f8fafc !important;
         color: #0f172a !important;
         font-weight: 600 !important;
@@ -490,23 +497,24 @@
     .inputs-row-3 {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 10px !important;
+        gap: 8px !important;
     }
 
     .inputs-row-4 {
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
-        gap: 10px !important;
+        gap: 8px !important;
     }
 
     .inputs-row-site {
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
-        gap: 10px !important;
+        gap: 8px !important;
     }
 
     /* ------------------------------------------------------------- */
     /* PÁGINA 2: ACONDICIONAMIENTO PSICROMÉTRICO Y TABLA MULTIPASO   */
+    /* Un solo salto de página antes de iniciar los resultados       */
     /* ------------------------------------------------------------- */
     .print-page-1-right {
         margin-left: 0 !important;
@@ -514,8 +522,6 @@
         width: 100% !important;
         page-break-before: always !important;
         break-before: page !important;
-        page-break-after: always !important;
-        break-after: page !important;
     }
 
     .print-page-1-right div[style*="overflow-x"],
