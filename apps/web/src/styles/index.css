@@ -439,7 +439,9 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     justify-content: space-between;
     align-items: flex-start;
     padding: 12px 18px;
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 45%, #ea580c 85%, #F3912D 100%);
+    border-bottom: 3px solid #F3912D;
+    box-shadow: 0 4px 12px rgba(243, 145, 45, 0.15);
     color: #ffffff;
     border-radius: 8px;
     margin-bottom: 12px;
@@ -450,7 +452,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #60a5fa;
+    color: #F3912D;
     text-transform: uppercase;
     margin-bottom: 2px;
 }
@@ -466,7 +468,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
 
 .client-report-header .report-subtitle {
     font-size: 0.74rem;
-    color: #93c5fd;
+    color: #fed7aa;
     margin: 0;
 }
 
@@ -480,7 +482,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
 }
 
 .client-report-header .meta-label {
-    color: #94a3b8;
+    color: #fdba74;
     margin-right: 4px;
 }
 
@@ -490,19 +492,19 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     align-items: center;
     padding-bottom: 8px;
     margin-bottom: 10px;
-    border-bottom: 1px solid #cbd5e1;
+    border-bottom: 2px solid #F3912D;
     font-size: 0.78rem;
 }
 
 .client-report-section-title {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #1e3a8a;
+    color: #c2410c;
     text-transform: uppercase;
     letter-spacing: 0.03em;
     margin-bottom: 6px;
     padding-bottom: 3px;
-    border-bottom: 2px solid #e2e8f0;
+    border-bottom: 2px solid #fed7aa;
     display: flex;
     align-items: center;
 }
@@ -649,7 +651,8 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
 }
 
 .client-report-table th {
-    background-color: #f1f5f9;
+    background-color: #fff7ed;
+    border-bottom: 2px solid #F3912D;
     color: #1e293b;
     font-weight: 700;
     padding: 5px 6px;
@@ -744,7 +747,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     padding: 8px 12px;
     background: #f0fdf4;
     border: 1px solid #bbf7d0;
-    border-left: 4px solid #16a34a;
+    border-left: 4px solid #F3912D;
     border-radius: 6px;
 }
 
@@ -796,7 +799,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
 }
 
 .signature-line {
-    border-bottom: 1.5px solid #64748b;
+    border-bottom: 2px solid #F3912D;
     margin-bottom: 8px;
     height: 35px;
 }

@@ -194,7 +194,35 @@ function App(){
     window.print();
     return;
   }
-   if(a.includes('imprimirReporteCliente')||a==='btnReporteCliente'){setShowClientReport(true);return;}
+   if(a.includes('imprimirReporteCliente')||a==='btnReporteCliente'){
+     const nom = (values.empresaNombre || '').trim();
+     const ubi = (values.empresaUbicacion || '').trim();
+     const con = (values.empresaContacto || '').trim();
+     if(!nom || !ubi || !con){
+       const proceed = await Swal.fire({
+         title: lang === 'en' ? 'Incomplete Company Information' : 'Datos de Empresa Incompletos',
+         html: lang === 'en'
+           ? 'To generate a professional client report, please fill in the <b>Company Name</b>, <b>Location</b>, and <b>Contact</b> in the input form.<br><br>Do you want to complete them now?'
+           : 'Para generar un reporte profesional al cliente, debe diligenciar previamente el <b>Nombre de la empresa</b>, <b>Ubicación</b> y <b>Contacto</b> en la sección de datos de entrada.<br><br>¿Desea completarlos ahora?',
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#F3912D',
+         cancelButtonColor: '#64748b',
+         confirmButtonText: lang === 'en' ? '<i class="fas fa-edit me-1"></i> Complete Information' : '<i class="fas fa-edit me-1"></i> Diligenciar Datos',
+         cancelButtonText: lang === 'en' ? 'Open Anyway' : 'Abrir de todos modos'
+       });
+       if(proceed.isConfirmed){
+         const empInput = document.querySelector('input[name="empresaNombre"]') as HTMLInputElement || document.getElementById('empresaNombre');
+         if(empInput){
+           empInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+           empInput.focus();
+         }
+         return;
+       }
+     }
+     setShowClientReport(true);
+     return;
+   }
   if(a.startsWith('exportarCSV')){if(!displayedHistory.length){window.alert('No hay datos para exportar.');return;}download(historyCsv(displayedHistory),'historial_escenarios.csv');return;}
   if(a.startsWith('exportarPDF')){if(!displayedHistory.length){window.alert('No hay datos para exportar.');return;}historyPdf(displayedHistory);return;}
   if(a.startsWith('limpiarHistorial')){if(!history.length){window.alert('El historial ya está vacío.');return;}if(user?.cargo==='Administrador'){if(window.confirm('Como administrador, esta acción solo limpiará los escenarios creados por su cuenta. El historial de todos los demás usuarios permanecerá intacto y guardado en el sistema. ¿Desea continuar?')){await api('historial/limpiar',{});await reloadHistory();}return;}if(window.confirm('¿Está seguro de querer limpiar su historial de escenarios?')){await api('historial/limpiar',{});await reloadHistory();}return;}

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Language, t, translateRole} from '../i18n';
+import {Chart} from './Chart';
 
 export interface ClientReportProps {
   user: any;
@@ -84,9 +85,9 @@ export function ClientReport({
   const grainLabel = grainMap[grainKey] ? (isEn ? grainMap[grainKey].en : grainMap[grainKey].es) : (values.tipoGrano || 'Arroz Paddy (Largo)');
 
   // Client info (Datos de la Empresa)
-  const empresaNombre = (values.empresaNombre || '').trim() || 'Agropecuaria El Trigal';
-  const empresaUbicacion = (values.empresaUbicacion || '').trim() || 'Acarigua, Portuguesa';
-  const empresaContacto = (values.empresaContacto || '').trim() || 'Ing. Carlos Pérez / +58 414-1234567';
+  const empresaNombre = (values.empresaNombre || '').trim() || (isEn ? 'Unspecified Company' : 'Empresa por Definir');
+  const empresaUbicacion = (values.empresaUbicacion || '').trim() || (isEn ? 'Unspecified Location' : 'Ubicación por Definir');
+  const empresaContacto = (values.empresaContacto || '').trim() || (isEn ? 'Unspecified Contact' : 'Contacto por Definir');
 
   // Configuración de Grano (Image 1)
   const tempLimiteGrano = values.tempLimiteGrano || '43';
@@ -474,14 +475,22 @@ export function ClientReport({
 
         <div className="chart-and-quality-box">
           <div className="chart-preview-container">
-            <img
-              id="imgReporteClienteGrafica"
-              src={chartImageSrc || ''}
-              alt={isEn ? 'Glass Transition Curve' : 'Curva de Transición Vítrea'}
-              className="client-chart-image"
-              style={{display: chartImageSrc ? 'block' : 'none'}}
-            />
-            {!chartImageSrc && (
+            {view?.charts?.chartTransicionVitrea ? (
+              <div style={{ width: '100%', height: '240px', position: 'relative' }}>
+                <Chart
+                  id="chartTransicionVitreaClientReport"
+                  config={view.charts.chartTransicionVitrea}
+                  lang={lang}
+                />
+              </div>
+            ) : chartImageSrc ? (
+              <img
+                id="imgReporteClienteGrafica"
+                src={chartImageSrc}
+                alt={isEn ? 'Glass Transition Curve' : 'Curva de Transición Vítrea'}
+                className="client-chart-image"
+              />
+            ) : (
               <div className="chart-placeholder">
                 <i className="fas fa-chart-area fa-3x text-muted mb-2"></i>
                 <div className="text-muted small">
