@@ -173,7 +173,7 @@ function App(){
   if(a.startsWith('seleccionarMaquinaReal')){setMachine(a.match(/'(.*?)'/)?.[1]||'ax');return;}
   if(a.startsWith('ejecutarSimulacion')){const d=await api('simulacion',{...values,mode:name,machine,locale:navigator.language});setView(d.data);return;}
   if(a.startsWith('guardarEscenario')){await saveScenario();return;}
-  if(a.includes('window.print')){
+  if(a.includes('window.print') || a === 'btn-imprimir-escenario'){
     if(!hasSavedScenario){
       const confirmSave=await Swal.fire({
         title:'Registro obligatorio para imprimir',
