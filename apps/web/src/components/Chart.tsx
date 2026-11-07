@@ -34,7 +34,7 @@ export function Chart({ id, config, details, lang = 'es' }: { id: string; config
         }
       }
     }
-    if (id === 'chartTransicionVitrea') {
+    if (id.includes('chartTransicionVitrea')) {
       options.options = options.options || {};
       options.options.plugins = options.options.plugins || {};
       options.options.plugins.tooltip = {
@@ -66,6 +66,11 @@ export function Chart({ id, config, details, lang = 'es' }: { id: string; config
     } else if (id.includes('weibull-hr') && details?.statistics) {
       const w = details.statistics.weibull;
       options.options.plugins.tooltip.callbacks = { afterTitle: () => lang === 'en' ? `Mode (Most Frequent): ${w.hrModa}% | Worst Case (P90): ${details.statistics.critico.hrP90}%` : `Moda (Más Frecuente): ${w.hrModa}% | Peor Caso (P90): ${details.statistics.critico.hrP90}%` };
+    }
+    // For modal and print views: ensure maintainAspectRatio is false or responsive fits container
+    if (options.options) {
+      options.options.responsive = true;
+      options.options.maintainAspectRatio = false;
     }
     const chart = new ChartJS(ref.current, options as ChartConfiguration);
     return () => chart.destroy();
