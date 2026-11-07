@@ -34,7 +34,7 @@ function App(){
  const [screen,setScreen]=useState(new URLSearchParams(location.search).get('controller')||'dashboard');
  const name=user?screenName(screen):'auth',html=template(name);
  const [values,setValues]=useState<Record<string,string>>({}),[view,setView]=useState<any>({cells:{},charts:{}}),[grainProps,setGrainProps]=useState<any>({});
- const [machine,setMachine]=useState('ax'),[modal,setModal]=useState<string|null>(null),[rows,setRows]=useState<any[]>([]),[history,setHistory]=useState<any[]>([]),[detail,setDetail]=useState<any>(null);
+ const [machine,setMachine]=useState('ax'),[hasSavedScenario,setHasSavedScenario]=useState(false),[modal,setModal]=useState<string|null>(null),[rows,setRows]=useState<any[]>([]),[history,setHistory]=useState<any[]>([]),[detail,setDetail]=useState<any>(null);
  const [historyStats,setHistoryStats]=useState<any>(null),[historyUserFilter,setHistoryUserFilter]=useState('todos'),[historyStatusFilter,setHistoryStatusFilter]=useState('todos'),[historySearch,setHistorySearch]=useState('');
  const [tabs,setTabs]=useState(new Set(['login'])),[months,setMonths]=useState<number[]>([]),[appliedMonths,setAppliedMonths]=useState(Array.from({length:12},(_,i)=>i+1)),[slot,setSlot]=useState<any>({tipo:'diurna',nombre:'Franja Diurna / Secado Solar',horaInicio:8,horaFin:18}),[grid,setGrid]=useState(false);
  const [harvestRevision,setHarvestRevision]=useState(0);const archiveInputs=useRef<any>(null),skipMonthRefresh=useRef(false),skipFilterRefresh=useRef(false);
@@ -60,7 +60,7 @@ function App(){
  const displayedHistory=useMemo(()=>{if(!historySearch.trim())return history;const q=historySearch.toLowerCase();return history.filter(item=>(item.nombre_escenario&&item.nombre_escenario.toLowerCase().includes(q))||(item.usuario_nombre&&item.usuario_nombre.toLowerCase().includes(q))||(item.usuario_login&&item.usuario_login.toLowerCase().includes(q))||(item.tipo&&item.tipo.toLowerCase().includes(q)));},[history,historySearch]);
  const reloadRows=useCallback(()=>{const config=catalogue[name];if(config)return api(config.endpoint).then(d=>{if(mountedScreen.current===name)setRows(d.data);});return Promise.resolve();},[name]);
  useEffect(()=>{if(!ready)return;const initial=defaults(html),params=new URLSearchParams(location.search);if(['dashboard','recirculacion'].includes(name)){if(params.has('temp'))initial.tempAmbiente=params.get('temp')!;if(params.has('hr'))initial.hrAmbiente=params.get('hr')!;if(params.get('alt')&&Number(params.get('alt')))initial.altitud=params.get('alt')!;}
-   setBusy(false);cityEdited.current=false;archiveInputs.current=null;skipMonthRefresh.current=false;if(name==='cosecha'){setMonths(Array.from({length:12},(_,i)=>i+1));setAppliedMonths(Array.from({length:12},(_,i)=>i+1));setSlot({tipo:'diurna',nombre:'Franja Diurna / Secado Solar',horaInicio:8,horaFin:18});setGrid(false);setHarvestRevision(r=>r+1);}setValues(initial);setView({cells:{},charts:{}});setRows([]);setProfiles([]);setSuggestions([]);setAlert('');setMachine('ax');setCategory(null);setRunning(false);setFinished(false);setReset(r=>r+1);mountedScreen.current=name;
+   setBusy(false);cityEdited.current=false;archiveInputs.current=null;skipMonthRefresh.current=false;if(name==='cosecha'){setMonths(Array.from({length:12},(_,i)=>i+1));setAppliedMonths(Array.from({length:12},(_,i)=>i+1));setSlot({tipo:'diurna',nombre:'Franja Diurna / Secado Solar',horaInicio:8,horaFin:18});setGrid(false);setHarvestRevision(r=>r+1);}setValues(initial);setView({cells:{},charts:{}});setRows([]);setProfiles([]);setSuggestions([]);setAlert('');setMachine('ax');setCategory(null);setRunning(false);setFinished(false);setReset(r=>r+1);setHasSavedScenario(false);mountedScreen.current=name;
    const doc=new DOMParser().parseFromString(html,'text/html');setTabs(new Set([...doc.querySelectorAll('.tab-pane.active')].map(n=>n.id)));
    if(user){reloadRows().catch(e=>setAlert(e.message));reloadHistory().catch(e=>setAlert(e.message));api('simulacion/granos').then(d=>setGrainProps(d.data)).catch(e=>setAlert(e.message));}
  },[name,ready,user?.id]);
@@ -119,7 +119,48 @@ function App(){
  async function submit(id:string,form:HTMLFormElement){const data:any=Object.fromEntries(new FormData(form));setBusy(true);setAlert('');try{if(id==='form-login'){const d=await api('auth/login',data);setAlertKind('success');setAlert(d.message);await new Promise(resolve=>setTimeout(resolve,1000));setUser(d.data);navigate('dashboard');}else if(id==='form-register'){const d=await api('auth/register',data);setAlertKind('success');setAlert(d.message);setValues(v=>({...v,...Object.fromEntries(Object.entries(defaults(html)).filter(([id])=>id.startsWith('reg-')))}));setTimeout(()=>setTabs(new Set(['login'])),1500);}else if(id==='form-cosecha-clima'){await harvest();}else{if(!data.id)delete data.id;const d=await api(catalogue[name].endpoint+'/guardar',data);setModal(null);await reloadRows();void Swal.fire('¡Éxito!',d.message,'success');}}catch(e){if(catalogue[name])void Swal.fire('Error',(e as Error).message,'error');else showError(e);}finally{setBusy(false);}}
  async function openCrud(id?:number){const config=catalogue[name];let item:any={};if(id)item=(await api(config.endpoint+'/'+id)).data;setValues(v=>{const next={...v};for(const key of Object.keys(defaults(html)).filter(x=>x.startsWith(config.prefix)))next[key]=String(item[key.slice(config.prefix.length)]??'');next[config.prefix+'password']='';if(name==='maquinaria')next.maquinaria_cuerpo=item.cuerpo||'S';return next;});setModal(config.modal);}
  async function deleteCrud(id:number){const choice=await Swal.fire({title:'¿Estás seguro?',text:'¡No podrás revertir esto!',icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',cancelButtonColor:'#6c757d',confirmButtonText:'Sí, eliminar'});if(!choice.isConfirmed)return;try{const d=await api(catalogue[name].endpoint+'/eliminar',{id});void Swal.fire('Eliminado',d.message,'success');await reloadRows();}catch(e){void Swal.fire('Error',(e as Error).message,'error');}}
- async function saveScenario(){const title=window.prompt('Ingrese un nombre para este escenario:','Escenario '+new Date().toLocaleString());if(!title)return;const metric=(id:string)=>view.cells[id]?.innerText||'';const data={'Nombre de la Empresa':values.empresaNombre||'','Ubicación':values.empresaUbicacion||'','Contacto':values.empresaContacto||'','Grano':grainProps[values.tipoGrano]?.nombre||values.tipoGrano,'Humedad Inicial (%)':values.humedadInicial,'Humedad Objetivo (%)':values.humedadObjetivo,'Meta Secado (Ton/día)':values.metaSecado,'Velocidad Aire (m/s)':values.velocidadAire,'Temperatura Ambiente (°C)':values.tempAmbiente,'Humedad Relativa Ambiente (%)':values.hrAmbiente,'Altitud (msnm)':values.altitud,'Consumo Térmico Real (kWh)':metric('realSelEnergia'),'Agua a Evaporar Total (Ton/día)':metric('metricAguaTotal').replace('Total: ',''),'Caudal Total de Aire':metric('metricCaudalTotal'),'Máquina Recomendada':metric('maqAxModelo')};await api('historial/guardar',{nombre:title,tipo:name==='recirculacion'?'Recirculación':'Tempero',datos_json:JSON.stringify(data)});window.alert('Escenario guardado exitosamente.');await reloadHistory();}
+ async function saveScenario(customTitle?:string){
+  const now=new Date();
+  const pad=(n:number)=>String(n).padStart(2,'0');
+  const fechaHora=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  const defaultEmpresa=(values.empresaNombre||'').trim();
+  const defaultUbicacion=(values.empresaUbicacion||'').trim();
+  const baseName=[defaultEmpresa,defaultUbicacion].filter(Boolean).join(' - ') || 'Escenario';
+  const defaultTitle=`${baseName} ${fechaHora}`;
+  const title=customTitle || window.prompt('Ingrese un nombre para este escenario:',defaultTitle);
+  if(!title)return false;
+  const metric=(id:string)=>view.cells[id]?.innerText||'';
+  const selectedModelId=machine==='axl'?'maqAxlModelo':machine==='menor'?'maqMenorModelo':'maqAxModelo';
+  const selectedCaudalId=machine==='axl'?'maqAxlCaudal':machine==='menor'?'maqMenorCaudal':'maqAxCaudal';
+  const selectedHoldingId=machine==='axl'?'maqAxlHolding':machine==='menor'?'maqMenorHolding':'maqAxHolding';
+  const machineTypeName=machine==='axl'?'AXL (Larga)':machine==='menor'?'Económica':'AX (Estándar)';
+  const selectedModel=metric(selectedModelId)||'--';
+  const data={
+    'Nombre de la Empresa':values.empresaNombre||'--',
+    'Ubicación':values.empresaUbicacion||'--',
+    'Contacto':values.empresaContacto||'--',
+    'Grano':grainProps[values.tipoGrano]?.nombre||values.tipoGrano,
+    'Humedad Inicial (%)':values.humedadInicial,
+    'Humedad Objetivo (%)':values.humedadObjetivo,
+    'Meta Secado (Ton/día)':values.metaSecado,
+    'Velocidad Aire (m/s)':values.velocidadAire,
+    'Temperatura Ambiente (°C)':values.tempAmbiente,
+    'Humedad Relativa Ambiente (%)':values.hrAmbiente,
+    'Altitud (msnm)':values.altitud,
+    'Selección de Máquina':machineTypeName,
+    'Máquina Recomendada':selectedModel,
+    'Caudal Máquina (m³/h)':metric(selectedCaudalId)||'--',
+    'Capacidad Estática (Holding)':metric(selectedHoldingId)||'--',
+    'Consumo Térmico Real (kWh)':metric('realSelEnergia')||'--',
+    'Agua a Evaporar Total (Ton/día)':metric('metricAguaTotal').replace('Total: ','')||'--',
+    'Caudal Total de Aire':metric('metricCaudalTotal')||'--'
+  };
+  await api('historial/guardar',{nombre:title,tipo:name==='recirculacion'?'Recirculación':'Tempero',datos_json:JSON.stringify(data)});
+  setHasSavedScenario(true);
+  void Swal.fire('Escenario guardado', `El escenario "${title}" ha sido guardado exitosamente.`,'success');
+  await reloadHistory();
+  return true;
+}
  const applyWeather=(w:any)=>navigate('dashboard',{temp:String(w.temp),hr:String(w.hr),alt:values.altitud_clima||'185',origen:w.tipo||'cosecha_recomendacion',dia:w.valor||'',ciudad:values.buscar_ciudad||''});
  async function action(a:string,attrs:Record<string,string>={}){try{
   if(attrs['data-bs-toggle']==='pill'){setTabs(t=>{const next=new Set(t);const target=(attrs['data-bs-target']||'').slice(1);if(target==='login'||target==='register'){next.delete('login');next.delete('register');}else for(const item of next)if(item!=='login'&&item!=='register')next.delete(item);next.add(target);return next;});return;}
@@ -132,7 +173,27 @@ function App(){
   if(a.startsWith('seleccionarMaquinaReal')){setMachine(a.match(/'(.*?)'/)?.[1]||'ax');return;}
   if(a.startsWith('ejecutarSimulacion')){const d=await api('simulacion',{...values,mode:name,machine,locale:navigator.language});setView(d.data);return;}
   if(a.startsWith('guardarEscenario')){await saveScenario();return;}
-  if(a.includes('window.print')){window.print();return;}
+  if(a.includes('window.print')){
+    if(!hasSavedScenario){
+      const confirmSave=await Swal.fire({
+        title:'Registro obligatorio para imprimir',
+        text:'Para imprimir este escenario debe guardarlo primero en el historial para llevar el registro del cálculo y no perderlo. ¿Desea guardarlo ahora?',
+        icon:'warning',
+        showCancelButton:true,
+        confirmButtonColor:'#10b981',
+        cancelButtonColor:'#6b7280',
+        confirmButtonText:'<i class="fas fa-save me-1"></i> Sí, guardar e imprimir',
+        cancelButtonText:'Cancelar'
+      });
+      if(!confirmSave.isConfirmed)return;
+      const saved=await saveScenario();
+      if(!saved)return;
+      setTimeout(()=>window.print(),300);
+      return;
+    }
+    window.print();
+    return;
+  }
    if(a.includes('imprimirReporteCliente')||a==='btnReporteCliente'){setShowClientReport(true);return;}
   if(a.startsWith('exportarCSV')){if(!displayedHistory.length){window.alert('No hay datos para exportar.');return;}download(historyCsv(displayedHistory),'historial_escenarios.csv');return;}
   if(a.startsWith('exportarPDF')){if(!displayedHistory.length){window.alert('No hay datos para exportar.');return;}historyPdf(displayedHistory);return;}
@@ -386,8 +447,8 @@ function App(){
      return <thead className="table-light"><tr><th className="ps-3 border-0">NOMBRE ESCENARIO</th><th className="border-0">TIPO</th><th className="border-0">FECHA</th><th className="border-0 text-center">ACCIONES</th></tr></thead>;
    }
    if(node.name==='tbody'&&parent?.attribs.id==='tablaHistorial'){
-     if(user?.cargo==='Administrador')return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id} className={item.eliminado_por_usuario?'table-light opacity-75':''}><td className="ps-3"><div className="d-flex align-items-center"><i className="fas fa-user-circle text-primary me-2 fs-5"/><div><span className="fw-bold d-block text-dark">{item.usuario_nombre}</span><small className="text-muted">{item.usuario_cargo||item.usuario_login}</small></div></div></td><td className="fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center">{item.eliminado_por_usuario?<span className="badge bg-warning text-dark shadow-sm" title="El usuario eliminó este escenario de su historial"><i className="fas fa-trash-alt me-1"/>Borrado por usuario</span>:<span className="badge bg-success shadow-sm" title="Activo y visible para el usuario"><i className="fas fa-check me-1"/>Activo</span>}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario+(item.usuario_nombre?` (${item.usuario_nombre})`:''),data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-primary me-1" title="Editar Nombre" onClick={()=>{setEditItem(item);setEditName(item.nombre_escenario||'');}}><i className="fas fa-edit"/></button><button className="btn btn-sm btn-outline-secondary me-1" title="Descargar PDF" onClick={()=>singleScenarioPdf(item,lang)}><i className="fas fa-file-pdf text-danger"/></button>{item.eliminado_por_usuario&&<button className="btn btn-sm btn-outline-success me-1" title="Restaurar para el usuario" onClick={async()=>{if(window.confirm(`¿Desea restaurar este escenario para que ${item.usuario_nombre} vuelva a verlo en su historial?`)){await api('historial/restaurar',{id:item.id});await reloadHistory();}}}><i className="fas fa-undo"/></button>}<button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={6} className="text-center text-muted py-4">No hay escenarios registrados.</td></tr>}</tbody>;
-     return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id}><td className="ps-3 fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center"><button className="btn btn-sm btn-outline-info me-1" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario,data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-primary me-1" title="Editar Nombre" onClick={()=>{setEditItem(item);setEditName(item.nombre_escenario||'');}}><i className="fas fa-edit"/></button><button className="btn btn-sm btn-outline-secondary me-1" title="Descargar PDF" onClick={()=>singleScenarioPdf(item,lang)}><i className="fas fa-file-pdf text-danger"/></button><button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></td></tr>):<tr><td colSpan={4} className="text-center text-muted py-4">No hay escenarios guardados.</td></tr>}</tbody>;
+     if(user?.cargo==='Administrador')return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id} className={item.eliminado_por_usuario?'table-light opacity-75':''}><td className="ps-3"><div className="d-flex align-items-center"><i className="fas fa-user-circle text-primary me-2 fs-5"/><div><span className="fw-bold d-block text-dark">{item.usuario_nombre}</span><small className="text-muted">{item.usuario_cargo||item.usuario_login}</small></div></div></td><td className="fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center">{item.eliminado_por_usuario?<span className="badge bg-warning text-dark shadow-sm" title="El usuario eliminó este escenario de su historial"><i className="fas fa-trash-alt me-1"/>Borrado por usuario</span>:<span className="badge bg-success shadow-sm" title="Activo y visible para el usuario"><i className="fas fa-check me-1"/>Activo</span>}</td><td className="text-center text-nowrap"><div className="d-inline-flex align-items-center gap-1"><button className="btn btn-sm btn-outline-info" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario+(item.usuario_nombre?` (${item.usuario_nombre})`:''),data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-primary" title="Editar Nombre" onClick={()=>{setEditItem(item);setEditName(item.nombre_escenario||'');}}><i className="fas fa-edit"/></button><button className="btn btn-sm btn-outline-secondary" title="Descargar PDF" onClick={()=>singleScenarioPdf(item,lang)}><i className="fas fa-file-pdf text-danger"/></button>{item.eliminado_por_usuario&&<button className="btn btn-sm btn-outline-success" title="Restaurar para el usuario" onClick={async()=>{if(window.confirm(`¿Desea restaurar este escenario para que ${item.usuario_nombre} vuelva a verlo en su historial?`)){await api('historial/restaurar',{id:item.id});await reloadHistory();}}}><i className="fas fa-undo"/></button>}<button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></div></td></tr>):<tr><td colSpan={6} className="text-center text-muted py-4">No hay escenarios registrados.</td></tr>}</tbody>;
+     return <tbody>{displayedHistory.length?displayedHistory.map(item=><tr key={item.id}><td className="ps-3 fw-bold">{item.nombre_escenario}</td><td><span className="badge bg-secondary">{item.tipo}</span></td><td>{item.creado_en}</td><td className="text-center text-nowrap"><div className="d-inline-flex align-items-center gap-1"><button className="btn btn-sm btn-outline-info" title="Ver Detalles" onClick={()=>{try{setDetail({title:'Detalles de '+item.nombre_escenario,data:JSON.parse(item.datos_json)});}catch{setAlert('Error al leer los detalles.');}}}><i className="fas fa-eye"/></button><button className="btn btn-sm btn-outline-primary" title="Editar Nombre" onClick={()=>{setEditItem(item);setEditName(item.nombre_escenario||'');}}><i className="fas fa-edit"/></button><button className="btn btn-sm btn-outline-secondary" title="Descargar PDF" onClick={()=>singleScenarioPdf(item,lang)}><i className="fas fa-file-pdf text-danger"/></button><button className="btn btn-sm btn-outline-danger" title="Eliminar" onClick={async()=>{if(window.confirm('¿Está seguro de eliminar este escenario?')){await api('historial/eliminar',{id:item.id});await reloadHistory();}}}><i className="fas fa-trash"/></button></div></td></tr>):<tr><td colSpan={4} className="text-center text-muted py-4">No hay escenarios guardados.</td></tr>}</tbody>;
    }
    if(node.name==='tbody'&&['tablaPasos','tablaPasosReal'].includes(parent?.attribs.id||''))return <tbody><Template html={view.cells?.['#'+parent!.attribs.id+' tbody']?.innerHTML||''} context={context}/></tbody>;
    return undefined;
