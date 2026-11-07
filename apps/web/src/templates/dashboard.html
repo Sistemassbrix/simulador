@@ -582,22 +582,41 @@
         color: #64748b !important;
     }
 
+    .print-page-1-right .sim-card .sim-card {
+        padding: 0 !important;
+        border: none !important;
+        margin-bottom: 24px !important;
+    }
+
+    .print-page-1-right .metrics-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 14px !important;
+        margin-bottom: 8px !important;
+    }
+
     .print-page-1-right .sim-card-title {
         font-size: 1.05rem !important;
         font-weight: 700 !important;
         color: #F3912D !important;
-        margin-top: 6px !important;
-        margin-bottom: 8px !important;
-        padding-bottom: 4px !important;
+        margin-top: 26px !important;
+        margin-bottom: 14px !important;
+        padding-bottom: 6px !important;
         border-bottom: 2px solid #ffedd5 !important;
     }
 
-    /* Tabla de pasos LSU completa a todo el ancho (echada a la izquierda) */
+    /* El primer título (Acondicionamiento) arriba */
+    .print-page-1-right .sim-card .sim-card .sim-card-title {
+        margin-top: 0 !important;
+        margin-bottom: 12px !important;
+    }
+
+    /* Tabla de pasos LSU completa a todo el ancho con separación superior */
     .print-page-1-right .sim-table {
         font-size: 0.82rem !important;
         width: 100% !important;
         table-layout: auto !important;
-        margin-top: 6px !important;
+        margin-top: 10px !important;
         margin-left: 0 !important;
         border-collapse: collapse !important;
     }
