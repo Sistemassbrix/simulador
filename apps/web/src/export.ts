@@ -1,5 +1,6 @@
 import {jsPDF} from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {PDF_ASSETS} from './pdfAssets';
 
 export function parseCompany(json?: string, nombreEscenario?: string) {
   let empresa = '';
@@ -86,7 +87,12 @@ export function historyPdf(rows:any[]){
 }
 
 export function singleScenarioPdf(item: any, lang: string = 'es') {
-  const doc = new jsPDF();
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4'
+  });
+  const isEn = lang === 'en';
   const scenarioTitle = item.nombre_escenario || 'Escenario';
   const c = parseCompany(item.datos_json, scenarioTitle);
   let data: Record<string, any> = {};
@@ -94,85 +100,165 @@ export function singleScenarioPdf(item: any, lang: string = 'es') {
     data = typeof item.datos_json === 'string' ? JSON.parse(item.datos_json) : (item.datos_json || {});
   } catch {}
 
-  // Header band
-  doc.setFillColor(13, 110, 253);
-  doc.rect(0, 0, 210, 22, 'F');
-  
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(13);
-  doc.setFont('helvetica', 'bold');
-  doc.text(lang === 'en' ? 'GRAIN DRYING SIMULATOR - SCENARIO REPORT' : 'SIMULADOR DE SECADO - REPORTE DE ESCENARIO', 14, 14);
+  // 1. Barra superior: Logos corporativos SuperBrix y Simulador LSU
+  try {
+    if (PDF_ASSETS.superbrixLogo) {
+      doc.addImage(PDF_ASSETS.superbrixLogo, 'PNG', 14, 8, 38, 9, undefined, 'FAST');
+    }
+    if (PDF_ASSETS.appLogo) {
+      doc.addImage(PDF_ASSETS.appLogo, 'PNG', 56, 7, 28, 11, undefined, 'FAST');
+    }
+  } catch (e) {
+    console.warn('Error loading header logos in PDF:', e);
+  }
 
-  // Scenario Title
-  doc.setTextColor(33, 37, 41);
-  doc.setFontSize(15);
+  // Subtítulo derecho en el header
   doc.setFont('helvetica', 'bold');
-  doc.text(scenarioTitle, 14, 32);
-
-  // Metadata
-  doc.setFontSize(9);
+  doc.setFontSize(8.5);
+  doc.setTextColor(15, 23, 42); // slate-900
+  doc.text('MEGA LSU INDUSTRIAL', 196, 11, { align: 'right' });
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(108, 117, 125);
-  
-  let metaY = 38;
-  const creator = item.usuario_nombre ? `${item.usuario_nombre}${item.usuario_cargo ? ` (${item.usuario_cargo})` : ''}` : '';
-  if (creator) {
-    doc.text(`${lang === 'en' ? 'User / Operator' : 'Usuario / Operador'}: ${creator}`, 14, metaY);
-    metaY += 5;
+  doc.setFontSize(7.5);
+  doc.setTextColor(100, 116, 139); // slate-500
+  doc.text('SuperBrix Drying Technology', 196, 15, { align: 'right' });
+
+  // 2. Banner con imagen de fondo y títulos corporativos
+  const bannerY = 20;
+  const bannerH = 26;
+  try {
+    if (PDF_ASSETS.bannerBg) {
+      doc.addImage(PDF_ASSETS.bannerBg, 'JPEG', 14, bannerY, 182, bannerH, undefined, 'FAST');
+      // Overlay semitransparente oscuro/naranja para legibilidad del texto
+      doc.setFillColor(15, 23, 42);
+      // @ts-ignore
+      if (doc.GState) {
+        // @ts-ignore
+        doc.setGState(new doc.GState({ opacity: 0.62 }));
+        doc.rect(14, bannerY, 182, bannerH, 'F');
+        // @ts-ignore
+        doc.setGState(new doc.GState({ opacity: 1.0 }));
+      }
+    } else {
+      doc.setFillColor(243, 145, 45); // #F3912D
+      doc.rect(14, bannerY, 182, bannerH, 'F');
+    }
+  } catch (e) {
+    doc.setFillColor(243, 145, 45);
+    doc.rect(14, bannerY, 182, bannerH, 'F');
   }
-  const typeStr = item.tipo || '';
+
+  // Borde inferior naranja corporativo #F3912D
+  doc.setFillColor(243, 145, 45);
+  doc.rect(14, bannerY + bannerH - 1.5, 182, 1.5, 'F');
+
+  // Textos dentro del Banner
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(255, 255, 255);
+  doc.text(isEn ? 'SCENARIO REPORT' : 'REPORTE DEL ESCENARIO', 20, bannerY + 11);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.setTextColor(254, 215, 170); // #fed7aa
+  doc.text(
+    isEn
+      ? 'Drying Simulation & Industrial Evaluation Record'
+      : 'Registro de Simulación de Secado y Evaluación Industrial',
+    20,
+    bannerY + 18
+  );
+
+  // Metadatos en el lado derecho del banner
+  const typeStr = item.tipo || 'Tempero';
   const dateStr = item.creado_en || '';
-  doc.text(`${lang === 'en' ? 'Simulation Type' : 'Tipo de Simulación'}: ${typeStr}  |  ${lang === 'en' ? 'Date' : 'Fecha'}: ${dateStr}`, 14, metaY);
-  metaY += 5;
+  const creator = item.usuario_nombre ? `${item.usuario_nombre}${item.usuario_cargo ? ` (${item.usuario_cargo})` : ''}` : '';
 
-  if (c.empresa || c.ubicacion) {
-    const compText = `${lang === 'en' ? 'Company' : 'Empresa'}: ${c.empresa || '--'}  |  ${lang === 'en' ? 'Location' : 'Ubicación'}: ${c.ubicacion || '--'}`;
-    doc.text(compText, 14, metaY);
-    metaY += 6;
-  } else {
-    metaY += 3;
+  doc.setFontSize(7.5);
+  doc.setTextColor(255, 255, 255);
+  doc.text(`${isEn ? 'Type' : 'Tipo'}: ${typeStr}  |  ${isEn ? 'Date' : 'Fecha'}: ${dateStr}`, 190, bannerY + 10, { align: 'right' });
+  if (creator) {
+    doc.text(`${isEn ? 'User' : 'Usuario'}: ${creator}`, 190, bannerY + 16, { align: 'right' });
   }
 
-  // Filter out redundant company / location rows from table if present
+  // 3. Tarjeta de Información General / Empresa (Sin contacto)
+  let cardY = bannerY + bannerH + 5;
+  doc.setFillColor(255, 247, 237); // #fff7ed
+  doc.setDrawColor(254, 215, 170); // #fed7aa
+  doc.setLineWidth(0.4);
+  doc.roundedRect(14, cardY, 182, 16, 2, 2, 'FD');
+
+  // Borde izquierdo naranja #F3912D
+  doc.setFillColor(243, 145, 45);
+  doc.rect(14, cardY, 2.5, 16, 'F');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(194, 65, 12); // #c2410c
+  doc.text(isEn ? 'SCENARIO IDENTIFICATION' : 'IDENTIFICACIÓN DEL ESCENARIO', 20, cardY + 6);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(51, 65, 85); // slate-700
+  const infoEmpresa = `${isEn ? 'Scenario Name' : 'Nombre'}: ${scenarioTitle}   |   ${isEn ? 'Company' : 'Empresa'}: ${c.empresa || '--'}${c.ubicacion ? ` (${c.ubicacion})` : ''}`;
+  doc.text(infoEmpresa, 20, cardY + 11.5);
+
+  // 4. Tabla estructurada del escenario: SIN opciones de empresa ni contacto
+  const excludedKeys = [
+    'Nombre de la Empresa',
+    'Company Name',
+    'Ubicación',
+    'Location',
+    'Contacto',
+    'Contact'
+  ];
+
   const rows: [string, string][] = [];
   for (const [k, v] of Object.entries(data)) {
-    if (['Nombre de la Empresa', 'Company Name', 'Ubicación', 'Location'].includes(k)) continue;
+    if (excludedKeys.includes(k)) continue;
     rows.push([k, String(v ?? '--')]);
   }
 
   autoTable(doc, {
-    startY: metaY + 2,
-    head: [[lang === 'en' ? 'Parameter / Metric' : 'Parámetro / Métrica', lang === 'en' ? 'Result / Value' : 'Resultado / Valor']],
+    startY: cardY + 20,
+    head: [[isEn ? 'Parameter / Operating Variable' : 'Parámetro / Variable Operativa', isEn ? 'Value / Simulated Result' : 'Valor / Resultado Simulado']],
     body: rows,
-    theme: 'striped',
+    theme: 'grid',
     headStyles: {
-      fillColor: [13, 110, 253],
+      fillColor: [243, 145, 45], // #F3912D Naranja corporativo
       textColor: [255, 255, 255],
       fontStyle: 'bold',
-      fontSize: 9.5
+      fontSize: 8.5,
+      halign: 'left',
+      cellPadding: 3.5
     },
     bodyStyles: {
-      fontSize: 9,
-      textColor: [33, 37, 41]
+      fontSize: 8,
+      textColor: [15, 23, 42],
+      cellPadding: 3
     },
     columnStyles: {
-      0: { fontStyle: 'bold', cellWidth: 95 },
-      1: { cellWidth: 85 }
+      0: { fontStyle: 'bold', cellWidth: 105, textColor: [30, 41, 59] },
+      1: { cellWidth: 77, fontStyle: 'normal' }
     },
     alternateRowStyles: {
-      fillColor: [248, 249, 250]
+      fillColor: [255, 250, 245] // Tono sutil cálido corporativo
+    },
+    styles: {
+      lineColor: [254, 215, 170], // #fed7aa
+      lineWidth: 0.2
     }
   });
 
+  // Pie de página en todas las páginas
   const pageCount = (doc as any).internal.getNumberOfPages();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
-    doc.setFontSize(8);
-    doc.setTextColor(150);
+    doc.setFontSize(7.5);
+    doc.setTextColor(148, 163, 184); // slate-400
     doc.text(
-      `${lang === 'en' ? 'Page' : 'Página'} ${i} / ${pageCount} - Generado por Simulador de Secado`,
+      `${isEn ? 'Page' : 'Página'} ${i} / ${pageCount} — ${isEn ? 'Generated by LSU Industrial Drying Simulator (SuperBrix)' : 'Generado por Simulador Industrial de Secado LSU (SuperBrix)'}`,
       14,
-      doc.internal.pageSize.height - 10
+      doc.internal.pageSize.height - 8
     );
   }
 

@@ -836,6 +836,12 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
    ========================================================================== */
 
 @media print {
+    /* Configuración de página limpia sin márgenes excesivos */
+    @page {
+        size: letter portrait;
+        margin: 8mm 10mm;
+    }
+
     body.modo-reporte-cliente * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -849,7 +855,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
         padding: 0 !important;
     }
 
-    /* En modo reporte al cliente, ocultar TODA la UI de la app estándar y modales Radix innecesarios */
+    /* Ocultar ABSOLUTAMENTE toda la interfaz base del simulador cuando se imprime el reporte */
     body.modo-reporte-cliente #wrapper,
     body.modo-reporte-cliente #page-content-wrapper,
     body.modo-reporte-cliente #sidebar-wrapper,
@@ -861,11 +867,26 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     body.modo-reporte-cliente .original-dialog:not([id*="Reporte Técnico"]),
     body.modo-reporte-cliente .modal:not([id*="Reporte Técnico"]) {
         display: none !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
-    /* Mostrar e independizar el diálogo del reporte al cliente */
-    body.modo-reporte-cliente .original-dialog[id*="Reporte Técnico"],
+    /* Independizar y aplanar completamente el Portal Radix y el Dialog del Reporte */
     body.modo-reporte-cliente [data-radix-portal] {
+        display: block !important;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        z-index: auto !important;
+    }
+
+    body.modo-reporte-cliente .original-dialog[id*="Reporte Técnico"] {
         display: block !important;
         position: static !important;
         inset: auto !important;
@@ -873,7 +894,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
         height: auto !important;
         padding: 0 !important;
         margin: 0 !important;
-        background: #ffffff !important;
+        background: transparent !important;
         overflow: visible !important;
         z-index: auto !important;
     }
@@ -886,6 +907,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
         margin: 0 !important;
         padding: 0 !important;
         border-radius: 0 !important;
+        background: transparent !important;
     }
 
     body.modo-reporte-cliente .original-dialog[id*="Reporte Técnico"] .modal-header,
@@ -897,7 +919,8 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
         max-height: none !important;
         overflow: visible !important;
         padding: 0 !important;
-        background: #ffffff !important;
+        margin: 0 !important;
+        background: transparent !important;
     }
 
     body.modo-reporte-cliente #contenedor-reporte-cliente {
@@ -905,7 +928,7 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
         position: static !important;
         width: 100% !important;
         max-width: 100% !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
     }
@@ -917,20 +940,25 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
         padding: 0 !important;
     }
 
+    /* PÁGINA 1: Comienza estrictamente en la primera hoja física de impresión (evita hoja en blanco previa) */
     body.modo-reporte-cliente .client-report-page-1 {
-        page-break-after: always !important;
-        break-after: page !important;
         page-break-before: avoid !important;
         break-before: avoid !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
     }
 
+    /* PÁGINA 2: Salta limpiamente después de la tabla multipaso */
     body.modo-reporte-cliente .client-report-page-2 {
         clear: both !important;
         page-break-before: always !important;
         break-before: page !important;
-        padding-top: 15px !important;
+        padding-top: 10px !important;
     }
 
+    /* Prevenir quiebres indeseados dentro de tarjetas o tablas */
     body.modo-reporte-cliente .client-inputs-grid-4,
     body.modo-reporte-cliente .input-card,
     body.modo-reporte-cliente .kpi-real-grid,
