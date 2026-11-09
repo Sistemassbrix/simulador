@@ -150,6 +150,7 @@ function App(){
     'Máquina Seleccionada':selectedModel,
     'Caudal Máquina (m³/h)':metric(selectedCaudalId)||'--',
     'Capacidad Estática (Holding)':metric(selectedHoldingId)||'--',
+    'Tiempo Total por Lote':metric('realSelTiempo')||metric('metricTiempoTotal')||'--',
     'Consumo Térmico Real (kWh)':metric('realSelEnergia')||'--',
     'Agua a Evaporar':`${metric('metricAgua')||'--'} (${metric('metricAguaTotal').replace('Total: ','')||'--'})`,
     'Caudal Total de Aire':metric('metricCaudalTotal')||'--'
