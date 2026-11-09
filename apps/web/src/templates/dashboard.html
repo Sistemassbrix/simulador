@@ -373,7 +373,7 @@
         padding: 0 !important;
     }
 
-    .main-results-container {
+    body:not(.modo-reporte-cliente) .main-results-container {
         display: block !important;
         width: 100% !important;
         margin: 0 !important;
@@ -383,7 +383,7 @@
     /* ------------------------------------------------------------- */
     /* PÁGINA 1: ENCABEZADO REAL CON BANNER + 4 BLOQUES DE ENTRADA   */
     /* ------------------------------------------------------------- */
-    .sim-header {
+    body:not(.modo-reporte-cliente) .sim-header {
         background-image: linear-gradient(90deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.18) 45%, rgba(15, 23, 42, 0) 100%), url('/banner-tempero.jpg') !important;
         background-size: cover !important;
         background-position: center !important;
@@ -399,7 +399,7 @@
         break-after: avoid !important;
     }
 
-    .sim-header h1 {
+    body:not(.modo-reporte-cliente) .sim-header h1 {
         font-family: 'Exo', system-ui, -apple-system, sans-serif !important;
         font-size: 1.35rem !important;
         font-weight: 700 !important;
@@ -408,7 +408,7 @@
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
     }
 
-    .sim-header p {
+    body:not(.modo-reporte-cliente) .sim-header p {
         color: #f1f5f9 !important;
         font-size: 0.78rem !important;
         font-weight: 500 !important;
@@ -427,7 +427,7 @@
     }
 
     /* Contenedor horizontal de datos de entrada: cabe perfectamente en Página 1 */
-    .horizontal-inputs-container {
+    body:not(.modo-reporte-cliente) .horizontal-inputs-container {
         display: flex !important;
         flex-direction: column !important;
         gap: 18px !important;
@@ -469,7 +469,7 @@
         display: none !important;
     }
 
-    .horizontal-inputs-container .sim-label {
+    body:not(.modo-reporte-cliente) .horizontal-inputs-container .sim-label {
         margin-bottom: 3px !important;
         font-size: 0.74rem !important;
         font-weight: 600 !important;
@@ -477,12 +477,12 @@
         line-height: 1.2 !important;
     }
 
-    .horizontal-inputs-container .sim-label .unit {
+    body:not(.modo-reporte-cliente) .horizontal-inputs-container .sim-label .unit {
         font-size: 0.67rem !important;
         color: #94a3b8 !important;
     }
 
-    .horizontal-inputs-container .sim-input {
+    body:not(.modo-reporte-cliente) .horizontal-inputs-container .sim-input {
         padding: 4px 10px !important;
         font-size: 0.82rem !important;
         height: 32px !important;
@@ -517,7 +517,7 @@
     /* PÁGINA 2: ACONDICIONAMIENTO PSICROMÉTRICO Y TABLA MULTIPASO   */
     /* Un solo salto de página antes de iniciar los resultados       */
     /* ------------------------------------------------------------- */
-    .print-page-1-right {
+    body:not(.modo-reporte-cliente) .print-page-1-right {
         margin-left: 0 !important;
         display: block !important;
         width: 100% !important;
@@ -525,13 +525,13 @@
         break-before: page !important;
     }
 
-    .print-page-1-right div[style*="overflow-x"],
-    .print-page-1-right .sim-card>div,
-    .print-page-section div[style*="overflow-x"] {
+    body:not(.modo-reporte-cliente) .print-page-1-right div[style*="overflow-x"],
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-card>div,
+    body:not(.modo-reporte-cliente) .print-page-section div[style*="overflow-x"] {
         overflow: visible !important;
     }
 
-    .print-page-1-right .sim-card {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-card {
         padding: 14px 18px !important;
         margin-bottom: 0 !important;
         border: 1px solid #cbd5e1 !important;
@@ -542,20 +542,20 @@
         break-inside: avoid !important;
     }
 
-    .print-page-1-right .sim-card .sim-card {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-card .sim-card {
         padding: 0 !important;
         border: none !important;
         margin-bottom: 12px !important;
     }
 
-    .print-page-1-right .metrics-grid {
+    body:not(.modo-reporte-cliente) .print-page-1-right .metrics-grid {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 12px !important;
         margin-bottom: 12px !important;
     }
 
-    .print-page-1-right .metric-card {
+    body:not(.modo-reporte-cliente) .print-page-1-right .metric-card {
         padding: 10px 14px !important;
         background: #ffffff !important;
         border: 1px solid #e2e8f0 !important;
@@ -563,39 +563,39 @@
         border-radius: 6px !important;
     }
 
-    .print-page-1-right .metric-label {
+    body:not(.modo-reporte-cliente) .print-page-1-right .metric-label {
         font-size: 0.72rem !important;
         color: #64748b !important;
         font-weight: 700 !important;
         text-transform: uppercase !important;
     }
 
-    .print-page-1-right .metric-val {
+    body:not(.modo-reporte-cliente) .print-page-1-right .metric-val {
         font-size: 1.35rem !important;
         font-weight: 800 !important;
         color: #0f172a !important;
         margin: 3px 0 !important;
     }
 
-    .print-page-1-right .metric-sub {
+    body:not(.modo-reporte-cliente) .print-page-1-right .metric-sub {
         font-size: 0.72rem !important;
         color: #64748b !important;
     }
 
-    .print-page-1-right .sim-card .sim-card {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-card .sim-card {
         padding: 0 !important;
         border: none !important;
         margin-bottom: 24px !important;
     }
 
-    .print-page-1-right .metrics-grid {
+    body:not(.modo-reporte-cliente) .print-page-1-right .metrics-grid {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 14px !important;
         margin-bottom: 8px !important;
     }
 
-    .print-page-1-right .sim-card-title {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-card-title {
         font-size: 1.05rem !important;
         font-weight: 700 !important;
         color: #F3912D !important;
@@ -606,13 +606,13 @@
     }
 
     /* El primer título (Acondicionamiento) arriba */
-    .print-page-1-right .sim-card .sim-card .sim-card-title {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-card .sim-card .sim-card-title {
         margin-top: 0 !important;
         margin-bottom: 12px !important;
     }
 
     /* Tabla de pasos LSU completa a todo el ancho con separación superior */
-    .print-page-1-right .sim-table {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-table {
         font-size: 0.82rem !important;
         width: 100% !important;
         table-layout: auto !important;
@@ -621,7 +621,7 @@
         border-collapse: collapse !important;
     }
 
-    .print-page-1-right .sim-table th {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-table th {
         background-color: #fff7ed !important;
         color: #c2410c !important;
         font-weight: 700 !important;
@@ -635,12 +635,12 @@
         white-space: normal !important;
     }
 
-    .print-page-1-right .sim-table th:first-child {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-table th:first-child {
         text-align: left !important;
         padding-left: 8px !important;
     }
 
-    .print-page-1-right .sim-table td {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-table td {
         padding: 7px 4px !important;
         border-bottom: 1px solid #fed7aa !important;
         font-size: 0.82rem !important;
@@ -651,7 +651,7 @@
         white-space: nowrap !important;
     }
 
-    .print-page-1-right .sim-table td:first-child {
+    body:not(.modo-reporte-cliente) .print-page-1-right .sim-table td:first-child {
         text-align: left !important;
         padding-left: 8px !important;
         font-weight: 700 !important;
@@ -692,7 +692,7 @@
     /* ------------------------------------------------------------- */
     /* PÁGINAS 3, 4 Y 5: Secciones de Resultados Posteriores          */
     /* ------------------------------------------------------------- */
-    .print-page-section {
+    body:not(.modo-reporte-cliente) .print-page-section {
         clear: both !important;
         break-before: page !important;
         page-break-before: always !important;
@@ -714,7 +714,7 @@
         padding-top: 15px !important;
     }
 
-    .print-page-section .sim-card {
+    body:not(.modo-reporte-cliente) .print-page-section .sim-card {
         width: 100% !important;
         background: #ffffff !important;
         border: 1px solid #cbd5e1 !important;
@@ -727,7 +727,7 @@
         margin-bottom: 18px !important;
     }
 
-    .print-page-section .sim-card-title {
+    body:not(.modo-reporte-cliente) .print-page-section .sim-card-title {
         font-size: 1.12rem !important;
         font-weight: 700 !important;
         color: #F3912D !important;

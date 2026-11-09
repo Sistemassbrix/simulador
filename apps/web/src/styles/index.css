@@ -856,6 +856,8 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     }
 
     /* Ocultar ABSOLUTAMENTE toda la interfaz base del simulador cuando se imprime el reporte */
+    body.modo-reporte-cliente #root,
+    body.modo-reporte-cliente > *:not([data-radix-portal]),
     body.modo-reporte-cliente #wrapper,
     body.modo-reporte-cliente #page-content-wrapper,
     body.modo-reporte-cliente #sidebar-wrapper,

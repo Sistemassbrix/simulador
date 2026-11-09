@@ -479,10 +479,14 @@ function App(){
           style={{ border: '1px solid #cbd5e1' }}
           onClick={()=>{
             document.body.classList.add('modo-reporte-cliente');
-            window.print();
-            setTimeout(() => {
-              document.body.classList.remove('modo-reporte-cliente');
-            }, 1000);
+            requestAnimationFrame(() => {
+              setTimeout(() => {
+                window.print();
+                setTimeout(() => {
+                  document.body.classList.remove('modo-reporte-cliente');
+                }, 1000);
+              }, 50);
+            });
           }}
         >
           <i className="fas fa-print text-primary"/>Imprimir / Guardar PDF
