@@ -473,7 +473,18 @@ function App(){
         <i className="fas fa-file-invoice me-2 fs-5"/>Vista Previa - Reporte al Cliente
       </h6>
       <div className="d-flex align-items-center gap-2 me-4">
-        <button type="button" className="btn btn-light btn-sm fw-bold px-3 shadow-sm text-dark d-flex align-items-center gap-2" style={{ border: '1px solid #cbd5e1' }} onClick={()=>{window.print();}}>
+        <button
+          type="button"
+          className="btn btn-light btn-sm fw-bold px-3 shadow-sm text-dark d-flex align-items-center gap-2"
+          style={{ border: '1px solid #cbd5e1' }}
+          onClick={()=>{
+            document.body.classList.add('modo-reporte-cliente');
+            window.print();
+            setTimeout(() => {
+              document.body.classList.remove('modo-reporte-cliente');
+            }, 1000);
+          }}
+        >
           <i className="fas fa-print text-primary"/>Imprimir / Guardar PDF
         </button>
       </div>

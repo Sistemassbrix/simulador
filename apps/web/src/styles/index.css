@@ -855,22 +855,62 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
         padding: 0 !important;
     }
 
+    /* En modo reporte al cliente, ocultar TODA la UI de la app estándar y modales Radix innecesarios */
+    body.modo-reporte-cliente #wrapper,
+    body.modo-reporte-cliente #page-content-wrapper,
     body.modo-reporte-cliente #sidebar-wrapper,
     body.modo-reporte-cliente .navbar,
-    body.modo-reporte-cliente .sim-container > .sim-header,
-    body.modo-reporte-cliente .sim-container > .grid-layout,
-    body.modo-reporte-cliente .sim-card.mt-5,
+    body.modo-reporte-cliente .sim-container,
+    body.modo-reporte-cliente .sim-card,
     body.modo-reporte-cliente .d-print-none,
     body.modo-reporte-cliente .modal-backdrop,
-    body.modo-reporte-cliente .modal {
+    body.modo-reporte-cliente .original-dialog:not([id*="Reporte Técnico"]),
+    body.modo-reporte-cliente .modal:not([id*="Reporte Técnico"]) {
         display: none !important;
+    }
+
+    /* Mostrar e independizar el diálogo del reporte al cliente */
+    body.modo-reporte-cliente .original-dialog[id*="Reporte Técnico"],
+    body.modo-reporte-cliente [data-radix-portal] {
+        display: block !important;
+        position: static !important;
+        inset: auto !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #ffffff !important;
+        overflow: visible !important;
+        z-index: auto !important;
+    }
+
+    body.modo-reporte-cliente .original-dialog[id*="Reporte Técnico"] .modal-content {
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    body.modo-reporte-cliente .original-dialog[id*="Reporte Técnico"] .modal-header,
+    body.modo-reporte-cliente .original-dialog[id*="Reporte Técnico"] button {
+        display: none !important;
+    }
+
+    body.modo-reporte-cliente .original-dialog[id*="Reporte Técnico"] .modal-body {
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        background: #ffffff !important;
     }
 
     body.modo-reporte-cliente #contenedor-reporte-cliente {
         display: block !important;
         position: relative !important;
         width: 100% !important;
-        max-width: 980px !important;
+        max-width: 100% !important;
         margin: 0 auto !important;
         padding: 0 !important;
         background: #ffffff !important;
@@ -895,17 +935,18 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
         padding-top: 15px !important;
     }
 
-    body.modo-reporte-cliente .client-info-card,
-    body.modo-reporte-cliente .kpi-card,
+    body.modo-reporte-cliente .client-inputs-grid-4,
+    body.modo-reporte-cliente .input-card,
+    body.modo-reporte-cliente .kpi-real-grid,
     body.modo-reporte-cliente .steps-table-wrapper,
     body.modo-reporte-cliente .chart-and-quality-box,
     body.modo-reporte-cliente .recommendations-box,
+    body.modo-reporte-cliente .signatures-container,
     body.modo-reporte-cliente .signature-card {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
     }
 }
-
 
 /* Font Awesome 6 Free icon rendering fix */
 .fa,

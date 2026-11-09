@@ -323,37 +323,45 @@ export function ClientReport({
     <div className="client-report-document">
       {/* ==================== PÁGINA 1: DATOS, CONDICIONES, SIMULACIÓN REAL Y TABLA SIN TIEMPOS ==================== */}
       <div className="client-report-page client-report-page-1">
-        {/* Encabezado Corporativo */}
+        {/* Encabezado Corporativo con Logos de la Empresa y del Aplicativo */}
         <div className="client-report-header">
-          <div className="header-left">
-            <div className="brand-logo-badge">
-              <i className="fas fa-industry me-2"></i>MEGA LSU INDUSTRIAL
+          <div className="header-branding-row d-flex align-items-center justify-content-between w-100 mb-2 pb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
+            <div className="d-flex align-items-center gap-3">
+              <img src="/superbrix-logo.png" alt="Superbrix" style={{ height: '34px', width: 'auto', objectFit: 'contain', background: '#ffffff', padding: '3px 8px', borderRadius: '4px' }} />
+              <img src="/logo.png" alt="Simulador LSU" style={{ height: '34px', width: 'auto', objectFit: 'contain', background: 'rgba(255,255,255,0.95)', padding: '3px 8px', borderRadius: '4px' }} />
             </div>
-            <h1 className="report-main-title">
-              {isEn ? 'CLIENT TECHNICAL REPORT - DRYING SIMULATION' : 'REPORTE TÉCNICO AL CLIENTE - SIMULACIÓN DE SECADO'}
-            </h1>
-            <p className="report-subtitle">
-              {isEn
-                ? 'Guaranteed Industrial Performance, Operating Conditions & Multipass Strategy'
-                : 'Rendimiento Industrial Garantizado, Condiciones Operativas y Estrategia Multipaso'}
-            </p>
+            <div className="brand-logo-badge text-end" style={{ color: '#fed7aa', letterSpacing: '0.05em' }}>
+              <i className="fas fa-industry me-1 text-white"></i>SUPERBRIX | MEGA LSU INDUSTRIAL
+            </div>
           </div>
-          <div className="header-right">
-            <div className="meta-item">
-              <span className="meta-label">{isEn ? 'Report No.' : 'N° Reporte'}:</span>
-              <span className="meta-value fw-bold text-primary">REP-LSU-{new Date().getFullYear()}-{user?.id || 1}</span>
+          <div className="d-flex justify-content-between align-items-start w-100">
+            <div className="header-left">
+              <h1 className="report-main-title">
+                {isEn ? 'CLIENT TECHNICAL REPORT - DRYING SIMULATION' : 'REPORTE TÉCNICO AL CLIENTE - SIMULACIÓN DE SECADO'}
+              </h1>
+              <p className="report-subtitle">
+                {isEn
+                  ? 'Guaranteed Industrial Performance, Operating Conditions & Multipass Strategy'
+                  : 'Rendimiento Industrial Garantizado, Condiciones Operativas y Estrategia Multipaso'}
+              </p>
             </div>
-            <div className="meta-item">
-              <span className="meta-label">{isEn ? 'Date / Time' : 'Fecha / Hora'}:</span>
-              <span className="meta-value">{currentDate}</span>
-            </div>
-            <div className="meta-item">
-              <span className="meta-label">{isEn ? 'Advisor' : 'Asesor'}:</span>
-              <span className="meta-value fw-semibold">{user?.nombre || 'Especialista Técnico'}</span>
-            </div>
-            <div className="meta-item">
-              <span className="meta-label">{isEn ? 'Role' : 'Cargo'}:</span>
-              <span className="meta-value">{translateRole(user?.cargo, lang) || (isEn ? 'Technical Advisor' : 'Asesor Técnico')}</span>
+            <div className="header-right">
+              <div className="meta-item">
+                <span className="meta-label">{isEn ? 'Report No.' : 'N° Reporte'}:</span>
+                <span className="meta-value fw-bold text-white">REP-LSU-{new Date().getFullYear()}-{user?.id || 1}</span>
+              </div>
+              <div className="meta-item">
+                <span className="meta-label">{isEn ? 'Date / Time' : 'Fecha / Hora'}:</span>
+                <span className="meta-value">{currentDate}</span>
+              </div>
+              <div className="meta-item">
+                <span className="meta-label">{isEn ? 'Advisor' : 'Asesor'}:</span>
+                <span className="meta-value fw-semibold">{user?.nombre || 'Especialista Técnico'}</span>
+              </div>
+              <div className="meta-item">
+                <span className="meta-label">{isEn ? 'Role' : 'Cargo'}:</span>
+                <span className="meta-value">{translateRole(user?.cargo, lang) || (isEn ? 'Technical Advisor' : 'Asesor Técnico')}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -556,7 +564,8 @@ export function ClientReport({
       {/* ==================== PÁGINA 2: CALIDAD, TRANSICIÓN VÍTREA Y FIRMAS ==================== */}
       <div className="client-report-page client-report-page-2">
         <div className="client-report-header-mini">
-          <div>
+          <div className="d-flex align-items-center gap-2">
+            <img src="/superbrix-logo.png" alt="Superbrix" style={{ height: '22px', width: 'auto', objectFit: 'contain' }} />
             <span className="fw-bold text-dark">{empresaNombre}</span> — <span className="text-muted">{grainLabel} | {machineModel}</span>
           </div>
           <div className="text-muted small">
