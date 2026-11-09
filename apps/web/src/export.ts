@@ -269,8 +269,10 @@ export function singleScenarioPdf(item: any, lang: string = 'es') {
     );
   }
 
-  const safeTitle = scenarioTitle.replace(/[^a-zA-Z0-9_\-]/g, '_');
-  doc.save(`${safeTitle}_reporte.pdf`);
+  // Limpiar posibles sufijos de fecha residuales en el nombre de archivo del PDF para que sea solo el nombre
+  const cleanTitle = scenarioTitle.replace(/\s+\d{4}-\d{2}-\d{2}.*$/, '').trim() || scenarioTitle;
+  const safeTitle = cleanTitle.replace(/[^a-zA-Z0-9_\-]/g, '_');
+  doc.save(`${safeTitle}.pdf`);
 }
 
 export function harvestCsv(days:any[]){let csv='Dia,Temperatura_Promedio_C,Humedad_Promedio_Pct,Temp_Max_C,Temp_Min_C,HR_Max_Pct,HR_Min_Pct,Condicion\n';days.forEach(d=>csv+=`"${d.etiquetaDia}",${d.t_mean},${d.hr_mean},${d.t_max},${d.t_min},${d.hr_max},${d.hr_min},"${d.condicion}"\n`);return csv;}

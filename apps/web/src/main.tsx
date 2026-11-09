@@ -125,8 +125,8 @@ function App(){
   const fechaHora=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   const defaultEmpresa=(values.empresaNombre||'').trim();
   const defaultUbicacion=(values.empresaUbicacion||'').trim();
-  const baseName=[defaultEmpresa,defaultUbicacion].filter(Boolean).join(' - ') || 'Escenario';
-  const defaultTitle=`${baseName} ${fechaHora}`;
+  const baseName=[defaultEmpresa,defaultUbicacion].filter(Boolean).join(' - ') || `Escenario ${fechaHora}`;
+  const defaultTitle=baseName;
   const title=customTitle || window.prompt('Ingrese un nombre para este escenario:',defaultTitle);
   if(!title)return false;
   const metric=(id:string)=>view.cells[id]?.innerText||'';
