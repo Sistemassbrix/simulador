@@ -209,13 +209,20 @@ export function singleScenarioPdf(item: any, lang: string = 'es') {
     'Ubicación',
     'Location',
     'Contacto',
-    'Contact'
+    'Contact',
+    'Selección de Máquina',
+    'Machine Selection'
   ];
 
   const rows: [string, string][] = [];
-  for (const [k, v] of Object.entries(data)) {
-    if (excludedKeys.includes(k)) continue;
-    rows.push([k, String(v ?? '--')]);
+  for (const [rawK, v] of Object.entries(data)) {
+    if (excludedKeys.includes(rawK)) continue;
+    let label = rawK;
+    if (label === 'Máquina Recomendada') label = isEn ? 'Selected Machine' : 'Máquina Seleccionada';
+    if (label === 'Agua a Evaporar Total (Ton/día)' && !String(v).includes('kg/t')) {
+      label = isEn ? 'Evaporated Water' : 'Agua a Evaporar';
+    }
+    rows.push([label, String(v ?? '--')]);
   }
 
   autoTable(doc, {
