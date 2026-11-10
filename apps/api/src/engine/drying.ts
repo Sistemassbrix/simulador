@@ -279,7 +279,22 @@ function ejecutarSimulacion(): any {
     output.cell('metricPatm').innerText = `${psico.P_atm.toFixed(2)} kPa`;
     output.cell('metricRho').innerText = `${psico.rho_aire.toFixed(3)} kg/m³`;
     const factorDensidadAire = psico.rho_aire / 1.2041; // Relacion con densidad estandar
-    const deltaP_shedd = Math.round(((rho_grano / 10) * 1.8 * velAire) * factorDensidadAire);
+    // Caída de presión en lecho de grano (Shedd / ASABE D272) considerando velocidad de paso V = 0.432 m/s
+    const velPasoShedd = 0.432;
+    const sheddParam: Record<string, { a: number, b: number }> = {
+        arroz: { a: 2.57e4, b: 13.2 },
+        maiz: { a: 2.07e4, b: 30.4 },
+        trigo: { a: 2.70e4, b: 8.77 },
+        sorgo: { a: 2.12e4, b: 8.06 },
+        cebada: { a: 2.14e4, b: 13.2 },
+        soya: { a: 1.02e4, b: 16.0 }
+    };
+    const cShedd = sheddParam[output.cell('tipoGrano').value] || sheddParam.arroz;
+    const dP_m_shedd = (cShedd.a * Math.pow(velPasoShedd, 2)) / Math.log(1 + cShedd.b * velPasoShedd);
+    // Espesor efectivo de cama calibrado en torre LSU (~0.621 m) ajustado por densidad de grano y densidad de aire
+    const rhoGranoRef = grano.rho || 580;
+    const factorGrano = rho_grano > 0 ? (rho_grano / rhoGranoRef) : 1.0;
+    const deltaP_shedd = Math.round(dP_m_shedd * 0.62115 * factorDensidadAire * factorGrano);
     output.cell('metricShedd').innerText = `${deltaP_shedd} Pa`;
     const metricCaudalTotal = output.cell('metricCaudalTotal');
     if (metricCaudalTotal)
