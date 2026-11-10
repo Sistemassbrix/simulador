@@ -17,7 +17,7 @@ export function Template({html,context}:{html:string;context:TemplateContext}){
   if(tag==='script')return <></>;
   const custom=context.custom(node);if(custom!==undefined)return <>{custom}</>;
   if(classes.split(' ').includes('modal')){return <Dialog open={context.modal===id} onOpenChange={v=>{if(!v)context.close();}} title={id}>{domToReact(node.children as DOMNode[],options)}</Dialog>;}
-  if(!context.admin&&!context.auth&&(attrs.onclick?.startsWith('abrirModalCrear')||(tag==='th'&&node.children.some(n=>n.type==='text'&&n.data.trim()==='Acciones'))))return <></>;
+  if(!context.admin&&!context.auth&&(attrs.onclick?.startsWith('abrirModalCrear')||(tag==='th'&&node.children.some(n=>n.type==='text'&&n.data.trim()==='Acciones'))||classes.split(' ').includes('admin-only-field')))return <></>;
   const safeAttrs={...attrs};
   if(context.lang==='en'){
    if(safeAttrs.placeholder)safeAttrs.placeholder=translate(safeAttrs.placeholder,'en');

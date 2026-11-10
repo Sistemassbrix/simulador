@@ -211,7 +211,10 @@ export function singleScenarioPdf(item: any, lang: string = 'es') {
     'Contacto',
     'Contact',
     'Selección de Máquina',
-    'Machine Selection'
+    'Machine Selection',
+    'Velocidad Aire (m/s)',
+    'Velocidad del aire',
+    'Air Velocity'
   ];
 
   const rows: [string, string][] = [];

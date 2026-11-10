@@ -96,6 +96,7 @@ function ejecutarSimulacion(): any {
     const HRamb = parseFloat(output.cell('hrAmbiente').value);
     const altitud = parseFloat(output.cell('altitud').value);
     const eficTermica = parseFloat(output.cell('eficienciaTermica').value);
+    const velAire = (output.cell('velocidadAire') && !isNaN(parseFloat(output.cell('velocidadAire').value))) ? parseFloat(output.cell('velocidadAire').value) : 15.0;
     const psico = calcularPsicrometria(altitud, Tamb);
     const Me = calcularHumedadEquilibrio(Tamb, HRamb, grano);
     // Ecuación dictada: Grano Húmedo Procesado = Meta
@@ -277,7 +278,9 @@ function ejecutarSimulacion(): any {
     output.cell('metricMe').innerText = `${Me.toFixed(1)}%`;
     output.cell('metricPatm').innerText = `${psico.P_atm.toFixed(2)} kPa`;
     output.cell('metricRho').innerText = `${psico.rho_aire.toFixed(3)} kg/m³`;
-    output.cell('metricShedd').innerText = `${Math.round((rho_grano / 10) * 1.8 * 15)} Pa`;
+    const factorDensidadAire = psico.rho_aire / 1.2041; // Relacion con densidad estandar
+    const deltaP_shedd = Math.round(((rho_grano / 10) * 1.8 * velAire) * factorDensidadAire);
+    output.cell('metricShedd').innerText = `${deltaP_shedd} Pa`;
     const metricCaudalTotal = output.cell('metricCaudalTotal');
     if (metricCaudalTotal)
         metricCaudalTotal.innerText = `${Math.round(caudalTotalCFM).toLocaleString(input.locale || 'en-US')} m³/h`;

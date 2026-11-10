@@ -427,10 +427,12 @@ export function ClientReport({
               <span className="label">{isEn ? 'Target Capacity' : 'Meta de Procesamiento'}:</span>
               <span className="val fw-bold text-dark">{metaSecado} Ton/día</span>
             </div>
+{user?.cargo === 'Administrador' && (
             <div className="input-card-row">
               <span className="label">{isEn ? 'Air Velocity' : 'Velocidad del Aire'}:</span>
               <span className="val">{velocidadAire} m/s</span>
             </div>
+          )}
           </div>
 
           {/* Bloque: 3. Condiciones del Sitio */}

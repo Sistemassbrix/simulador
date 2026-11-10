@@ -1035,3 +1035,11 @@ h6 *:not(.fa):not(.fas):not(.far):not(.fal):not(.fad):not(.fab):not([class*="fa-
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
 }
+
+/* Si el usuario no es admin y se oculta la velocidad del aire, adaptar la fila a 3 columnas */
+.inputs-row-4:has(> :nth-child(4):not(:empty)):not(:has(> .admin-only-field)) {
+    grid-template-columns: repeat(4, 1fr);
+}
+.inputs-row-4:not(:has(> .admin-only-field)) {
+    grid-template-columns: repeat(3, 1fr);
+}
