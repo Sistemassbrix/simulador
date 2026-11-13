@@ -1,6 +1,7 @@
 import {jsPDF} from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import {PDF_ASSETS} from './pdfAssets';
+import {translate} from './i18n';
 
 export function parseCompany(json?: string, nombreEscenario?: string) {
   let empresa = '';
@@ -221,11 +222,13 @@ export function singleScenarioPdf(item: any, lang: string = 'es') {
   for (const [rawK, v] of Object.entries(data)) {
     if (excludedKeys.includes(rawK)) continue;
     let label = rawK;
-    if (label === 'Máquina Recomendada') label = isEn ? 'Selected Machine' : 'Máquina Seleccionada';
+    if (label === 'Máquina Recomendada') label = 'Máquina Seleccionada';
     if (label === 'Agua a Evaporar Total (Ton/día)' && !String(v).includes('kg/t')) {
-      label = isEn ? 'Evaporated Water' : 'Agua a Evaporar';
+      label = 'Agua a Evaporar';
     }
-    rows.push([label, String(v ?? '--')]);
+    const finalLabel = isEn ? translate(label, 'en') : label;
+    const finalVal = isEn && v !== undefined && v !== null ? translate(String(v), 'en') : String(v ?? '--');
+    rows.push([finalLabel, finalVal]);
   }
 
   autoTable(doc, {
