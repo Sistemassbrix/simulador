@@ -113,16 +113,6 @@ export function singleScenarioPdf(item: any, lang: string = 'es') {
     console.warn('Error loading header logos in PDF:', e);
   }
 
-  // Subtítulo derecho en el header
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
-  doc.setTextColor(15, 23, 42); // slate-900
-  doc.text('MEGA LSU INDUSTRIAL', 196, 11, { align: 'right' });
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(7.5);
-  doc.setTextColor(100, 116, 139); // slate-500
-  doc.text('SuperBrix Drying Technology', 196, 15, { align: 'right' });
-
   // 2. Banner con imagen de fondo y títulos corporativos
   const bannerY = 20;
   const bannerH = 26;

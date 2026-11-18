@@ -329,10 +329,6 @@ export function ClientReport({
             <img src="/superbrix-logo.png" alt="Superbrix" style={{ height: '38px', width: 'auto', objectFit: 'contain' }} />
             <img src="/logo.png" alt="Simulador LSU" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
           </div>
-          <div className="text-end">
-            <span className="fw-bold text-dark" style={{ letterSpacing: '0.04em', fontSize: '0.85rem' }}>MEGA LSU INDUSTRIAL</span>
-            <div className="text-muted small">SuperBrix Drying Technology</div>
-          </div>
         </div>
 
         {/* Banner limpio y estilizado con la imagen corporativa del banner */}
@@ -564,15 +560,6 @@ export function ClientReport({
 
       {/* ==================== PÁGINA 2: CALIDAD, TRANSICIÓN VÍTREA Y FIRMAS ==================== */}
       <div className="client-report-page client-report-page-2">
-        <div className="client-report-header-mini">
-          <div>
-            <span className="fw-bold text-dark">{empresaNombre}</span> — <span className="text-muted">{grainLabel} | {machineModel}</span>
-          </div>
-          <div className="text-muted small">
-            {isEn ? 'Page 2: Quality Assurance & Technical Acceptance' : 'Página 2: Garantía de Calidad y Conformidad Técnica'} | {currentDate}
-          </div>
-        </div>
-
         {/* Garantía de Calidad y Transición Vítrea */}
         <div className="client-report-section-title mt-2">
           <i className="fas fa-shield-alt me-2 text-success"></i>
